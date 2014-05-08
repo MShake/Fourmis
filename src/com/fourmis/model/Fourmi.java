@@ -24,16 +24,6 @@ public class Fourmi extends JPanel{
 	    this.setOpaque(false);
 	}
 	
-	public void draw(Graphics g){
-		g.setColor(Color.black);
-		g.fillOval(this.getCx()+this.getWidth()/2-4, this.getCy()+this.getHeight()/2-4, 8, 8);
-		if(this.isHaveFood())
-			g.setColor(Color.red);
-		else
-			g.setColor(Color.white);
-		g.fillOval(this.getCx()+this.getWidth()/2-2,  this.getCy()+this.getHeight()/2-2, 4, 4);
-	}
-	
 //	public void paintComponent(Graphics g){
 //		super.paintComponent(g);
 //		
