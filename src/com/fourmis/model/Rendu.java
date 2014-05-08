@@ -5,7 +5,7 @@ package com.fourmis.model;
 /**
  * se charge de l’affichage des éléments simulés (monde, fourmis,
  * phéromones et fourmilière)
- * @author afidalgo
+ * 
  */
 public class Rendu {
 	

@@ -6,7 +6,6 @@ import com.fourmis.view.Monde;
 
 /**
  * Rerésente une simulation possédant plsuieurs paramètres
- * @author afidalgo
  *
  */
 public class Simulation {
@@ -19,6 +18,7 @@ public class Simulation {
 	
 	public Simulation(Options options){
 		this.options = options;
+		this.fourmiliere = new Fourmiliere(0,0);
 		this.fourmis = new ArrayList<>();
 		for (int i = 0; i < options.getNombreFourmis(); i++) {
 			Fourmi f = new Fourmi(0,0);
@@ -26,7 +26,6 @@ public class Simulation {
 		}
 		
 		this.pheromones = new ArrayList<>();
-		this.fourmiliere = new Fourmiliere(0,0);
 		this.monde = new Monde(this);
 	}
 	

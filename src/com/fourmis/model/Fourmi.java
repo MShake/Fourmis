@@ -20,15 +20,6 @@ public class Fourmi extends JPanel{
 	    this.setOpaque(false);
 	}
 	
-//	public void paintComponent(Graphics g){
-//		super.paintComponent(g);
-//		
-//		g.setColor(Color.black);
-//		g.fillOval(cx+this.getWidth()/2-4, cy+this.getHeight()/2-4, 8, 8);
-//		g.setColor(Color.red);
-//		g.fillOval(cx+this.getWidth()/2-2, cy+this.getHeight()/2-2, 4, 4);
-//	}
-	
 	public void move(){
 		double random = Math.random();
 		

@@ -9,6 +9,5 @@ public class Fourmiliere extends JPanel{
 	public Fourmiliere(int cx, int cy){
 		this.cx = cx;
 		this.cy = cy;
-		
 	}
 }
