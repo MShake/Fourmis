@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 import com.fourmis.model.Fourmi;
+import com.fourmis.model.Simulation;
 
 /**
  * Représente le JPanel ou seront affiché les éléments (fourmilière, fourmis, nourriture ...)
@@ -15,23 +16,16 @@ import com.fourmis.model.Fourmi;
  */
 public class Terrain extends JPanel{
 
-	private ArrayList<Fourmi> fourmis = new ArrayList<>();
+	private Simulation sim;
 	
-	public Terrain(){
+	public Terrain(Simulation sim){
+		this.sim = sim;
 		this.setBackground(Color.white);
-	
 	}
 
-	public ArrayList<Fourmi> getFourmis() {
-		return fourmis;
-	}
-
-	public void setFourmis(ArrayList<Fourmi> fourmis) {
-		this.fourmis = fourmis;
-	}
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		for(Fourmi f : fourmis){
+		for(Fourmi f : sim.getFourmis()){
 			g.setColor(Color.black);
 			g.fillOval(f.getCx()+this.getWidth()/2-4, f.getCy()+this.getHeight()/2-4, 8, 8);
 			if(f.isHaveFood())

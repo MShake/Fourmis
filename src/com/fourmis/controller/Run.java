@@ -1,5 +1,8 @@
 package com.fourmis.controller;
 
+import java.awt.FontFormatException;
+import java.io.IOException;
+
 import com.fourmis.view.Preferences;
 
 /**
@@ -9,7 +12,7 @@ import com.fourmis.view.Preferences;
  */
 public class Run {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FontFormatException, IOException {
 		Preferences ihm = new Preferences();
 	}
 

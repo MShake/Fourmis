@@ -3,25 +3,19 @@ package com.fourmis.view;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class Container extends JPanel {
 
-	public Image image;	
-	
 	public Container() {
-		 image = Toolkit.getDefaultToolkit().getImage("herbe.jpg");
+		super();
 	}
 	
-	public void paintComponent(Graphics g){
+	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
-	    g.drawImage (image, 5, 5, null);
-		
+		Toolkit kit = Toolkit.getDefaultToolkit();
+		Image icone = kit.getImage("res/img/herbe.jpg");
+		g.drawImage(icone ,0, 0,626,417, null); 
 	}
-
 }

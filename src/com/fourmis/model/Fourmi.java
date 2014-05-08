@@ -1,10 +1,6 @@
 package com.fourmis.model;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-
-import com.fourmis.view.Terrain;
 
 import javax.swing.JPanel;
 
@@ -39,28 +35,28 @@ public class Fourmi extends JPanel{
 		if(random < 0.125 && cy > 0){
 			cy--;
 		}
-		else if((random >= 0.125 && random < 0.25)){
+		else if((random < 0.25)){
 			cy--;
 			cx++;
 		}
-		else if((random >= 0.25 && random < 0.375) ){
+		else if((random < 0.375) ){
 			cx++;
 		}
-		else if((random >= 0.375 && random < 0.5) ){
+		else if((random < 0.5) ){
 			cx++;
 			cy++;
 		}
-		else if((random >= 0.5 && random < 0.625)){
+		else if((random < 0.625)){
 			cy++;
 		}
-		else if((random >= 0.625 && random < 0.75)){
+		else if((random < 0.75)){
 			cx--;
 			cy++;
 		}
-		else if((random >= 0.75 && random < 0.875)){
+		else if((random < 0.875)){
 			cx--;
 		}
-		else if((random >= 0.875 && random < 1)){
+		else if((random < 1)){
 			cx--;
 			cy--;
 		}

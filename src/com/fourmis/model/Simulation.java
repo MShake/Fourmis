@@ -15,24 +15,24 @@ public class Simulation {
 	private ArrayList<Fourmi> fourmis;
 	private ArrayList<Pheromone> pheromones;
 	private Fourmiliere fourmiliere;
+	private Options options;
 	
 	public Simulation(Options options){
-		this.monde = new Monde();
+		this.options = options;
 		this.fourmis = new ArrayList<>();
 		for (int i = 0; i < options.getNombreFourmis(); i++) {
 			Fourmi f = new Fourmi(0,0);
-			
 			fourmis.add(f);
-			this.monde.terrain.getFourmis().add(f);
 		}
+		
 		this.pheromones = new ArrayList<>();
 		this.fourmiliere = new Fourmiliere(0,0);
+		this.monde = new Monde(this);
 	}
 	
 	public void nextStep(){
 		for (Fourmi f : fourmis) {
 			f.move();
-			System.out.println(f.getCx());
 		}
 	}
 
@@ -50,6 +50,10 @@ public class Simulation {
 
 	public void setMonde(Monde monde) {
 		this.monde = monde;
+	}
+
+	public Options getOptions() {
+		return options;
 	}
 	
 	
