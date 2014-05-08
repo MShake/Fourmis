@@ -21,7 +21,7 @@ public class Preferences extends JFrame implements ActionListener{
 	private Options options;
 	private JButton generate;
 	private JButton start;
-	private JPanel container;
+	private Container container;
 
 	public Preferences(){
 		options = new Options();
@@ -31,7 +31,7 @@ public class Preferences extends JFrame implements ActionListener{
 		this.setSize(260, 75);
 		this.setLocation(100, 100);
 		
-		this.container = new JPanel();
+		this.container = new Container();
 		this.setContentPane(container);
 		
 		generate = new JButton("generate");
