@@ -1,6 +1,7 @@
 package com.fourmis.model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.fourmis.view.Monde;
 
@@ -17,16 +18,22 @@ public class Simulation {
 	private Options options;
 	
 	public Simulation(Options options){
+		this.monde = new Monde(this);
 		this.options = options;
-		this.fourmiliere = new Fourmiliere(0,0);
+		this.fourmiliere = new Fourmiliere(0, 0, 32, 32);
+		Random rand = new Random();
+		int positionX = rand.nextInt(this.getMonde().getTerrain().getWidth()-this.fourmiliere.getWidth() - 1);
+		int positionY = rand.nextInt(this.getMonde().getTerrain().getHeight()-this.fourmiliere.getHeight() - 1);
+		this.fourmiliere.setCx(positionX);
+		this.fourmiliere.setCy(positionY);
+		
 		this.fourmis = new ArrayList<>();
 		for (int i = 0; i < options.getNombreFourmis(); i++) {
-			Fourmi f = new Fourmi(0,0);
+			Fourmi f = new Fourmi(positionX+this.fourmiliere.getWidth()/2-4, positionY+this.fourmiliere.getHeight()/2-4, this.getMonde().getTerrain().getWidth()-8, this.getMonde().getTerrain().getHeight()-8);
 			fourmis.add(f);
 		}
 		
 		this.pheromones = new ArrayList<>();
-		this.monde = new Monde(this);
 	}
 	
 	public void nextStep(){
@@ -54,8 +61,13 @@ public class Simulation {
 	public Options getOptions() {
 		return options;
 	}
-	
-	
-	
+
+	public Fourmiliere getFourmiliere() {
+		return fourmiliere;
+	}
+
+	public void setFourmiliere(Fourmiliere fourmiliere) {
+		this.fourmiliere = fourmiliere;
+	}
 	
 }

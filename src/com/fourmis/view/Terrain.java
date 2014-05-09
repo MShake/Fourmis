@@ -25,15 +25,9 @@ public class Terrain extends JPanel{
 
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
+		sim.getFourmiliere().draw(g);
 		for(Fourmi f : sim.getFourmis()){
-			g.setColor(Color.black);
-			g.fillOval(f.getCx()+this.getWidth()/2-4, f.getCy()+this.getHeight()/2-4, 8, 8);
-			if(f.isHaveFood())
-				g.setColor(Color.red);
-			else
-				g.setColor(Color.white);
-			g.fillOval(f.getCx()+this.getWidth()/2-2,  f.getCy()+this.getHeight()/2-2, 4, 4);
-		
+			f.draw(g);
 		}
 	}
 }

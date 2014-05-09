@@ -47,6 +47,7 @@ public class Preferences extends JFrame implements ActionListener{
 		this.setTitle("Fourmis Simulator 2014 Phéromones Edition ®");
 		this.setSize(500, 417);
 		this.setLocation(100, 100);
+		this.setResizable(false);
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Image favicon = kit.getImage("res/img/favicon.png");
 		this.setIconImage(favicon);
@@ -90,7 +91,7 @@ public class Preferences extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == generate){
-			options.setNombreFourmis(10);
+			options.setNombreFourmis(50);
 			controleur = new Controleur(options);
 			this.start.setEnabled(true);
 			this.generate.setEnabled(false);
