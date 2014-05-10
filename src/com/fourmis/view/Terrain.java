@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import com.fourmis.model.Fourmi;
+import com.fourmis.model.Nourriture;
 import com.fourmis.model.Simulation;
 
 /**
@@ -25,8 +26,14 @@ public class Terrain extends JPanel{
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
 		sim.getFourmiliere().draw(g);
+		
+		for(Nourriture n : sim.getNourritures()){
+			n.draw(g);
+		}
+		
 		for(Fourmi f : sim.getFourmis()){
 			f.draw(g);
 		}
+		
 	}
 }

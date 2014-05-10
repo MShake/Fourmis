@@ -1,7 +1,6 @@
 package com.fourmis.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
@@ -46,10 +45,12 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 	private JLabel sizeScreen = new JLabel("Taille du terrain (500) :", JLabel.CENTER);
 	private JLabel numberFourmis = new JLabel("Nombre de fourmis (50) :", JLabel.CENTER);
 	private JLabel time = new JLabel("Temps (50) :", JLabel.CENTER);
+	private JLabel numberFood = new JLabel("Nombre de nourritures (1) :", JLabel.CENTER);
 	
 	private JSlider slideSizeScreen = new JSlider(300, 900, 500);
 	private JSlider slideNumberFourmis = new JSlider(10, 200, 50);
 	private JSlider slideTime = new JSlider(10, 100, 50);
+	private JSlider slideNumberFood = new JSlider(1, 5, 1);
 
 	public Preferences() throws FontFormatException, IOException{
 		options = new Options();
@@ -75,10 +76,12 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		slideNumberFourmis.addChangeListener(this);
 		slideTime.setOpaque(false);
 		slideTime.addChangeListener(this);
+		slideNumberFood.setOpaque(false);
+		slideNumberFood.addChangeListener(this);
 		
 		this.container.setLayout(new BorderLayout());
 		this.header.setLayout(new GridLayout(0,1));
-		this.body.setLayout(new GridLayout(3, 2));
+		this.body.setLayout(new GridLayout(4, 2));
 		
 		this.title.setFont(font);
 		this.sousTitle.setFont(italic);
@@ -92,6 +95,8 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		this.body.add(slideNumberFourmis);
 		this.body.add(time);
 		this.body.add(slideTime);
+		this.body.add(numberFood);
+		this.body.add(slideNumberFood);
 		
 		generate = new JButton("Generate");
 		generate.addActionListener(this);
@@ -119,6 +124,7 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		if(e.getSource() == generate){
 			options.setSizeScreen(slideSizeScreen.getValue());
 			options.setNombreFourmis(slideNumberFourmis.getValue());
+			options.setNombreNourritures(slideNumberFood.getValue());
 			options.setTime(slideTime.getValue());
 			controleur = new Controleur(options);
 			this.start.setEnabled(true);
@@ -138,6 +144,8 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 			this.numberFourmis.setText("Nombre de fourmis ("+slideNumberFourmis.getValue()+") :");
 		}else if(e.getSource() == slideTime){
 			this.time.setText("Temps ("+slideTime.getValue()+") :");
+		}else if(e.getSource() == slideNumberFood){
+			this.numberFood.setText("Nombre de nourritures ("+slideNumberFood.getValue()+") :");
 		}
 		
 	}

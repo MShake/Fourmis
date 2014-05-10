@@ -21,7 +21,5 @@ public class Rendu {
 	public void paint(Simulation sim){
 		sim.getMonde().repaint();
 		sim.getMonde().getTerrain().repaint();
-		for(Fourmi f : sim.getFourmis())
-			f.repaint();
 	}
 }

@@ -8,6 +8,7 @@ package com.fourmis.model;
 public class Options {
 	private int sizeScreen;
 	private int nombreFourmis;
+	private int nombreNourritures;
 	private int time;
 	
 	public Options(){
@@ -36,6 +37,14 @@ public class Options {
 
 	public void setTime(int time) {
 		this.time = time;
+	}
+
+	public int getNombreNourritures() {
+		return nombreNourritures;
+	}
+
+	public void setNombreNourritures(int nombreNourritures) {
+		this.nombreNourritures = nombreNourritures;
 	}
 	
 }

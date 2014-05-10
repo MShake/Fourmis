@@ -13,6 +13,7 @@ public class Simulation {
 
 	private Monde monde;
 	private ArrayList<Fourmi> fourmis;
+	private ArrayList<Nourriture> nourritures;
 	private ArrayList<Pheromone> pheromones;
 	private Fourmiliere fourmiliere;
 	private Options options;
@@ -27,10 +28,19 @@ public class Simulation {
 		this.fourmiliere.setCx(positionX);
 		this.fourmiliere.setCy(positionY);
 		
-		this.fourmis = new ArrayList<>();
+		this.fourmis = new ArrayList<Fourmi>();
 		for (int i = 0; i < options.getNombreFourmis(); i++) {
 			Fourmi f = new Fourmi(positionX+this.fourmiliere.getWidth()/2-4, positionY+this.fourmiliere.getHeight()/2-4, this.getMonde().getTerrain().getWidth()-8, this.getMonde().getTerrain().getHeight()-8);
-			fourmis.add(f);
+			this.fourmis.add(f);
+		}
+		
+		this.nourritures = new ArrayList<Nourriture>();
+		for(int i = 0; i < options.getNombreNourritures(); i++){
+			int quantity = rand.nextInt(50 - 10+1) + 10;
+			positionX = rand.nextInt(this.getMonde().getTerrain().getWidth()-quantity - 1);
+			positionY = rand.nextInt(this.getMonde().getTerrain().getHeight()-quantity - 1);
+			Nourriture n = new Nourriture(positionX, positionY, quantity);
+			this.nourritures.add(n);
 		}
 		
 		this.pheromones = new ArrayList<>();
@@ -68,6 +78,14 @@ public class Simulation {
 
 	public void setFourmiliere(Fourmiliere fourmiliere) {
 		this.fourmiliere = fourmiliere;
+	}
+
+	public ArrayList<Nourriture> getNourritures() {
+		return nourritures;
+	}
+
+	public void setNourritures(ArrayList<Nourriture> nourritures) {
+		this.nourritures = nourritures;
 	}
 	
 }
