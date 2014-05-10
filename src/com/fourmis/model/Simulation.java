@@ -18,8 +18,8 @@ public class Simulation {
 	private Options options;
 	
 	public Simulation(Options options){
-		this.monde = new Monde(this);
 		this.options = options;
+		this.monde = new Monde(this);
 		this.fourmiliere = new Fourmiliere(0, 0, 32, 32);
 		Random rand = new Random();
 		int positionX = rand.nextInt(this.getMonde().getTerrain().getWidth()-this.fourmiliere.getWidth() - 1);

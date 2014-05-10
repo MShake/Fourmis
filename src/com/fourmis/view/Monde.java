@@ -19,7 +19,7 @@ public class Monde extends JFrame{
 		this.terrain = new Terrain(sim);
 		this.terrain.setBackground(new Color(41, 181, 60));
 		this.setTitle("Fourmis : Simulation");
-		this.setSize(500, 500);
+		this.setSize(sim.getOptions().getSizeScreen(), sim.getOptions().getSizeScreen());
 		this.setLocation(700, 100);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);

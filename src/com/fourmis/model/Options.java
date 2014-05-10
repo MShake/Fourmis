@@ -6,7 +6,9 @@ package com.fourmis.model;
  *
  */
 public class Options {
+	private int sizeScreen;
 	private int nombreFourmis;
+	private int time;
 	
 	public Options(){
 		
@@ -19,6 +21,21 @@ public class Options {
 	public void setNombreFourmis(int nombreFourmis) {
 		this.nombreFourmis = nombreFourmis;
 	}
-	
+
+	public int getSizeScreen() {
+		return sizeScreen;
+	}
+
+	public void setSizeScreen(int sizeScreen) {
+		this.sizeScreen = sizeScreen;
+	}
+
+	public int getTime() {
+		return time;
+	}
+
+	public void setTime(int time) {
+		this.time = time;
+	}
 	
 }

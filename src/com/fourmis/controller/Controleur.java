@@ -20,7 +20,7 @@ public class Controleur {
 	}
 	
 	public void run(){
-		Timer timer = new Timer(50, new ActionListener() {
+		Timer timer = new Timer(this.sim.getOptions().getTime(), new ActionListener() {
 
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
