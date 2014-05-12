@@ -12,7 +12,6 @@ import com.fourmis.view.Monde;
 public class Simulation {
 
 	private Monde monde;
-	private ArrayList<Fourmi> fourmis;
 	private ArrayList<Nourriture> nourritures;
 	private ArrayList<Pheromone> pheromones;
 	private Fourmiliere fourmiliere;
@@ -28,10 +27,9 @@ public class Simulation {
 		this.fourmiliere.setCx(positionX);
 		this.fourmiliere.setCy(positionY);
 		
-		this.fourmis = new ArrayList<Fourmi>();
 		for (int i = 0; i < options.getNombreFourmis(); i++) {
 			Fourmi f = new Fourmi(positionX+this.fourmiliere.getWidth()/2-4, positionY+this.fourmiliere.getHeight()/2-4, this.getMonde().getTerrain().getWidth()-8, this.getMonde().getTerrain().getHeight()-8);
-			this.fourmis.add(f);
+			this.fourmiliere.getFourmis().add(f);
 		}
 		
 		this.nourritures = new ArrayList<Nourriture>();
@@ -47,17 +45,16 @@ public class Simulation {
 	}
 	
 	public void nextStep(){
-		for (Fourmi f : fourmis) {
-			f.move();
+		for (Fourmi f : fourmiliere.getFourmis()) {
+			f.move(fourmiliere, nourritures);
 		}
-	}
-
-	public ArrayList<Fourmi> getFourmis() {
-		return fourmis;
-	}
-
-	public void setFourmis(ArrayList<Fourmi> fourmis) {
-		this.fourmis = fourmis;
+		
+		for(Nourriture n : nourritures){
+			if(n.getQuantity() <= 1){
+				nourritures.remove(n);
+				break;
+			}
+		}
 	}
 
 	public Monde getMonde() {

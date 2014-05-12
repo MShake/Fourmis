@@ -11,7 +11,6 @@ import com.fourmis.model.Simulation;
 
 /**
  * Représente le JPanel ou seront affiché les éléments (fourmilière, fourmis, nourriture ...)
- * @author afidalgo
  *
  */
 public class Terrain extends JPanel{
@@ -31,7 +30,7 @@ public class Terrain extends JPanel{
 			n.draw(g);
 		}
 		
-		for(Fourmi f : sim.getFourmis()){
+		for(Fourmi f : sim.getFourmiliere().getFourmis()){
 			f.draw(g);
 		}
 		
