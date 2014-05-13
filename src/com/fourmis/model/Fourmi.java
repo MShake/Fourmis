@@ -9,27 +9,22 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 public class Fourmi extends JPanel{
-	private int cx; 					// coordonnée en x
-	private int cy; 					// coordonnée en y
+	private double cx; 					// coordonnée en x
+	private double cy; 					// coordonnée en y
 	private boolean haveFood = false;	// possède de la nourriture
 	private int size = 8;				// taille de la fourmi
 	private int sens = 0;				// direction (en hexagone)
 	private int maxX;					// valeur maximal de la fenêtre en x
 	private int maxY;					// valeur maximal de la fenêtre en y
-	private int positionXFourmiliere;	// position en x de la fourmilère
-	private int positionYFourmiliere;	// position en y de la fourmilère
 	
-	public Fourmi(int cx, int cy, int maxX, int maxY){
+	public Fourmi(double cx, double cy, int maxX, int maxY){
 		
 		this.cx = cx;
 		this.cy = cy;
-		this.positionXFourmiliere = cx;
-		this.positionYFourmiliere = cy;
 		this.maxX = maxX;
 		this.maxY = maxY;
 	
 	    this.setPreferredSize(new Dimension(this.size, this.size));
-	   
 	    
 	    this.setOpaque(false);
 	}
@@ -37,6 +32,7 @@ public class Fourmi extends JPanel{
 	public void move(Fourmiliere fourmiliere, ArrayList<Nourriture> nourritures){
 		if(!this.haveFood){
 			
+			//Changement de sens aléatoire ou si elle touche le bord de la fenêtre
 			boolean changeSens = false;
 			if(Math.random() < 0.02 || cx == 0 || cy == 0 || cx == maxX || cy == maxY || sens == 0){
 				changeSens = true;
@@ -51,6 +47,7 @@ public class Fourmi extends JPanel{
 				this.sens = newSens;
 			}
 			
+			//Gestion du sens de la fourmi en hexagone
 			if(this.sens == 1 && cy > 0){
 				cy--;
 			}
@@ -74,9 +71,10 @@ public class Fourmi extends JPanel{
 				cy--;
 			}
 			
+			//Regarde si la fourmi est sur une source de nourriture
 			for(Nourriture n : nourritures){
-				int centerXFourmi = cx+(size/2);
-				int centerYFourmi = cy+(size/2);
+				int centerXFourmi = (int)cx+(size/2);
+				int centerYFourmi = (int)cy+(size/2);
 				if(centerXFourmi >= n.getCx() && centerXFourmi <= n.getCx()+n.getWidth() && centerYFourmi >= n.getCy() && centerYFourmi <= n.getCy()+n.getHeight()){
 					this.haveFood = true;
 					n.setQuantity(n.getQuantity()-1);
@@ -84,30 +82,35 @@ public class Fourmi extends JPanel{
 				}
 			}
 		}else{
-			if(cx != positionXFourmiliere || cy != positionYFourmiliere){
-				int stepX = 0;
-				int stepY = 0;
-				if(Math.abs(this.positionYFourmiliere-this.cy) != 0){
-					stepX = Math.round(Math.abs(this.positionXFourmiliere-this.cx) / Math.abs(this.positionYFourmiliere-this.cy));
-					if(stepX != 0)
-						stepX /= stepX;
+			//Gestion du mouvement de la fourmi dans le cas où elle a de la nourriture
+			int centerXFourmiliere = fourmiliere.getCx()+fourmiliere.getWidth()/2;
+			int centerYFourmiliere = fourmiliere.getCy()+fourmiliere.getHeight()/2;
+			if(cx != centerXFourmiliere || cy != centerYFourmiliere){
+				double stepX = 0; //le pas de déplacement en x
+				double stepY = 0; //le pas de déplacement en y
+				
+				if(Math.abs(centerYFourmiliere-this.cy) != 0){
+					stepX = Math.abs(centerXFourmiliere-this.cx) / Math.abs(centerYFourmiliere-this.cy);
+					if(stepX > 1)
+						stepX = 1;
 				}
-				if(Math.abs(this.positionXFourmiliere-this.cx) != 0){
-					stepY = Math.round(Math.abs(this.positionYFourmiliere-this.cy) / Math.abs(this.positionXFourmiliere-this.cx));
-					if(stepY != 0)
-						stepY /= stepY;
+				if(Math.abs(centerXFourmiliere-this.cx) != 0){
+					stepY = Math.abs(centerYFourmiliere-this.cy) / Math.abs(centerXFourmiliere-this.cx);
+					if(stepY > 1)
+						stepY = 1;
 				}
 				
-				if(cx < positionXFourmiliere && cy < positionYFourmiliere){
+				//gestion de la direction la plus rapide pour aller à la fourmilière
+				if(cx < centerXFourmiliere && cy < centerYFourmiliere){
 					cx += stepX;
 					cy += stepY;
-				}else if(cx < positionXFourmiliere && cy >= positionYFourmiliere){
+				}else if(cx < centerXFourmiliere && cy >= centerYFourmiliere){
 					cx += stepX;
 					cy -= stepY;
-				}else if(cx >= positionXFourmiliere && cy >= positionYFourmiliere){
+				}else if(cx >= centerXFourmiliere && cy >= centerYFourmiliere){
 					cx -= stepX;
 					cy -= stepY;
-				}else if(cx >= positionXFourmiliere && cy < positionYFourmiliere){
+				}else if(cx >= centerXFourmiliere && cy < centerYFourmiliere){
 					cx -= stepX;
 					cy += stepY;
 				}
@@ -121,27 +124,27 @@ public class Fourmi extends JPanel{
 	
 	public void draw(Graphics g){
 		g.setColor(Color.black);
-		g.fillOval(cx, this.cy, 8, 8);
+		g.fillOval((int)cx, (int)cy, 8, 8);
 		if(this.isHaveFood())
 			g.setColor(Color.red);
 		else
 			g.setColor(Color.white);
-		g.fillOval(cx+2,  cy+2, 4, 4);
+		g.fillOval((int)cx+2,  (int)cy+2, 4, 4);
 	}
 
-	public int getCx() {
+	public double getCx() {
 		return cx;
 	}
 
-	public void setCx(int cx) {
+	public void setCx(double cx) {
 		this.cx = cx;
 	}
 
-	public int getCy() {
+	public double getCy() {
 		return cy;
 	}
 
-	public void setCy(int cy) {
+	public void setCy(double cy) {
 		this.cy = cy;
 	}
 

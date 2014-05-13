@@ -6,7 +6,7 @@ import java.util.Random;
 import com.fourmis.view.Monde;
 
 /**
- * Rerésente une simulation possédant plsuieurs paramètres
+ * Représente une simulation possédant plsuieurs paramètres
  *
  */
 public class Simulation {
@@ -20,7 +20,7 @@ public class Simulation {
 	public Simulation(Options options){
 		this.options = options;
 		this.monde = new Monde(this);
-		this.fourmiliere = new Fourmiliere(0, 0, 32, 32);
+		this.fourmiliere = new Fourmiliere(0, 0, 40, 40);
 		Random rand = new Random();
 		int positionX = rand.nextInt(this.getMonde().getTerrain().getWidth()-this.fourmiliere.getWidth() - 1);
 		int positionY = rand.nextInt(this.getMonde().getTerrain().getHeight()-this.fourmiliere.getHeight() - 1);
