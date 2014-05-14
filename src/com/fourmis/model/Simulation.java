@@ -1,12 +1,13 @@
 package com.fourmis.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import com.fourmis.view.Monde;
 
 /**
- * Représente une simulation possédant plsuieurs paramètres
+ * Représente une simulation possédant plusieurs paramètres
  *
  */
 public class Simulation {
@@ -49,10 +50,10 @@ public class Simulation {
 			f.move(fourmiliere, nourritures);
 		}
 		
-		for(Nourriture n : nourritures){
+		for (Iterator<Nourriture> it = nourritures.iterator(); it.hasNext(); ) {
+			Nourriture n = it.next();
 			if(n.getQuantity() <= 1){
-				nourritures.remove(n);
-				break;
+				it.remove();
 			}
 		}
 	}

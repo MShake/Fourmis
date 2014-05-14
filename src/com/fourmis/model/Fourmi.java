@@ -83,11 +83,11 @@ public class Fourmi extends JPanel{
 			}
 		}else{
 			//Gestion du mouvement de la fourmi dans le cas où elle a de la nourriture
-			int centerXFourmiliere = fourmiliere.getCx()+fourmiliere.getWidth()/2;
-			int centerYFourmiliere = fourmiliere.getCy()+fourmiliere.getHeight()/2;
-			if(cx != centerXFourmiliere || cy != centerYFourmiliere){
-				double stepX = 0; //le pas de déplacement en x
-				double stepY = 0; //le pas de déplacement en y
+			int centerXFourmiliere = fourmiliere.getCx()+fourmiliere.getWidth()/2 - size/2;
+			int centerYFourmiliere = fourmiliere.getCy()+fourmiliere.getHeight()/2 - size/2;
+			if((int)cx != centerXFourmiliere || (int)cy != centerYFourmiliere){
+				double stepX = 1; //initailisation du pas de déplacement en x
+				double stepY = 1; //initailisation du pas de déplacement en y
 				
 				if(Math.abs(centerYFourmiliere-this.cy) != 0){
 					stepX = Math.abs(centerXFourmiliere-this.cx) / Math.abs(centerYFourmiliere-this.cy);
