@@ -15,6 +15,7 @@ public class Simulation {
 	private Monde monde;
 	private ArrayList<Nourriture> nourritures;
 	private ArrayList<Pheromone> pheromones;
+	private ArrayList<Insecte> insectes;
 	private Fourmiliere fourmiliere;
 	private Options options;
 	

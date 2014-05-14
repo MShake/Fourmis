@@ -8,7 +8,7 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
-public class Fourmi extends JPanel implements Insecte{
+public class Coccinelle extends JPanel implements Insecte{
 	private double cx; 					// coordonnée en x
 	private double cy; 					// coordonnée en y
 	private boolean haveFood = false;	// possède de la nourriture
@@ -17,7 +17,7 @@ public class Fourmi extends JPanel implements Insecte{
 	private int maxX;					// valeur maximal de la fenêtre en x
 	private int maxY;					// valeur maximal de la fenêtre en y
 	
-	public Fourmi(double cx, double cy, int maxX, int maxY){
+	public Coccinelle(double cx, double cy, int maxX, int maxY){
 		
 		this.cx = cx;
 		this.cy = cy;
@@ -123,13 +123,11 @@ public class Fourmi extends JPanel implements Insecte{
 	}
 	
 	public void draw(Graphics g){
+		g.setColor(Color.red);
+		g.fillOval((int)cx, (int)cy, 10, 10);
+	
 		g.setColor(Color.black);
-		g.fillOval((int)cx, (int)cy, 8, 8);
-		if(this.isHaveFood())
-			g.setColor(Color.red);
-		else
-			g.setColor(Color.gray);
-		g.fillOval((int)cx+2,  (int)cy+2, 4, 4);
+		g.fillOval((int)cx+2,  (int)cy+2, 6, 6);
 	}
 
 	public double getCx() {
@@ -158,3 +156,4 @@ public class Fourmi extends JPanel implements Insecte{
 	
 	
 }
+
