@@ -13,6 +13,7 @@ public class Controleur {
 	
 	private Simulation sim;
 	private Rendu rendu;
+	private Timer timer;
 	
 	public Controleur(Options options){
 		this.sim = new Simulation(options);
@@ -20,10 +21,10 @@ public class Controleur {
 	}
 	
 	public void run(){
-		Timer timer = new Timer(this.sim.getOptions().getTime(), new ActionListener() {
-
+		timer = new Timer(this.sim.getOptions().getTime(), new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
+		    	timer.setDelay(sim.getOptions().getTime());
 		    	sim.nextStep();
 				rendu.paint(sim);
 		    }
