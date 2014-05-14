@@ -64,7 +64,6 @@ public class Monde extends JFrame implements ChangeListener{
 		if(e.getSource() == speed){
 			this.sim.getOptions().setTime(speed.getValue());
 		}
-		
 	}
 	
 }
