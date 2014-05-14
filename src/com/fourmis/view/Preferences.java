@@ -40,7 +40,7 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 	private JPanel footer = new JPanel();
 	
 	private JLabel title = new JLabel("Fourmis Simulator", JLabel.CENTER);
-	private JLabel sousTitle = new JLabel("Phéromones Edition ®", JLabel.CENTER);
+	private JLabel sousTitle = new JLabel("Pheromones & Predators Edition ®", JLabel.CENTER);
 	private JLabel sizeScreen = new JLabel("Taille du terrain (500) :", JLabel.CENTER);
 	private JLabel numberFourmis = new JLabel("Nombre de fourmis (50) :", JLabel.CENTER);
 	private JLabel time = new JLabel("Temps (50) :", JLabel.CENTER);
@@ -55,7 +55,7 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		options = new Options();
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("Fourmis Simulator 2014 Phéromones Edition ®");
+		this.setTitle("Fourmis Simulator 2014 Phéromones & Predators Edition ®");
 		this.setSize(500, 417);
 		this.setLocation(100, 100);
 		this.setResizable(false);
