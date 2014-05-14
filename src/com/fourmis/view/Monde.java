@@ -15,8 +15,7 @@ import javax.swing.event.ChangeListener;
 import com.fourmis.model.Simulation;
 
 /**
- * Représente la JFrame principal de la simulation
- * @author afidalgo
+ * Représente la JFrame principale de la simulation
  *
  */
 public class Monde extends JFrame implements ChangeListener{
@@ -25,13 +24,14 @@ public class Monde extends JFrame implements ChangeListener{
 	private Terrain terrain;
 	private JPanel pan = new JPanel(new BorderLayout());
 	private JPanel stat = new JPanel();
-	private JSlider speed = new JSlider(10, 100, 50);
+	private JSlider speed;
 	private JLabel stats = new JLabel("statistiques");
 	
 	
 	public Monde(Simulation sim){
 		this.terrain = new Terrain(sim);
 		this.sim = sim;
+		this.speed = new JSlider(5, 100, 5+100-sim.getOptions().getTime());
 		this.terrain.setBackground(new Color(41, 181, 60));
 		this.setTitle("Fourmis : Simulation");
 		this.setSize(sim.getOptions().getSizeScreen(), sim.getOptions().getSizeScreen());
@@ -43,6 +43,7 @@ public class Monde extends JFrame implements ChangeListener{
 		this.setResizable(false);
 		
 		stat.add(stats);
+		speed.addChangeListener(this);
 		
 		this.pan.add(stat, BorderLayout.NORTH);
 		this.pan.add(terrain, BorderLayout.CENTER);
@@ -62,7 +63,7 @@ public class Monde extends JFrame implements ChangeListener{
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		if(e.getSource() == speed){
-			this.sim.getOptions().setTime(speed.getValue());
+			this.sim.getOptions().setTime(speed.getMinimum()+speed.getMaximum() - speed.getValue());
 		}
 		
 	}
