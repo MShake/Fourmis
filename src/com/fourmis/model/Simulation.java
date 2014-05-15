@@ -37,8 +37,10 @@ public class Simulation {
 		this.nourritures = new ArrayList<Nourriture>();
 		for(int i = 0; i < options.getNombreNourritures(); i++){
 			int quantity = rand.nextInt(50 - 10+1) + 10;
-			positionX = rand.nextInt(this.getMonde().getTerrain().getWidth()-quantity - 1);
-			positionY = rand.nextInt(this.getMonde().getTerrain().getHeight()-quantity - 1);
+			do{
+				positionX = rand.nextInt(this.getMonde().getTerrain().getWidth()-quantity - 1);
+				positionY = rand.nextInt(this.getMonde().getTerrain().getHeight()-quantity - 1);
+			}while(fourmiliere.collidepoint(positionX, positionY, quantity, quantity));
 			Nourriture n = new Nourriture(positionX, positionY, quantity);
 			this.nourritures.add(n);
 		}

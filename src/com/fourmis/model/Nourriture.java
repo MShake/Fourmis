@@ -26,6 +26,19 @@ public class Nourriture extends JPanel {
 		g.setColor(new Color(100, 0, 0));
 		g.drawRect(cx, cy, this.getWidth(), this.getHeight());
 	}
+	
+	public boolean collidepoint(int posX, int posY, int width, int height){
+		boolean collide = false;
+		
+		if((posX>=cx && posX<=cx+this.getWidth() && posY>=cy && posY<=cy+this.getHeight()) ||
+				(posX+width>=cx && posX+width<=cx+this.getWidth() && posY>=cy && posY<=cy+this.getHeight()) ||
+				(posX+width>=cx && posX+width<=cx+this.getWidth() && posY+height>=cy && posY+height<=cy+this.getHeight()) ||
+				(posX>=cx && posX<=cx+this.getWidth() && posY+height>=cy && posY+height<=cy+this.getHeight())){
+			collide = true;
+		}
+		
+		return collide;
+	}
 
 	public int getCx() {
 		return cx;
