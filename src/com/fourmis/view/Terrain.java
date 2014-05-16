@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 
 import com.fourmis.model.Fourmi;
 import com.fourmis.model.Nourriture;
+import com.fourmis.model.Pheromone;
 import com.fourmis.model.Simulation;
 
 /**
@@ -32,6 +33,10 @@ public class Terrain extends JPanel{
 		
 		for(Fourmi f : sim.getFourmiliere().getFourmis()){
 			f.draw(g);
+		}
+		
+		for(Pheromone p : sim.getPheromones()){
+			p.draw(g);
 		}
 		
 	}

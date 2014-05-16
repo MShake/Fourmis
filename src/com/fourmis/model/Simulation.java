@@ -51,6 +51,13 @@ public class Simulation {
 	public void nextStep(){
 		for (Fourmi f : fourmiliere.getFourmis()) {
 			f.move(fourmiliere, nourritures);
+			if(f.isHaveFood()){
+				if(issetPheromone(f.getCx(), f.getCy())){
+					getPheromoneByCoord(f.getCx(), f.getCy()).setQuantity(getPheromoneByCoord(f.getCx(), f.getCy()).getQuantity()+100);
+				}
+				else
+					pheromones.add(new Pheromone(f.getCx(), f.getCy()));
+			}
 		}
 		
 		for (Iterator<Nourriture> it = nourritures.iterator(); it.hasNext(); ) {
@@ -59,6 +66,30 @@ public class Simulation {
 				it.remove();
 			}
 		}
+		
+		for (Iterator<Pheromone> itp = pheromones.iterator(); itp.hasNext(); ) {
+			Pheromone p = itp.next();
+			p.setQuantity(p.getQuantity()-1);
+			if(p.getQuantity() < 1){
+				itp.remove();
+			}
+		}
+	}
+	
+	public boolean issetPheromone(double cx, double cy){
+		for(Pheromone p : pheromones){
+			if(p.getCx() == cx && p.getCy() == cy)
+				return true;
+		}
+		return false;
+	}
+	
+	public Pheromone getPheromoneByCoord(double cx, double cy){
+		for(Pheromone p : pheromones){
+			if(p.getCx() == cx && p.getCy() == cy)
+				return p;
+		}
+		return null;
 	}
 
 	public Monde getMonde() {
@@ -88,5 +119,15 @@ public class Simulation {
 	public void setNourritures(ArrayList<Nourriture> nourritures) {
 		this.nourritures = nourritures;
 	}
+
+	public ArrayList<Pheromone> getPheromones() {
+		return pheromones;
+	}
+
+	public void setPheromones(ArrayList<Pheromone> pheromones) {
+		this.pheromones = pheromones;
+	}
+	
+	
 	
 }

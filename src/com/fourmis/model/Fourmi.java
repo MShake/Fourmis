@@ -128,9 +128,13 @@ public class Fourmi extends JPanel implements Insecte{
 		if(this.isHaveFood())
 			g.setColor(Color.red);
 		else
-			g.setColor(Color.gray);
+			g.setColor(Color.darkGray);
 		g.fillOval((int)cx+2,  (int)cy+2, 4, 4);
 	}
+	
+//	public Pheromone deposePheromone(){
+//		return new Pheromone(this.cx, this.cy);
+//	}
 
 	public double getCx() {
 		return cx;
