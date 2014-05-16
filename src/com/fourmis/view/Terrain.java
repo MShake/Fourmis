@@ -27,6 +27,10 @@ public class Terrain extends JPanel{
 		super.paintComponent(g);
 		sim.getFourmiliere().draw(g);
 		
+		for(Pheromone p : sim.getPheromones()){
+			p.draw(g);
+		}
+		
 		for(Nourriture n : sim.getNourritures()){
 			n.draw(g);
 		}
@@ -35,9 +39,7 @@ public class Terrain extends JPanel{
 			f.draw(g);
 		}
 		
-		for(Pheromone p : sim.getPheromones()){
-			p.draw(g);
-		}
+		
 		
 	}
 }
