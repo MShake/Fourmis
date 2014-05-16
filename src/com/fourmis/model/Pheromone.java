@@ -5,7 +5,9 @@ import java.awt.Graphics;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-public class Pheromone {
+import javax.swing.JPanel;
+
+public class Pheromone extends JPanel{
 	private double cx; //coordonnée en x
 	private double cy; //coordonnée en y
 	private int quantity;
@@ -22,8 +24,10 @@ public class Pheromone {
 		BigDecimal plafond = new BigDecimal(1530);
 		BigDecimal colorMax = new BigDecimal(255);
 		result = (colorMax.multiply(new BigDecimal(this.quantity))).divide(plafond, BigDecimal.ROUND_DOWN);
-		if(this.quantity >1530)
+		if(this.quantity >1530){
+			this.quantity = 1530;
 			return new Color(255,255,255);
+		}
 		return new Color(result.intValue(),result.intValue(),result.intValue());
 	}
 	
@@ -32,7 +36,7 @@ public class Pheromone {
 		
 		g.setColor(this.getColor());
 		
-		g.fillRect((int)this.getCx(), (int)this.getCy(), 5, 5);
+		g.fillRect((int)this.getCx(), (int)this.getCy(), 3, 3);
 	}
 
 	public double getCx() {

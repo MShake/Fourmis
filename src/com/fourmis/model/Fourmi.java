@@ -16,6 +16,8 @@ public class Fourmi extends JPanel implements Insecte{
 	private int sens = 0;				// direction (en hexagone)
 	private int maxX;					// valeur maximal de la fenêtre en x
 	private int maxY;					// valeur maximal de la fenêtre en y
+	private int directionX = 0;
+	private int directionY = 0;
 	
 	public Fourmi(double cx, double cy, int maxX, int maxY){
 		
@@ -29,46 +31,144 @@ public class Fourmi extends JPanel implements Insecte{
 	    this.setOpaque(false);
 	}
 	
-	public void move(Fourmiliere fourmiliere, ArrayList<Nourriture> nourritures){
+	public void move(Fourmiliere fourmiliere, ArrayList<Nourriture> nourritures, ArrayList<Pheromone> pheromones){
 		if(!this.haveFood){
-			
-			//Changement de sens aléatoire ou si elle touche le bord de la fenêtre
-			boolean changeSens = false;
-			if(Math.random() < 0.02 || cx == 0 || cy == 0 || cx == maxX || cy == maxY || sens == 0){
-				changeSens = true;
+			boolean findPheromone = false;
+			for(Pheromone p : pheromones){
+				if((int)p.getCx() == (int)cx && (int)p.getCy() == (int)cy){
+					findPheromone = true;
+					break;
+				}
 			}
 			
-			if(changeSens){
-				Random rand = new Random();
-				int newSens = this.sens;
-				do{
-					newSens = rand.nextInt(6 - 1+1) + 1;
-				}while(newSens == this.sens);
-				this.sens = newSens;
-			}
-			
-			//Gestion du sens de la fourmi en hexagone
-			if(this.sens == 1 && cy > 0){
-				cy--;
-			}
-			else if(this.sens == 2 && cx < maxX && cy > 0){
-				cy--;
-				cx++;
-			}
-			else if(this.sens == 3 && cx < maxX && cy < maxY){
-				cx++;
-				cy++;
-			}
-			else if(this.sens == 4 && cy < maxY){
-				cy++;
-			}
-			else if(this.sens == 5 && cx > 0 && cy < maxY){
-				cx--;
-				cy++;
-			}
-			else if(this.sens == 6 && cx > 0 && cy > 0){
-				cx--;
-				cy--;
+			if(findPheromone && !(cx == fourmiliere.getCx()+fourmiliere.getWidth()/2-size/2 && cy == fourmiliere.getCy()+fourmiliere.getHeight()/2-size/2)){
+				int minQuantity = Integer.MAX_VALUE;
+				int nbSourcesPheromone = 0;
+				for(Pheromone p : pheromones){
+					int posXPheromone = (int) p.getCx();
+					int posYPheromone = (int) p.getCy();
+					int posXFourmi = (int) cx;
+					int posYFourmi = (int) cy;
+					
+					if((posXPheromone == posXFourmi && posYPheromone == posYFourmi-1) ||
+							(posXPheromone == posXFourmi+1 && posYPheromone == posYFourmi-1) ||
+							(posXPheromone == posXFourmi+1 && posYPheromone == posYFourmi+1) ||
+							(posXPheromone == posXFourmi && posYPheromone == posYFourmi+1) || 
+							(posXPheromone == posXFourmi-1 && posYPheromone == posYFourmi+1) ||
+							(posXPheromone == posXFourmi-1 && posYPheromone == posYFourmi-1) ||
+							(posXPheromone == posXFourmi-1 && posYPheromone == posYFourmi) ||
+							(posXPheromone == posXFourmi+1 && posYPheromone == posYFourmi)){
+						nbSourcesPheromone++;
+					}
+				}
+				
+				if(nbSourcesPheromone >= 2){
+					for(Pheromone p : pheromones){
+						int posXPheromone = (int) p.getCx();
+						int posYPheromone = (int) p.getCy();
+						int posXFourmi = (int) cx;
+						int posYFourmi = (int) cy;
+						
+						if(posXPheromone == posXFourmi && posYPheromone == posYFourmi-1){
+							if(p.getQuantity() < minQuantity){
+								directionX = 0;
+								directionY = -1;
+								minQuantity = p.getQuantity();
+							}
+						}else if(posXPheromone == posXFourmi+1 && posYPheromone == posYFourmi-1){
+							if(p.getQuantity() < minQuantity){
+								directionX = 1;
+								directionY = -1;
+								minQuantity = p.getQuantity();
+							}
+						}else if(posXPheromone == posXFourmi+1 && posYPheromone == posYFourmi+1){
+							if(p.getQuantity() < minQuantity){
+								directionX = 1;
+								directionY = 1;
+								minQuantity = p.getQuantity();
+							}
+						}else if(posXPheromone == posXFourmi && posYPheromone == posYFourmi+1){
+							if(p.getQuantity() < minQuantity){
+								directionX = 0;
+								directionY = 1;
+								minQuantity = p.getQuantity();
+							}
+						}else if(posXPheromone == posXFourmi-1 && posYPheromone == posYFourmi+1){
+							if(p.getQuantity() < minQuantity){
+								directionX = -1;
+								directionY = 1;
+								minQuantity = p.getQuantity();
+							}
+						}else if(posXPheromone == posXFourmi-1 && posYPheromone == posYFourmi-1){
+							if(p.getQuantity() < minQuantity){
+								directionX = -1;
+								directionY = -1;
+								minQuantity = p.getQuantity();
+							}
+						}else if(posXPheromone == posXFourmi-1 && posYPheromone == posYFourmi){
+							if(p.getQuantity() < minQuantity){
+								directionX = -1;
+								directionY = 0;
+								minQuantity = p.getQuantity();
+							}
+						}else if(posXPheromone == posXFourmi+1 && posYPheromone == posYFourmi){
+							if(p.getQuantity() < minQuantity){
+								directionX = 1;
+								directionY = 0;
+								minQuantity = p.getQuantity();
+							}
+						}
+					}
+				}
+				
+				if(directionX >= 0)
+					cx += directionX;
+				else
+					cx -= Math.abs(directionX);
+				
+				if(directionY >= 0)
+					cy += directionY;
+				else
+					cy -= Math.abs(directionY);
+			}else{
+				//Changement de sens aléatoire ou si elle touche le bord de la fenêtre
+				boolean changeSens = false;
+				if(Math.random() < 0.02 || cx == 0 || cy == 0 || cx == maxX || cy == maxY || sens == 0){
+					changeSens = true;
+				}
+				
+				if(changeSens){
+					Random rand = new Random();
+					int newSens = this.sens;
+					do{
+						newSens = rand.nextInt(6 - 1+1) + 1;
+					}while(newSens == this.sens);
+					this.sens = newSens;
+				}
+				
+				//Gestion du sens de la fourmi en hexagone
+				if(this.sens == 1 && cy > 0){
+					cy--;
+				}
+				else if(this.sens == 2 && cx < maxX && cy > 0){
+					cy--;
+					cx++;
+				}
+				else if(this.sens == 3 && cx < maxX && cy < maxY){
+					cx++;
+					cy++;
+				}
+				else if(this.sens == 4 && cy < maxY){
+					cy++;
+				}
+				else if(this.sens == 5 && cx > 0 && cy < maxY){
+					cx--;
+					cy++;
+				}
+				else if(this.sens == 6 && cx > 0 && cy > 0){
+					cx--;
+					cy--;
+				}
 			}
 			
 			//Regarde si la fourmi est sur une source de nourriture
@@ -83,6 +183,8 @@ public class Fourmi extends JPanel implements Insecte{
 			}
 		}else{
 			//Gestion du mouvement de la fourmi dans le cas où elle a de la nourriture
+			directionX = 0;
+			directionY = 0;
 			int centerXFourmiliere = fourmiliere.getCx()+fourmiliere.getWidth()/2 - size/2;
 			int centerYFourmiliere = fourmiliere.getCy()+fourmiliere.getHeight()/2 - size/2;
 			if((int)cx != centerXFourmiliere || (int)cy != centerYFourmiliere){

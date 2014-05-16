@@ -29,7 +29,7 @@ public class Coccinelle extends JPanel implements Insecte{
 	    this.setOpaque(false);
 	}
 	
-	public void move(Fourmiliere fourmiliere, ArrayList<Nourriture> nourritures){
+	public void move(Fourmiliere fourmiliere, ArrayList<Nourriture> nourritures, ArrayList<Pheromone> pheromones){
 		if(!this.haveFood){
 			
 			//Changement de sens aléatoire ou si elle touche le bord de la fenêtre

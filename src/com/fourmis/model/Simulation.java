@@ -50,14 +50,16 @@ public class Simulation {
 	
 	public void nextStep(){
 		for (Fourmi f : fourmiliere.getFourmis()) {
-			f.move(fourmiliere, nourritures);
+			double centerXFourmi = f.getCx()+f.getWidth()/2;
+			double centerYFourmi = f.getCy()+f.getHeight()/2;
 			if(f.isHaveFood()){
-				if(issetPheromone(f.getCx(), f.getCy())){
-					getPheromoneByCoord(f.getCx(), f.getCy()).setQuantity(getPheromoneByCoord(f.getCx(), f.getCy()).getQuantity()+100);
+				if(issetPheromone(centerXFourmi, centerYFourmi)){
+					getPheromoneByCoord(centerXFourmi, centerYFourmi).setQuantity(getPheromoneByCoord(centerXFourmi, centerYFourmi).getQuantity()+100);
 				}
 				else
-					pheromones.add(new Pheromone(f.getCx(), f.getCy()));
+					pheromones.add(new Pheromone(centerXFourmi, centerYFourmi));
 			}
+			f.move(fourmiliere, nourritures, pheromones);
 		}
 		
 		for (Iterator<Nourriture> it = nourritures.iterator(); it.hasNext(); ) {

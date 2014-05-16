@@ -11,19 +11,22 @@ public class Nourriture extends JPanel {
 	private int cx;
 	private int cy;
 	private int quantity;
+	private double step;
+	private int opacity;
 	
 	public Nourriture(int cx, int cy, int quantity) {
 		this.cx = cx;
 		this.cy = cy;
 		this.quantity = quantity*2;
-		
+		this.opacity = 255;
+		this.step = 255/(this.quantity);
 		this.setSize(quantity, quantity);
 	}
 	
 	public void draw(Graphics g) {
-		g.setColor(new Color(255, 0, 0));
+		g.setColor(new Color(255, 0, 0, opacity));
 		g.fillRect(cx, cy, this.getWidth(), this.getHeight());
-		g.setColor(new Color(100, 0, 0));
+		g.setColor(new Color(100, 0, 0, opacity));
 		g.drawRect(cx, cy, this.getWidth(), this.getHeight());
 	}
 	
@@ -62,7 +65,7 @@ public class Nourriture extends JPanel {
 
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
-		this.setSize(quantity/2, quantity/2);
+		this.opacity -= step;
 	}
 
 }
