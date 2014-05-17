@@ -31,7 +31,7 @@ public class Monde extends JFrame implements ChangeListener{
 	public Monde(Simulation sim){
 		this.terrain = new Terrain(sim);
 		this.sim = sim;
-		this.speed = new JSlider(5, 100, 5+100-sim.getOptions().getTime());
+		this.speed = new JSlider(1, 100, 1+100-sim.getOptions().getTime());
 		this.terrain.setBackground(new Color(41, 181, 60));
 		this.setTitle("Fourmis : Simulation");
 		this.setSize(sim.getOptions().getSizeScreen(), sim.getOptions().getSizeScreen());

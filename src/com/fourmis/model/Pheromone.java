@@ -26,17 +26,14 @@ public class Pheromone extends JPanel{
 		result = (colorMax.multiply(new BigDecimal(this.quantity))).divide(plafond, BigDecimal.ROUND_DOWN);
 		if(this.quantity >1530){
 			this.quantity = 1530;
-			return new Color(255,255,255);
+			return new Color(0, 0, 0);
 		}
 		return new Color(result.intValue(),result.intValue(),result.intValue());
 	}
 	
 	public void draw(Graphics g){
-		
-		
 		g.setColor(this.getColor());
-		
-		g.fillRect((int)this.getCx(), (int)this.getCy(), 3, 3);
+		g.fillRect((int)this.getCx(), (int)this.getCy(), 1, 1);
 	}
 
 	public double getCx() {

@@ -48,7 +48,7 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 	
 	private JSlider slideSizeScreen = new JSlider(300, 900, 500);
 	private JSlider slideNumberFourmis = new JSlider(10, 200, 50);
-	private JSlider slideTime = new JSlider(5, 100, 50);
+	private JSlider slideTime = new JSlider(1, 100, 50);
 	private JSlider slideNumberFood = new JSlider(1, 5, 1);
 
 	public Preferences() throws FontFormatException, IOException{
