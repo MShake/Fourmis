@@ -8,6 +8,7 @@ import java.math.MathContext;
 import javax.swing.JPanel;
 
 public class Pheromone extends JPanel{
+	private final int COLOR = 25;
 	private double cx; //coordonnée en x
 	private double cy; //coordonnée en y
 	private int quantity;
@@ -18,17 +19,28 @@ public class Pheromone extends JPanel{
 		this.quantity = 1100;
 	}
 	
+//	public Color getColor(){
+//		
+//		BigDecimal result = null;
+//		BigDecimal plafond = new BigDecimal(1530);
+//		BigDecimal colorMax = new BigDecimal(255);
+//		result = (colorMax.multiply(new BigDecimal(this.quantity))).divide(plafond, BigDecimal.ROUND_DOWN);
+//		if(this.quantity >1530){
+//			this.quantity = 1530;
+//			return new Color(0, 0, 0);
+//		}
+//		return new Color(result.intValue(),result.intValue(),0);
+//	}
 	public Color getColor(){
-		
 		BigDecimal result = null;
 		BigDecimal plafond = new BigDecimal(1530);
 		BigDecimal colorMax = new BigDecimal(255);
 		result = (colorMax.multiply(new BigDecimal(this.quantity))).divide(plafond, BigDecimal.ROUND_DOWN);
 		if(this.quantity >1530){
 			this.quantity = 1530;
-			return new Color(0, 0, 0);
+			return new Color(COLOR, COLOR, COLOR, 255);
 		}
-		return new Color(result.intValue(),result.intValue(),result.intValue());
+		return new Color(COLOR,COLOR,COLOR,result.intValue());
 	}
 	
 	public void draw(Graphics g){

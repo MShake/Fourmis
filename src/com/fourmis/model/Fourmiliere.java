@@ -22,7 +22,7 @@ public class Fourmiliere extends JPanel{
 
 	public void draw(Graphics g) {
 		g.setColor(new Color(156, 93, 82));
-		g.fillRect(this.getCx(), this.getCy(), this.getWidth(), this.getHeight());
+		g.fill3DRect(this.getCx(), this.getCy(), this.getWidth(), this.getHeight(), true);
 	}
 	
 	public boolean collidepoint(int posX, int posY, int width, int height){

@@ -25,9 +25,9 @@ public class Nourriture extends JPanel {
 	
 	public void draw(Graphics g) {
 		g.setColor(new Color(255, 0, 0, opacity));
-		g.fillRect(cx, cy, this.getWidth(), this.getHeight());
+		g.fill3DRect(cx, cy, this.getWidth(), this.getHeight(), true);
 		g.setColor(new Color(100, 0, 0, opacity));
-		g.drawRect(cx, cy, this.getWidth(), this.getHeight());
+		g.draw3DRect(cx, cy, this.getWidth(), this.getHeight(), true);
 	}
 	
 	public boolean collidepoint(int posX, int posY, int width, int height){

@@ -45,11 +45,13 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 	private JLabel numberFourmis = new JLabel("Nombre de fourmis (50) :", JLabel.CENTER);
 	private JLabel time = new JLabel("Temps (50) :", JLabel.CENTER);
 	private JLabel numberFood = new JLabel("Nombre de nourritures (1) :", JLabel.CENTER);
+	private JLabel speedPheromones = new JLabel("Taux d'évaporation (1) :", JLabel.CENTER);
 	
 	private JSlider slideSizeScreen = new JSlider(300, 900, 500);
 	private JSlider slideNumberFourmis = new JSlider(10, 200, 50);
 	private JSlider slideTime = new JSlider(1, 100, 50);
 	private JSlider slideNumberFood = new JSlider(1, 20, 1);
+	private JSlider slideSpeedPheromones = new JSlider(1, 20, 1);
 
 	public Preferences() throws FontFormatException, IOException{
 		options = new Options();
@@ -67,7 +69,7 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		genv.registerFont(font);
 		font = font.deriveFont(40f);
-		Font italic = new Font(sousTitle.getFont().getName(),Font.ITALIC,sousTitle.getFont().getSize()); 
+		Font italic = new Font(sousTitle.getFont().getName(),Font.BOLD,sousTitle.getFont().getSize()); 
 		
 		slideSizeScreen.setOpaque(false);
 		slideSizeScreen.addChangeListener(this);
@@ -77,6 +79,8 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		slideTime.addChangeListener(this);
 		slideNumberFood.setOpaque(false);
 		slideNumberFood.addChangeListener(this);
+		slideSpeedPheromones.setOpaque(false);
+		slideSpeedPheromones.addChangeListener(this);
 		
 		this.container.setLayout(new BorderLayout());
 		this.header.setLayout(new GridLayout(0,1));
@@ -96,6 +100,8 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		this.body.add(slideTime);
 		this.body.add(numberFood);
 		this.body.add(slideNumberFood);
+//		this.body.add(speedPheromones);
+//		this.body.add(slideSpeedPheromones);		
 		
 		generate = new JButton("Generate");
 		generate.addActionListener(this);
@@ -146,6 +152,9 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		}else if(e.getSource() == slideNumberFood){
 			this.numberFood.setText("Nombre de nourritures ("+slideNumberFood.getValue()+") :");
 		}
+		else if(e.getSource() == slideSpeedPheromones){
+		this.speedPheromones.setText("Taux d'évaporation ("+slideSpeedPheromones.getValue()+") :");
+	}
 		
 	}
 	
