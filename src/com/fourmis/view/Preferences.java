@@ -112,7 +112,7 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		this.setContentPane(container);
 		
 		this.header.setOpaque(false);
-		this.body.setOpaque(false);
+		this.body.setOpaque(true);
 		this.footer.setOpaque(false);
 		this.setVisible(true); 
 		

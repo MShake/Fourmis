@@ -24,13 +24,13 @@ public class Terrain extends JPanel{
 	
 	public Terrain(Simulation sim){
 		this.sim = sim;
+		
 		this.setBackground(new Color(41, 181, 60));
 	}
 
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		
-		g.drawImage(icone ,0, 0,626,417, null); 
+		g.drawImage(icone ,0, 0,sim.getOptions().getSizeScreen(),sim.getOptions().getSizeScreen(), null); 
 		
 		sim.getFourmiliere().draw(g);
 		
