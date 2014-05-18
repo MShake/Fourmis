@@ -18,6 +18,7 @@ public class Simulation {
 	private ArrayList<Insecte> insectes;
 	private Fourmiliere fourmiliere;
 	private Options options;
+	int wildFood = 0;
 	
 	public Simulation(Options options){
 		this.options = options;
@@ -42,9 +43,10 @@ public class Simulation {
 				positionY = rand.nextInt(this.getMonde().getTerrain().getHeight()-quantity - 1);
 			}while(fourmiliere.collidepoint(positionX, positionY, quantity, quantity));
 			Nourriture n = new Nourriture(positionX, positionY, quantity);
+			wildFood += n.getQuantity();
 			this.nourritures.add(n);
 		}
-		
+		this.getMonde().getWildFood().setText("Wild Food : "+wildFood);
 		this.pheromones = new ArrayList<>();
 	}
 	
@@ -68,6 +70,7 @@ public class Simulation {
 				it.remove();
 			}
 		}
+		this.getMonde().getWildFood().setText("Wild Food : "+wildFood);
 		
 		for (Iterator<Pheromone> itp = pheromones.iterator(); itp.hasNext(); ) {
 			Pheromone p = itp.next();
@@ -76,6 +79,8 @@ public class Simulation {
 				itp.remove();
 			}
 		}
+		
+		this.getMonde().getQgFood().setText("QG Food : "+fourmiliere.getQuantity());
 	}
 	
 	public boolean issetPheromone(double cx, double cy){

@@ -25,13 +25,15 @@ public class Monde extends JFrame implements ChangeListener{
 	private JPanel pan = new JPanel(new BorderLayout());
 	private JPanel stat = new JPanel();
 	private JSlider speed;
-	private JLabel stats = new JLabel("statistiques");
+	private JLabel qgFood;
+	private JLabel wildFood = new JLabel("Wild Food : ");
 	
 	
 	public Monde(Simulation sim){
 		this.terrain = new Terrain(sim);
 		this.sim = sim;
 		this.speed = new JSlider(1, 100, 1+100-sim.getOptions().getTime());
+		this.qgFood = new JLabel("QG Food : 0");
 		this.terrain.setBackground(new Color(41, 181, 60));
 		this.setTitle("Fourmis : Simulation");
 		this.setSize(sim.getOptions().getSizeScreen(), sim.getOptions().getSizeScreen());
@@ -42,7 +44,8 @@ public class Monde extends JFrame implements ChangeListener{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		
-		stat.add(stats);
+		stat.add(qgFood);
+		stat.add(wildFood);
 		speed.addChangeListener(this);
 		
 		this.pan.add(stat, BorderLayout.NORTH);
@@ -66,5 +69,22 @@ public class Monde extends JFrame implements ChangeListener{
 			this.sim.getOptions().setTime(speed.getMinimum()+speed.getMaximum() - speed.getValue());
 		}
 	}
+
+	public JLabel getQgFood() {
+		return qgFood;
+	}
+
+	public void setQgFood(JLabel qgFood) {
+		this.qgFood = qgFood;
+	}
+
+	public JLabel getWildFood() {
+		return wildFood;
+	}
+
+	public void setWildFood(JLabel wildFood) {
+		this.wildFood = wildFood;
+	}
+	
 	
 }
