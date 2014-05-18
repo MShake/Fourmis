@@ -15,7 +15,7 @@ public class Container extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Toolkit kit = Toolkit.getDefaultToolkit();
-		Image icone = kit.getImage("res/img/herbe.jpg");
+		Image icone = kit.getImage("res/img/herbeMorte.jpg");
 		g.drawImage(icone ,0, 0,626,417, null); 
 	}
 }
