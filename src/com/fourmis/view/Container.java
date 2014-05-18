@@ -16,6 +16,7 @@ public class Container extends JPanel {
 		super.paintComponent(g);
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Image icone = kit.getImage("res/img/herbe.jpg");
+		
 		g.drawImage(icone ,0, 0,626,417, null); 
 	}
 }

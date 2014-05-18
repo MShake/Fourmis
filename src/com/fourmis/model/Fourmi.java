@@ -9,6 +9,8 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 public class Fourmi extends JPanel implements Insecte{
+	
+	private final double CHANGE_DIR = 0.005;
 	private double cx; 					// coordonnée en x
 	private double cy; 					// coordonnée en y
 	private boolean haveFood = false;	// possède de la nourriture
@@ -133,7 +135,7 @@ public class Fourmi extends JPanel implements Insecte{
 			}else{
 				//Changement de sens aléatoire ou si elle touche le bord de la fenêtre
 				boolean changeSens = false;
-				if(Math.random() < 0.02 || cx == 0 || cy == 0 || cx == maxX || cy == maxY || sens == 0){
+				if(Math.random() < CHANGE_DIR || cx == 0 || cy == 0 || cx == maxX || cy == maxY || sens == 0){
 					changeSens = true;
 				}
 				

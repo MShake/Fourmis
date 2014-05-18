@@ -8,7 +8,8 @@ import java.math.MathContext;
 import javax.swing.JPanel;
 
 public class Pheromone extends JPanel{
-	private final int COLOR = 25;
+	private final int PHEROMONE_SIZE = 4;
+	private final int PHEROMONE_COLOR = 25;
 	private double cx; //coordonnée en x
 	private double cy; //coordonnée en y
 	private int quantity;
@@ -38,14 +39,14 @@ public class Pheromone extends JPanel{
 		result = (colorMax.multiply(new BigDecimal(this.quantity))).divide(plafond, BigDecimal.ROUND_DOWN);
 		if(this.quantity >1530){
 			this.quantity = 1530;
-			return new Color(COLOR, COLOR, COLOR, 255);
+			return new Color(PHEROMONE_COLOR, PHEROMONE_COLOR, PHEROMONE_COLOR, 255);
 		}
-		return new Color(COLOR,COLOR,COLOR,result.intValue());
+		return new Color(PHEROMONE_COLOR,PHEROMONE_COLOR,PHEROMONE_COLOR,result.intValue());
 	}
 	
 	public void draw(Graphics g){
 		g.setColor(this.getColor());
-		g.fillRect((int)this.getCx(), (int)this.getCy(), 1, 1);
+		g.fillRect((int)this.getCx(), (int)this.getCy(), PHEROMONE_SIZE, 1);
 	}
 
 	public double getCx() {
