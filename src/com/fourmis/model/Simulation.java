@@ -66,11 +66,11 @@ public class Simulation {
 		
 		for (Iterator<Nourriture> it = nourritures.iterator(); it.hasNext(); ) {
 			Nourriture n = it.next();
-			if(n.getQuantity() <= 1){
+			if(n.getQuantity() <= 0){
 				it.remove();
 			}
 		}
-		this.getMonde().getWildFood().setText("Wild Food : "+wildFood);
+		this.getMonde().getWildFood().setText("Wild Food : "+(wildFood-fourmiliere.getQuantity()));
 		
 		for (Iterator<Pheromone> itp = pheromones.iterator(); itp.hasNext(); ) {
 			Pheromone p = itp.next();

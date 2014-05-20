@@ -177,7 +177,7 @@ public class Fourmi extends JPanel implements Insecte{
 			for(Nourriture n : nourritures){
 				int centerXFourmi = (int)cx+(size/2);
 				int centerYFourmi = (int)cy+(size/2);
-				if(centerXFourmi >= n.getCx() && centerXFourmi <= n.getCx()+n.getWidth() && centerYFourmi >= n.getCy() && centerYFourmi <= n.getCy()+n.getHeight()){
+				if(centerXFourmi >= n.getCx() && centerXFourmi <= n.getCx()+n.getWidth() && centerYFourmi >= n.getCy() && centerYFourmi <= n.getCy()+n.getHeight() && n.getQuantity() > 0){
 					this.haveFood = true;
 					n.setQuantity(n.getQuantity()-1);
 					break;
