@@ -8,7 +8,7 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
-public class Coccinelle extends JPanel implements Predator{
+public class Fourmilier extends JPanel implements Predator{
 	private double cx; 					// coordonnée en x
 	private double cy; 					// coordonnée en y
 	private boolean haveFood = false;	// possède de la nourriture
@@ -17,7 +17,7 @@ public class Coccinelle extends JPanel implements Predator{
 	private int maxX;					// valeur maximal de la fenêtre en x
 	private int maxY;					// valeur maximal de la fenêtre en y
 	
-	public Coccinelle(double cx, double cy, int maxX, int maxY){
+	public Fourmilier(double cx, double cy, int maxX, int maxY){
 		
 		this.cx = cx;
 		this.cy = cy;
@@ -85,24 +85,11 @@ public class Coccinelle extends JPanel implements Predator{
 	}
 	
 	public void draw(Graphics g){
-		g.setColor(Color.black);
+		Color colorFourmilier = new Color(33,72,113);
+		g.setColor(colorFourmilier);
 		g.fillOval((int)cx, (int)cy, 20, 20);
 	
-		g.setColor(Color.red);
-		g.fillOval((int)cx+2,  (int)cy+2, 15, 15);
 		
-		g.setColor(Color.black);
-		g.fillOval((int)cx+5,  (int)cy+2, 4, 4);
-		g.setColor(Color.black);
-		g.fillOval((int)cx+10,  (int)cy+2, 4, 4);
-		g.setColor(Color.black);
-		g.fillOval((int)cx+3,  (int)cy+7, 4, 4);
-		g.setColor(Color.black);
-		g.fillOval((int)cx+5,  (int)cy+12, 4, 4);
-		g.setColor(Color.black);
-		g.fillOval((int)cx+10,  (int)cy+12, 4, 4);
-		g.setColor(Color.black);
-		g.fillOval((int)cx+12,  (int)cy+7, 4, 4);
 	}
 
 	public double getCx() {

@@ -8,7 +8,7 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 
-public class Fourmi extends JPanel implements Insecte{
+public class Fourmi extends JPanel{
 	
 	private final double CHANGE_DIR = 0.005;
 	private double cx; 					// coordonnée en x
