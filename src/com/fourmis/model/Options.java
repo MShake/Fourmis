@@ -1,8 +1,8 @@
 package com.fourmis.model;
 
 /**
- * Représente les options rentrée dans l'IHM Preferences. Son but et d'être 
- * envoyé à l'objet Simulation pour son initialisation
+ * Reprï¿½sente les options rentrï¿½e dans l'IHM Preferences. Son but et d'ï¿½tre 
+ * envoyï¿½ ï¿½ l'objet Simulation pour son initialisation
  *
  */
 public class Options {
@@ -10,6 +10,8 @@ public class Options {
 	private int nombreFourmis;
 	private int nombreNourritures;
 	private int time;
+	private int nombreCoccinelles;
+	private int nombreFourmiliers;
 	
 	public Options(){
 		
@@ -22,7 +24,20 @@ public class Options {
 	public void setNombreFourmis(int nombreFourmis) {
 		this.nombreFourmis = nombreFourmis;
 	}
+	public int getNombreCoccinelles() {
+		return nombreCoccinelles;
+	}
 
+	public void setNombreCoccinelles(int nombreCoccinelles) {
+		this.nombreCoccinelles = nombreCoccinelles;
+	}
+	public int getNombreFourmiliers() {
+		return nombreFourmiliers;
+	}
+
+	public void setNombreFourmiliers(int nombreFourmiliers) {
+		this.nombreFourmiliers = nombreFourmiliers;
+	}
 	public int getSizeScreen() {
 		return sizeScreen;
 	}
