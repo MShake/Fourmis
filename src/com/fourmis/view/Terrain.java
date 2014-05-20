@@ -13,7 +13,7 @@ import com.fourmis.model.Pheromone;
 import com.fourmis.model.Simulation;
 
 /**
- * Représente le JPanel ou seront affiché les éléments (fourmilière, fourmis, nourriture ...)
+ * Reprï¿½sente le JPanel ou seront affichï¿½ les ï¿½lï¿½ments (fourmiliï¿½re, fourmis, nourriture ...)
  *
  */
 public class Terrain extends JPanel{

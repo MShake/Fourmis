@@ -3,8 +3,8 @@ package com.fourmis.model;
 
 
 /**
- * se charge de l’affichage des éléments simulés (monde, fourmis,
- * phéromones et fourmilière)
+ * se charge de lï¿½affichage des ï¿½lï¿½ments simulï¿½s (monde, fourmis,
+ * phï¿½romones et fourmiliï¿½re)
  * 
  */
 public class Rendu {
@@ -14,7 +14,7 @@ public class Rendu {
 	}
 	
 	/**
-	 * rafraîchit l’affichage en prenant en compte une nouvelle
+	 * rafraï¿½chit lï¿½affichage en prenant en compte une nouvelle
 	 * configuration de la simulation
 	 * @param sim
 	 */

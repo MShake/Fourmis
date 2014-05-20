@@ -16,8 +16,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -25,7 +30,7 @@ import com.fourmis.controller.Controleur;
 import com.fourmis.model.Options;
 
 /**
- * Représente l'IHM de settings de future simulation
+ * Reprï¿½sente l'IHM de settings de future simulation
  *
  */
 public class Preferences extends JFrame implements ActionListener, ChangeListener{
@@ -38,14 +43,24 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 	private JPanel header = new JPanel();
 	private JPanel body = new JPanel();
 	private JPanel footer = new JPanel();
+	private JPanel oTerrain = new JPanel(new GridLayout(3, 2));
+	private JPanel oFourmis = new JPanel(new GridLayout(1, 2));
+	private JPanel oPheromones = new JPanel(new GridLayout(1, 2));
+	private JPanel oPredators = new JPanel(new GridLayout(1, 2));
+	private JTabbedPane onglets = new JTabbedPane(SwingConstants.TOP);
+	
+	private JMenuBar menu = new JMenuBar();
+	private JMenu parametre = new JMenu("ParamÃ¨tres");
+	private JMenu load = new JMenu("Charger");
+	private JMenuItem save = new JMenuItem("Sauvegarder");
 	
 	private JLabel title = new JLabel("Fourmis Simulator", JLabel.CENTER);
-	private JLabel sousTitle = new JLabel("Pheromones & Predators Edition ®", JLabel.CENTER);
+	private JLabel sousTitle = new JLabel("Pheromones & Predators Edition ï¿½", JLabel.CENTER);
 	private JLabel sizeScreen = new JLabel("Taille du terrain (500) :", JLabel.CENTER);
 	private JLabel numberFourmis = new JLabel("Nombre de fourmis (50) :", JLabel.CENTER);
 	private JLabel time = new JLabel("Temps (50) :", JLabel.CENTER);
 	private JLabel numberFood = new JLabel("Nombre de nourritures (1) :", JLabel.CENTER);
-	private JLabel speedPheromones = new JLabel("Taux d'évaporation (1) :", JLabel.CENTER);
+	private JLabel speedPheromones = new JLabel("Taux d'Ã©vaporation (1) :", JLabel.CENTER);
 	
 	private JSlider slideSizeScreen = new JSlider(300, 900, 500);
 	private JSlider slideNumberFourmis = new JSlider(10, 200, 50);
@@ -57,14 +72,19 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		options = new Options();
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("Fourmis Simulator 2014 Phéromones & Predators Edition ®");
+		this.setTitle("Fourmis Simulator 2014 PhÃ©romones & Predators Edition ï¿½");
 		this.setSize(500, 417);
 		this.setLocation(100, 100);
 		this.setResizable(false);
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Image favicon = kit.getImage("res/img/favicon.png");
 		this.setIconImage(favicon);
-
+		
+		this.parametre.add(load);
+		this.parametre.add(save);
+		this.menu.add(parametre);
+		this.setJMenuBar(menu);
+		
 		Font font = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/buglife.ttf"));   
 		GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		genv.registerFont(font);
@@ -84,7 +104,6 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		
 		this.container.setLayout(new BorderLayout());
 		this.header.setLayout(new GridLayout(0,1));
-		this.body.setLayout(new GridLayout(4, 2));
 		
 		this.title.setFont(font);
 		this.sousTitle.setFont(italic);
@@ -92,16 +111,24 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		this.header.add(title);
 		this.header.add(sousTitle);
 		
-		this.body.add(sizeScreen);
-		this.body.add(slideSizeScreen);
-		this.body.add(numberFourmis);
-		this.body.add(slideNumberFourmis);
-		this.body.add(time);
-		this.body.add(slideTime);
-		this.body.add(numberFood);
-		this.body.add(slideNumberFood);
-//		this.body.add(speedPheromones);
-//		this.body.add(slideSpeedPheromones);		
+		onglets.addTab("Terrain", oTerrain);
+		onglets.addTab("Fourmis", oFourmis);
+		onglets.addTab("PhÃ©romones", oPheromones);
+		onglets.addTab("PrÃ©dators", oPredators);
+		onglets.setOpaque(true);
+		
+		this.oTerrain.add(sizeScreen);
+		this.oTerrain.add(slideSizeScreen);
+		this.oTerrain.add(time);
+		this.oTerrain.add(slideTime);
+		this.oTerrain.add(numberFood);
+		this.oTerrain.add(slideNumberFood);
+		this.oFourmis.add(numberFourmis);
+		this.oFourmis.add(slideNumberFourmis);
+		this.oPheromones.add(speedPheromones);
+		this.oPheromones.add(slideSpeedPheromones);
+		
+		this.body.add(onglets);		
 		
 		generate = new JButton("Generate");
 		generate.addActionListener(this);
@@ -153,7 +180,7 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 			this.numberFood.setText("Nombre de nourritures ("+slideNumberFood.getValue()+") :");
 		}
 		else if(e.getSource() == slideSpeedPheromones){
-		this.speedPheromones.setText("Taux d'évaporation ("+slideSpeedPheromones.getValue()+") :");
+		this.speedPheromones.setText("Taux d'Ã©vaporation ("+slideSpeedPheromones.getValue()+") :");
 	}
 		
 	}
