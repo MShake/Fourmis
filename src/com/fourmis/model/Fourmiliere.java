@@ -3,20 +3,21 @@ package com.fourmis.model;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.swing.JPanel;
 
 public class Fourmiliere extends JPanel{
-	private int cx; //coordonnée en x
-	private int cy; //coordonnée en y
+	private int cx; //coordonnï¿½e en x
+	private int cy; //coordonnï¿½e en y
 	private int quantity;
-	private ArrayList<Fourmi> fourmis;
+	private HashSet<Fourmi> fourmis;
 	
 	public Fourmiliere(int cx, int cy, int width, int height){
 		this.cx = cx;
 		this.cy = cy;
 		this.quantity = 0;
-		this.fourmis = new ArrayList<Fourmi>();
+		this.fourmis = new HashSet<Fourmi>();
 		this.setSize(width, height);
 	}
 
@@ -62,11 +63,11 @@ public class Fourmiliere extends JPanel{
 		this.cy = cy;
 	}
 
-	public ArrayList<Fourmi> getFourmis() {
+	public HashSet<Fourmi> getFourmis() {
 		return fourmis;
 	}
 
-	public void setFourmis(ArrayList<Fourmi> fourmis) {
+	public void setFourmis(HashSet<Fourmi> fourmis) {
 		this.fourmis = fourmis;
 	}
 

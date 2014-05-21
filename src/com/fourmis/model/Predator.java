@@ -5,5 +5,4 @@ import java.util.ArrayList;
 
 public interface Predator {
 	public void draw(Graphics g);
-	public void move(ArrayList<Nourriture> nourritures);
 }

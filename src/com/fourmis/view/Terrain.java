@@ -4,12 +4,15 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.Iterator;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import com.fourmis.model.Fourmi;
 import com.fourmis.model.Nourriture;
 import com.fourmis.model.Pheromone;
+import com.fourmis.model.Predator;
 import com.fourmis.model.Simulation;
 
 /**
@@ -19,18 +22,15 @@ import com.fourmis.model.Simulation;
 public class Terrain extends JPanel{
 
 	private Simulation sim;
-	Toolkit kit = Toolkit.getDefaultToolkit();
-	Image icone = kit.getImage("res/img/herbe.jpg");
+	private ImageIcon image = new ImageIcon("res/img/herbe.jpg");
 	
 	public Terrain(Simulation sim){
 		this.sim = sim;
-		
-		this.setBackground(new Color(41, 181, 60));
 	}
 
 	public void paintComponent(Graphics g){
 		super.paintComponent(g);
-		g.drawImage(icone ,0, 0,sim.getOptions().getSizeScreen(),sim.getOptions().getSizeScreen(), null); 
+		g.drawImage(image.getImage(), 0, 0, sim.getOptions().getSizeScreen(),sim.getOptions().getSizeScreen(), null); 
 		
 		sim.getFourmiliere().draw(g);
 		
@@ -42,11 +42,14 @@ public class Terrain extends JPanel{
 			n.draw(g);
 		}
 		
-		for(Fourmi f : sim.getFourmiliere().getFourmis()){
+		for(Iterator<Fourmi> itf = sim.getFourmiliere().getFourmis().iterator(); itf.hasNext();){
+			Fourmi f = itf.next();
 			f.draw(g);
 		}
 		
-		
+		for(Predator p : sim.getPredators()){
+			p.draw(g);
+		}
 		
 	}
 }

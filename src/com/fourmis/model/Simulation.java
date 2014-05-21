@@ -7,7 +7,7 @@ import java.util.Random;
 import com.fourmis.view.Monde;
 
 /**
- * Représente une simulation possédant plusieurs paramètres
+ * Reprï¿½sente une simulation possï¿½dant plusieurs paramï¿½tres
  *
  */
 public class Simulation {
@@ -15,10 +15,10 @@ public class Simulation {
 	private Monde monde;
 	private ArrayList<Nourriture> nourritures;
 	private ArrayList<Pheromone> pheromones;
-	private ArrayList<Predator> insectes;
+	private ArrayList<Predator> predators;
 	private Fourmiliere fourmiliere;
 	private Options options;
-	int wildFood = 0;
+	private int wildFood = 0;
 	
 	public Simulation(Options options){
 		this.options = options;
@@ -33,6 +33,7 @@ public class Simulation {
 		for (int i = 0; i < options.getNombreFourmis(); i++) {
 			Fourmi f = new Fourmi(positionX+this.fourmiliere.getWidth()/2-4, positionY+this.fourmiliere.getHeight()/2-4, this.getMonde().getTerrain().getWidth()-8, this.getMonde().getTerrain().getHeight()-8);
 			this.fourmiliere.getFourmis().add(f);
+			System.out.println(fourmiliere.getFourmis().size());
 		}
 		
 		this.nourritures = new ArrayList<Nourriture>();
@@ -48,9 +49,21 @@ public class Simulation {
 		}
 		this.getMonde().getWildFood().setText("Wild Food : "+wildFood);
 		this.pheromones = new ArrayList<>();
+		
+		this.predators = new ArrayList<>();
+		for(int i=0; i<options.getNombreCoccinelles(); i++){
+			Coccinelle c = new Coccinelle(0, 0, this.getMonde().getTerrain().getWidth()-16, this.getMonde().getTerrain().getHeight()-16);
+			predators.add(c);
+		}
+		
+		for(int i=0; i<options.getNombreFourmiliers(); i++){
+			Fourmilier f = new Fourmilier(0, 0, this.getMonde().getTerrain().getWidth()-16, this.getMonde().getTerrain().getHeight()-16);
+			predators.add(f);
+		}
 	}
 	
 	public void nextStep(){
+		System.out.println(fourmiliere.getFourmis().size());
 		for (Fourmi f : fourmiliere.getFourmis()) {
 			double centerXFourmi = f.getCx()+f.getWidth()/2;
 			double centerYFourmi = f.getCy()+f.getHeight()/2;
@@ -64,13 +77,25 @@ public class Simulation {
 			f.move(fourmiliere, nourritures, pheromones);
 		}
 		
+		for(Predator p : predators){
+			if(p instanceof Coccinelle){
+				Coccinelle c = (Coccinelle) p;
+				c.move(nourritures);
+			}else if(p instanceof Fourmilier){
+				Fourmilier f = (Fourmilier) p;
+				f.move(fourmiliere.getFourmis());
+			}
+		}
+		
+		wildFood = 0;
 		for (Iterator<Nourriture> it = nourritures.iterator(); it.hasNext(); ) {
 			Nourriture n = it.next();
 			if(n.getQuantity() <= 0){
 				it.remove();
 			}
+			wildFood += n.getQuantity();
 		}
-		this.getMonde().getWildFood().setText("Wild Food : "+(wildFood-fourmiliere.getQuantity()));
+		this.getMonde().getWildFood().setText("Wild Food : "+wildFood);
 		
 		for (Iterator<Pheromone> itp = pheromones.iterator(); itp.hasNext(); ) {
 			Pheromone p = itp.next();
@@ -133,6 +158,14 @@ public class Simulation {
 
 	public void setPheromones(ArrayList<Pheromone> pheromones) {
 		this.pheromones = pheromones;
+	}
+
+	public ArrayList<Predator> getPredators() {
+		return predators;
+	}
+
+	public void setPredators(ArrayList<Predator> predators) {
+		this.predators = predators;
 	}
 	
 	

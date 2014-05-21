@@ -11,13 +11,13 @@ import javax.swing.JPanel;
 public class Fourmi extends JPanel{
 	
 	private final double CHANGE_DIR = 0.005;
-	private double cx; 					// coordonnée en x
-	private double cy; 					// coordonnée en y
-	private boolean haveFood = false;	// possède de la nourriture
+	private double cx; 					// coordonnÃ©e en x
+	private double cy; 					// coordonnÃ©e en y
+	private boolean haveFood = false;	// possÃ¨de de la nourriture
 	private int size = 8;				// taille de la fourmi
-	private int sens = 0;				// direction (en hexagone)
-	private int maxX;					// valeur maximal de la fenêtre en x
-	private int maxY;					// valeur maximal de la fenêtre en y
+	private int sens = 0;				// direction
+	private int maxX;					// valeur maximal de la fenÃªtre en x
+	private int maxY;					// valeur maximal de la fenÃªtre en y
 	private int directionX = 0;
 	private int directionY = 0;
 	
@@ -133,7 +133,7 @@ public class Fourmi extends JPanel{
 				else
 					cy -= Math.abs(directionY);
 			}else{
-				//Changement de sens aléatoire ou si elle touche le bord de la fenêtre
+				//Changement de sens alÃ©atoire ou si elle touche le bord de la fenÃªtre
 				boolean changeSens = false;
 				if(Math.random() < CHANGE_DIR || cx == 0 || cy == 0 || cx == maxX || cy == maxY || sens == 0){
 					changeSens = true;
@@ -143,7 +143,7 @@ public class Fourmi extends JPanel{
 					Random rand = new Random();
 					int newSens = this.sens;
 					do{
-						newSens = rand.nextInt(6 - 1+1) + 1;
+						newSens = rand.nextInt(8 - 1+1) + 1;
 					}while(newSens == this.sens);
 					this.sens = newSens;
 				}
@@ -160,14 +160,20 @@ public class Fourmi extends JPanel{
 					cx++;
 					cy++;
 				}
-				else if(this.sens == 4 && cy < maxY){
+				else if(this.sens == 4 && cx < maxX){
+					cx++;
+				}
+				else if(this.sens == 5 && cy < maxY){
 					cy++;
 				}
-				else if(this.sens == 5 && cx > 0 && cy < maxY){
+				else if(this.sens == 6 && cx > 0 && cy < maxY){
 					cx--;
 					cy++;
 				}
-				else if(this.sens == 6 && cx > 0 && cy > 0){
+				else if(this.sens == 7 && cx > 0){
+					cx--;
+				}
+				else if(this.sens == 8 && cx > 0 && cy > 0){
 					cx--;
 					cy--;
 				}
@@ -184,14 +190,14 @@ public class Fourmi extends JPanel{
 				}
 			}
 		}else{
-			//Gestion du mouvement de la fourmi dans le cas où elle a de la nourriture
+			//Gestion du mouvement de la fourmi dans le cas oÃ¹ elle a de la nourriture
 			directionX = 0;
 			directionY = 0;
 			int centerXFourmiliere = fourmiliere.getCx()+fourmiliere.getWidth()/2 - size/2;
 			int centerYFourmiliere = fourmiliere.getCy()+fourmiliere.getHeight()/2 - size/2;
 			if((int)cx != centerXFourmiliere || (int)cy != centerYFourmiliere){
-				double stepX = 1; //initailisation du pas de déplacement en x
-				double stepY = 1; //initailisation du pas de déplacement en y
+				double stepX = 1; //initialisation du pas de dÃ©placement en x
+				double stepY = 1; //initialisation du pas de dÃ©placement en y
 				
 				if(Math.abs(centerYFourmiliere-this.cy) != 0){
 					stepX = Math.abs(centerXFourmiliere-this.cx) / Math.abs(centerYFourmiliere-this.cy);
@@ -204,7 +210,7 @@ public class Fourmi extends JPanel{
 						stepY = 1;
 				}
 				
-				//gestion de la direction la plus rapide pour aller à la fourmilière
+				//gestion de la direction la plus rapide pour aller Ã  la fourmiliÃ¨re
 				if(cx < centerXFourmiliere && cy < centerYFourmiliere){
 					cx += stepX;
 					cy += stepY;
@@ -236,9 +242,18 @@ public class Fourmi extends JPanel{
 		g.fillOval((int)cx+2,  (int)cy+2, 4, 4);
 	}
 	
-//	public Pheromone deposePheromone(){
-//		return new Pheromone(this.cx, this.cy);
-//	}
+	public boolean collidepoint(int posX, int posY, int width, int height){
+		boolean collide = false;
+		
+		if((posX>=(int)cx && posX<=(int)cx+this.getWidth() && posY>=(int)cy && posY<=(int)cy+this.getHeight()) ||
+				(posX+width>=(int)cx && posX+width<=(int)cx+this.getWidth() && posY>=(int)cy && posY<=(int)cy+this.getHeight()) ||
+				(posX+width>=(int)cx && posX+width<=(int)cx+this.getWidth() && posY+height>=(int)cy && posY+height<=(int)cy+this.getHeight()) ||
+				(posX>=(int)cx && posX<=(int)cx+this.getWidth() && posY+height>=(int)cy && posY+height<=(int)cy+this.getHeight())){
+			collide = true;
+		}
+		
+		return collide;
+	}
 
 	public double getCx() {
 		return cx;
