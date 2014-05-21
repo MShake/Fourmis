@@ -15,7 +15,7 @@ import javax.swing.event.ChangeListener;
 import com.fourmis.model.Simulation;
 
 /**
- * Représente la JFrame principale de la simulation
+ * Reprï¿½sente la JFrame principale de la simulation
  *
  */
 public class Monde extends JFrame implements ChangeListener{
@@ -27,6 +27,7 @@ public class Monde extends JFrame implements ChangeListener{
 	private JSlider speed;
 	private JLabel qgFood;
 	private JLabel wildFood = new JLabel("Wild Food : ");
+	private JLabel nbFourmis = new JLabel("Fourmis : ");
 	
 	
 	public Monde(Simulation sim){
@@ -45,6 +46,7 @@ public class Monde extends JFrame implements ChangeListener{
 		
 		stat.add(qgFood);
 		stat.add(wildFood);
+		stat.add(nbFourmis);
 		speed.addChangeListener(this);
 		
 		this.pan.add(stat, BorderLayout.NORTH);
@@ -83,6 +85,14 @@ public class Monde extends JFrame implements ChangeListener{
 
 	public void setWildFood(JLabel wildFood) {
 		this.wildFood = wildFood;
+	}
+
+	public JLabel getNbFourmis() {
+		return nbFourmis;
+	}
+
+	public void setNbFourmis(JLabel nbFourmis) {
+		this.nbFourmis = nbFourmis;
 	}
 	
 	

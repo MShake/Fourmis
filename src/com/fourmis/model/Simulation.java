@@ -33,8 +33,8 @@ public class Simulation {
 		for (int i = 0; i < options.getNombreFourmis(); i++) {
 			Fourmi f = new Fourmi(positionX+this.fourmiliere.getWidth()/2-4, positionY+this.fourmiliere.getHeight()/2-4, this.getMonde().getTerrain().getWidth()-8, this.getMonde().getTerrain().getHeight()-8);
 			this.fourmiliere.getFourmis().add(f);
-			System.out.println(fourmiliere.getFourmis().size());
 		}
+		this.getMonde().getNbFourmis().setText("Fourmis : "+fourmiliere.getFourmis().size());
 		
 		this.nourritures = new ArrayList<Nourriture>();
 		for(int i = 0; i < options.getNombreNourritures(); i++){
@@ -63,7 +63,6 @@ public class Simulation {
 	}
 	
 	public void nextStep(){
-		System.out.println(fourmiliere.getFourmis().size());
 		for (Fourmi f : fourmiliere.getFourmis()) {
 			double centerXFourmi = f.getCx()+f.getWidth()/2;
 			double centerYFourmi = f.getCy()+f.getHeight()/2;
@@ -76,6 +75,7 @@ public class Simulation {
 			}
 			f.move(fourmiliere, nourritures, pheromones);
 		}
+		this.getMonde().getNbFourmis().setText("Fourmis : "+fourmiliere.getFourmis().size());
 		
 		for(Predator p : predators){
 			if(p instanceof Coccinelle){
