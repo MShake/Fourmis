@@ -3,6 +3,9 @@ package com.fourmis.model;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Polygon;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -151,31 +154,47 @@ public class Fourmi extends JPanel{
 				//Gestion du sens de la fourmi en hexagone
 				if(this.sens == 1 && cy > 0){
 					cy--;
+					directionX = 0;
+					directionY = -1;
 				}
 				else if(this.sens == 2 && cx < maxX && cy > 0){
 					cy--;
 					cx++;
+					directionX = 1;
+					directionY = -1;
 				}
 				else if(this.sens == 3 && cx < maxX && cy < maxY){
 					cx++;
 					cy++;
+					directionX = 1;
+					directionY = 1;
 				}
 				else if(this.sens == 4 && cx < maxX){
 					cx++;
+					directionX = 1;
+					directionY = 0;
 				}
 				else if(this.sens == 5 && cy < maxY){
 					cy++;
+					directionX = 0;
+					directionY = 1;
 				}
 				else if(this.sens == 6 && cx > 0 && cy < maxY){
 					cx--;
 					cy++;
+					directionX = -1;
+					directionY = 1;
 				}
 				else if(this.sens == 7 && cx > 0){
 					cx--;
+					directionX = -1;
+					directionY = 0;
 				}
 				else if(this.sens == 8 && cx > 0 && cy > 0){
 					cx--;
 					cy--;
+					directionX = -1;
+					directionY = -1;
 				}
 			}
 			
@@ -214,15 +233,23 @@ public class Fourmi extends JPanel{
 				if(cx < centerXFourmiliere && cy < centerYFourmiliere){
 					cx += stepX;
 					cy += stepY;
+					directionX = 1;
+					directionY = 1;
 				}else if(cx < centerXFourmiliere && cy >= centerYFourmiliere){
 					cx += stepX;
 					cy -= stepY;
+					directionX = 1;
+					directionY = -1;
 				}else if(cx >= centerXFourmiliere && cy >= centerYFourmiliere){
 					cx -= stepX;
 					cy -= stepY;
+					directionX = -1;
+					directionY = -1;
 				}else if(cx >= centerXFourmiliere && cy < centerYFourmiliere){
 					cx -= stepX;
 					cy += stepY;
+					directionX = -1;
+					directionY = 1;
 				}
 				
 			}else{
@@ -232,14 +259,49 @@ public class Fourmi extends JPanel{
 		}
 	}
 	
-	public void draw(Graphics g){
+	public void draw(Graphics g){		
 		g.setColor(Color.black);
+		if(directionX == 0 && directionY == -1){
+			g.fillOval((int)cx+size/2-4, (int)cy+size, 8, 16);
+		}else if(directionX == 1 && directionY == -1){
+			int posX = (int)cx+2;
+			int posY = (int)cy+size-2;
+			int[] x = {posX-1, posX-4, posX-6, posX-10, posX-11, posX-11, posX-7, posX-5, posX-1, posX, posX};
+			int[] y = {posY, posY, posY+1, posY+5, posY+8, posY+11, posY+11, posY+10, posY+6, posY+4, posY+2};
+			g.fillPolygon(x, y, x.length);
+		}else if(directionX == 1 && directionY == 0){
+			g.fillOval((int)cx-16, (int)cy+size-8, 16, 8);
+		}else if(directionX == 1 && directionY == 1){
+			int posX = (int)cx+2;
+			int posY = (int)cy+2;
+			int[] x = {posX, posX, posX-1, posX-5, posX-8, posX-10, posX-10, posX-9, posX-5, posX-3, posX-1};
+			int[] y = {posY-1, posY-4, posY-6, posY-10, posY-11, posY-11, posY-7, posY-5, posY-1, posY, posY};
+			g.fillPolygon(x, y, x.length);
+		}else if(directionX == 0 && directionY == 1){
+			g.fillOval((int)cx+size/2-4, (int)cy-16, 8, 16);
+		}else if(directionX == -1 && directionY == 1){
+			int posX = (int)cx+size-2;
+			int posY = (int)cy+2;
+			int[] x = {posX, posX, posX+1, posX+5, posX+7, posX+11, posX+11, posX+10, posX+6, posX+4, posX+1};
+			int[] y = {posY-1, posY-3, posY-5, posY-9, posY-10, posY-10, posY-8, posY-5, posY-1, posY, posY};
+			g.fillPolygon(x, y, x.length);
+		}else if(directionX == -1 && directionY == 0){
+			g.fillOval((int)cx+size, (int)cy+size/2-4, 16, 8);
+		}else if(directionX == -1 && directionY == -1){
+			int posX = (int)cx+size-2;
+			int posY = (int)cy+size-2;
+			int[] x = {posX+1, posX+3, posX+5, posX+9, posX+10, posX+10, posX+8, posX+5, posX+1, posX, posX};
+			int[] y = {posY, posY, posY+1, posY+5, posY+7, posY+11, posY+11, posY+10, posY+6, posY+4, posY+1};
+			g.fillPolygon(x, y, x.length);
+		}
+		
 		g.fillOval((int)cx, (int)cy, 8, 8);
 		if(this.isHaveFood())
 			g.setColor(Color.red);
 		else
 			g.setColor(Color.darkGray);
 		g.fillOval((int)cx+2,  (int)cy+2, 4, 4);
+		
 	}
 	
 	public boolean collidepoint(int posX, int posY, int width, int height){
