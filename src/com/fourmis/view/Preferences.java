@@ -14,6 +14,7 @@ import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -26,8 +27,8 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import com.fourmis.bean.Options;
 import com.fourmis.controller.Controleur;
-import com.fourmis.model.Options;
 
 /**
  * Repr�sente l'IHM de settings de future simulation
@@ -44,7 +45,7 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 	private JPanel body = new JPanel();
 	private JPanel footer = new JPanel();
 	private JPanel oTerrain = new JPanel(new GridLayout(3, 2));
-	private JPanel oFourmis = new JPanel(new GridLayout(1, 2));
+	private JPanel oFourmis = new JPanel(new GridLayout(2, 2));
 	private JPanel oPheromones = new JPanel(new GridLayout(1, 2));
 	private JPanel oPredators = new JPanel(new GridLayout(2, 2));
 	private JTabbedPane onglets = new JTabbedPane(SwingConstants.TOP);
@@ -58,19 +59,22 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 	private JLabel sousTitle = new JLabel("Pheromones & Predators Edition �", JLabel.CENTER);
 	private JLabel sizeScreen = new JLabel("Taille du terrain (500) :", JLabel.CENTER);
 	private JLabel numberFourmis = new JLabel("Nombre de fourmis (50) :", JLabel.CENTER);
-	private JLabel numberCoccinelles = new JLabel("Nombre de coccinelles (5) :", JLabel.CENTER);
-	private JLabel numberFourmiliers = new JLabel("Nombre de fourmiliers (5) :", JLabel.CENTER);
+	private JLabel numberCoccinelles = new JLabel("Nombre de coccinelles (0) :", JLabel.CENTER);
+	private JLabel numberFourmiliers = new JLabel("Nombre de fourmiliers (0) :", JLabel.CENTER);
 	private JLabel time = new JLabel("Temps (50) :", JLabel.CENTER);
 	private JLabel numberFood = new JLabel("Nombre de nourritures (1) :", JLabel.CENTER);
 	private JLabel speedPheromones = new JLabel("Taux d'évaporation (1) :", JLabel.CENTER);
+	private JLabel paintBody = new JLabel("Peindre le corps ? ", JLabel.CENTER);
 	
 	private JSlider slideSizeScreen = new JSlider(300, 900, 500);
 	private JSlider slideNumberFourmis = new JSlider(10, 200, 50);
-	private JSlider slideNumberCoccinelles = new JSlider(0, 10, 5);
-	private JSlider slideNumberFourmiliers = new JSlider(0, 10, 5);
+	private JSlider slideNumberCoccinelles = new JSlider(0, 10, 0);
+	private JSlider slideNumberFourmiliers = new JSlider(0, 10, 0);
 	private JSlider slideTime = new JSlider(1, 100, 50);
 	private JSlider slideNumberFood = new JSlider(1, 20, 1);
 	private JSlider slideSpeedPheromones = new JSlider(1, 20, 1);
+	
+	private JCheckBox checkPaintBody = new JCheckBox();
 
 	public Preferences() throws FontFormatException, IOException{
 		options = new Options();
@@ -133,6 +137,8 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		this.oTerrain.add(slideNumberFood);
 		this.oFourmis.add(numberFourmis);
 		this.oFourmis.add(slideNumberFourmis);
+		this.oFourmis.add(paintBody);
+		this.oFourmis.add(checkPaintBody);
 		this.oPheromones.add(speedPheromones);
 		this.oPheromones.add(slideSpeedPheromones);
 		this.oPredators.add(numberCoccinelles);
@@ -172,6 +178,7 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 			options.setNombreFourmiliers(slideNumberFourmiliers.getValue());
 			options.setNombreNourritures(slideNumberFood.getValue());
 			options.setTime(slideTime.getValue());
+			options.setPaintBody(checkPaintBody.isSelected());
 			controleur = new Controleur(options);
 			this.start.setEnabled(true);
 			this.generate.setEnabled(false);

@@ -12,7 +12,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import com.fourmis.model.Simulation;
+import com.fourmis.bean.Simulation;
 
 /**
  * Repr�sente la JFrame principale de la simulation

@@ -9,11 +9,11 @@ import java.util.Iterator;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import com.fourmis.model.Fourmi;
-import com.fourmis.model.Nourriture;
-import com.fourmis.model.Pheromone;
-import com.fourmis.model.Predator;
-import com.fourmis.model.Simulation;
+import com.fourmis.bean.Fourmi;
+import com.fourmis.bean.Nourriture;
+import com.fourmis.bean.Pheromone;
+import com.fourmis.bean.Predator;
+import com.fourmis.bean.Simulation;
 
 /**
  * Repr�sente le JPanel ou seront affich� les �l�ments (fourmili�re, fourmis, nourriture ...)

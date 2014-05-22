@@ -1,4 +1,4 @@
-package com.fourmis.model;
+package com.fourmis.bean;
 
 
 

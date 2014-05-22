@@ -1,4 +1,4 @@
-package com.fourmis.model;
+package com.fourmis.bean;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,6 +32,7 @@ public class Simulation {
 		
 		for (int i = 0; i < options.getNombreFourmis(); i++) {
 			Fourmi f = new Fourmi(positionX+this.fourmiliere.getWidth()/2-4, positionY+this.fourmiliere.getHeight()/2-4, this.getMonde().getTerrain().getWidth()-8, this.getMonde().getTerrain().getHeight()-8);
+			f.setDrawBody(options.isPaintBody());
 			this.fourmiliere.getFourmis().add(f);
 		}
 		this.getMonde().getNbFourmis().setText("Fourmis : "+fourmiliere.getFourmis().size());
@@ -64,8 +65,8 @@ public class Simulation {
 	
 	public void nextStep(){
 		for (Fourmi f : fourmiliere.getFourmis()) {
-			double centerXFourmi = f.getCx()+f.getWidth()/2;
-			double centerYFourmi = f.getCy()+f.getHeight()/2;
+			int centerXFourmi = f.getCx()+f.getWidth()/2-2;
+			int centerYFourmi = f.getCy()+f.getHeight()/2-2;
 			if(f.isHaveFood()){
 				if(issetPheromone(centerXFourmi, centerYFourmi)){
 					getPheromoneByCoord(centerXFourmi, centerYFourmi).setQuantity(getPheromoneByCoord(centerXFourmi, centerYFourmi).getQuantity()+100);
@@ -108,7 +109,7 @@ public class Simulation {
 		this.getMonde().getQgFood().setText("QG Food : "+fourmiliere.getQuantity());
 	}
 	
-	public boolean issetPheromone(double cx, double cy){
+	public boolean issetPheromone(int cx, int cy){
 		for(Pheromone p : pheromones){
 			if(p.getCx() == cx && p.getCy() == cy)
 				return true;
@@ -116,7 +117,7 @@ public class Simulation {
 		return false;
 	}
 	
-	public Pheromone getPheromoneByCoord(double cx, double cy){
+	public Pheromone getPheromoneByCoord(int cx, int cy){
 		for(Pheromone p : pheromones){
 			if(p.getCx() == cx && p.getCy() == cy)
 				return p;

@@ -1,4 +1,4 @@
-package com.fourmis.model;
+package com.fourmis.bean;
 
 /**
  * Repr�sente les options rentr�e dans l'IHM Preferences. Son but et d'�tre 
@@ -12,6 +12,7 @@ public class Options {
 	private int time;
 	private int nombreCoccinelles;
 	private int nombreFourmiliers;
+	private boolean paintBody;
 	
 	public Options(){
 		
@@ -60,6 +61,14 @@ public class Options {
 
 	public void setNombreNourritures(int nombreNourritures) {
 		this.nombreNourritures = nombreNourritures;
+	}
+
+	public boolean isPaintBody() {
+		return paintBody;
+	}
+
+	public void setPaintBody(boolean paintBody) {
+		this.paintBody = paintBody;
 	}
 	
 }

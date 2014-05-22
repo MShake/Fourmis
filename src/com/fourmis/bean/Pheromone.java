@@ -1,4 +1,4 @@
-package com.fourmis.model;
+package com.fourmis.bean;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -8,30 +8,18 @@ import java.math.MathContext;
 import javax.swing.JPanel;
 
 public class Pheromone extends JPanel{
-	private final int PHEROMONE_SIZE = 4;
+	private final int PHEROMONE_SIZE = 3;
 	private final int PHEROMONE_COLOR = 25;
-	private double cx; //coordonnée en x
-	private double cy; //coordonnée en y
+	private int cx; //coordonnÃ©e en x
+	private int cy; //coordonnÃ©e en y
 	private int quantity;
 	
-	public Pheromone(double cx, double cy){
+	public Pheromone(int cx, int cy){
 		this.cx = cx;
 		this.cy = cy;
 		this.quantity = 1100;
 	}
 	
-//	public Color getColor(){
-//		
-//		BigDecimal result = null;
-//		BigDecimal plafond = new BigDecimal(1530);
-//		BigDecimal colorMax = new BigDecimal(255);
-//		result = (colorMax.multiply(new BigDecimal(this.quantity))).divide(plafond, BigDecimal.ROUND_DOWN);
-//		if(this.quantity >1530){
-//			this.quantity = 1530;
-//			return new Color(0, 0, 0);
-//		}
-//		return new Color(result.intValue(),result.intValue(),0);
-//	}
 	public Color getColor(){
 		BigDecimal result = null;
 		BigDecimal plafond = new BigDecimal(1530);
@@ -46,22 +34,22 @@ public class Pheromone extends JPanel{
 	
 	public void draw(Graphics g){
 		g.setColor(this.getColor());
-		g.fillRect((int)this.getCx(), (int)this.getCy(), PHEROMONE_SIZE, 1);
+		g.fillRect(this.getCx(), this.getCy(), PHEROMONE_SIZE, PHEROMONE_SIZE);
 	}
 
-	public double getCx() {
+	public int getCx() {
 		return cx;
 	}
 
-	public void setCx(double cx) {
+	public void setCx(int cx) {
 		this.cx = cx;
 	}
 
-	public double getCy() {
+	public int getCy() {
 		return cy;
 	}
 
-	public void setCy(double cy) {
+	public void setCy(int cy) {
 		this.cy = cy;
 	}
 

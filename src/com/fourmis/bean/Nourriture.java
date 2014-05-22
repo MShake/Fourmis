@@ -1,4 +1,4 @@
-package com.fourmis.model;
+package com.fourmis.bean;
 
 import java.awt.Color;
 import java.awt.Graphics;

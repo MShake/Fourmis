@@ -1,5 +1,5 @@
 package com.fourmis.test;
-import com.fourmis.model.Coccinelle;
+import com.fourmis.bean.Coccinelle;
 
 public class Main {
 

@@ -4,12 +4,12 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import com.fourmis.model.Coccinelle;
-import com.fourmis.model.Fourmi;
-import com.fourmis.model.Fourmilier;
-import com.fourmis.model.Nourriture;
-import com.fourmis.model.Pheromone;
-import com.fourmis.model.Simulation;
+import com.fourmis.bean.Coccinelle;
+import com.fourmis.bean.Fourmi;
+import com.fourmis.bean.Fourmilier;
+import com.fourmis.bean.Nourriture;
+import com.fourmis.bean.Pheromone;
+import com.fourmis.bean.Simulation;
 
 public class MyJpanel extends JPanel {
 	Coccinelle c = new Coccinelle(50,50, 100, 100);

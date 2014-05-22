@@ -5,9 +5,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
-import com.fourmis.model.Options;
-import com.fourmis.model.Rendu;
-import com.fourmis.model.Simulation;
+import com.fourmis.bean.Options;
+import com.fourmis.bean.Rendu;
+import com.fourmis.bean.Simulation;
 
 public class Controleur {
 	

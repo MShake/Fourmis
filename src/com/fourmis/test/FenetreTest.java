@@ -7,10 +7,10 @@ import java.util.Random;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.fourmis.model.Coccinelle;
-import com.fourmis.model.Fourmilier;
-import com.fourmis.model.Fourmiliere;
-import com.fourmis.model.Simulation;
+import com.fourmis.bean.Coccinelle;
+import com.fourmis.bean.Fourmilier;
+import com.fourmis.bean.Fourmiliere;
+import com.fourmis.bean.Simulation;
 
 public class FenetreTest extends JFrame {
 	private Fourmiliere fourmiliere;
