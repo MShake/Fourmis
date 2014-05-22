@@ -1,20 +1,21 @@
 package com.fourmis.bean;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
 
 import com.fourmis.view.Monde;
 
 /**
- * Repr�sente une simulation poss�dant plusieurs param�tres
+ * Représente une simulation possédant plusieurs paramêtres
  *
  */
 public class Simulation {
 
 	private Monde monde;
 	private ArrayList<Nourriture> nourritures;
-	private ArrayList<Pheromone> pheromones;
+	private HashSet<Pheromone> pheromones;
 	private ArrayList<Predator> predators;
 	private Fourmiliere fourmiliere;
 	private Options options;
@@ -33,6 +34,7 @@ public class Simulation {
 		for (int i = 0; i < options.getNombreFourmis(); i++) {
 			Fourmi f = new Fourmi(positionX+this.fourmiliere.getWidth()/2-4, positionY+this.fourmiliere.getHeight()/2-4, this.getMonde().getTerrain().getWidth()-8, this.getMonde().getTerrain().getHeight()-8);
 			f.setDrawBody(options.isPaintBody());
+			f.setId(i+1);
 			this.fourmiliere.getFourmis().add(f);
 		}
 		this.getMonde().getNbFourmis().setText("Fourmis : "+fourmiliere.getFourmis().size());
@@ -49,7 +51,7 @@ public class Simulation {
 			this.nourritures.add(n);
 		}
 		this.getMonde().getWildFood().setText("Wild Food : "+wildFood);
-		this.pheromones = new ArrayList<>();
+		this.pheromones = new HashSet<>();
 		
 		this.predators = new ArrayList<>();
 		for(int i=0; i<options.getNombreCoccinelles(); i++){
@@ -68,7 +70,7 @@ public class Simulation {
 			int centerXFourmi = f.getCx()+f.getWidth()/2-2;
 			int centerYFourmi = f.getCy()+f.getHeight()/2-2;
 			if(f.isHaveFood()){
-				if(issetPheromone(centerXFourmi, centerYFourmi)){
+				if(pheromones.contains(new Pheromone(centerXFourmi, centerYFourmi))){
 					getPheromoneByCoord(centerXFourmi, centerYFourmi).setQuantity(getPheromoneByCoord(centerXFourmi, centerYFourmi).getQuantity()+100);
 				}
 				else
@@ -118,9 +120,11 @@ public class Simulation {
 	}
 	
 	public Pheromone getPheromoneByCoord(int cx, int cy){
-		for(Pheromone p : pheromones){
-			if(p.getCx() == cx && p.getCy() == cy)
+		for(Iterator<Pheromone> itp = pheromones.iterator(); itp.hasNext();){
+			Pheromone p = itp.next();
+			if(p.getCx() == cx && p.getCy() == cy){
 				return p;
+			}
 		}
 		return null;
 	}
@@ -153,11 +157,11 @@ public class Simulation {
 		this.nourritures = nourritures;
 	}
 
-	public ArrayList<Pheromone> getPheromones() {
+	public HashSet<Pheromone> getPheromones() {
 		return pheromones;
 	}
 
-	public void setPheromones(ArrayList<Pheromone> pheromones) {
+	public void setPheromones(HashSet<Pheromone> pheromones) {
 		this.pheromones = pheromones;
 	}
 

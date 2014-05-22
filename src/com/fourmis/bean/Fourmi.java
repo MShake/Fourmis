@@ -3,16 +3,15 @@ package com.fourmis.bean;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Polygon;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
 import javax.swing.JPanel;
 
 public class Fourmi extends JPanel{
 	
+	private int id;
 	private final double CHANGE_DIR = 0.005;
 	private int cx; 					// coordonnée en x
 	private int cy; 					// coordonnée en y
@@ -38,96 +37,60 @@ public class Fourmi extends JPanel{
 	    this.setOpaque(false);
 	}
 	
-	public void move(Fourmiliere fourmiliere, ArrayList<Nourriture> nourritures, ArrayList<Pheromone> pheromones){
+	public void move(Fourmiliere fourmiliere, ArrayList<Nourriture> nourritures, HashSet<Pheromone> pheromones){
 		if(!this.haveFood){
 			boolean findPheromone = false;
-			for(Pheromone p : pheromones){
-				if(p.getCx() == cx && p.getCy() == cy){
-					findPheromone = true;
-					break;
-				}
+			if(pheromones.contains(new Pheromone(cx+size/2, cy+size/2)) && !(cx == fourmiliere.getCx()+fourmiliere.getWidth()/2-size/2 && cy == fourmiliere.getCy()+fourmiliere.getHeight()/2-size/2)){
+				findPheromone = true;
 			}
 			
-			if(findPheromone && !(cx == fourmiliere.getCx()+fourmiliere.getWidth()/2-size/2 && cy == fourmiliere.getCy()+fourmiliere.getHeight()/2-size/2)){
-				int minQuantity = Integer.MAX_VALUE;
-				int nbSourcesPheromone = 0;
-				for(Pheromone p : pheromones){
-					int posXPheromone = p.getCx();
-					int posYPheromone = p.getCy();
-					int posXFourmi = cx;
-					int posYFourmi = cy;
-					
-					if((posXPheromone == posXFourmi && posYPheromone == posYFourmi-1) ||
-							(posXPheromone == posXFourmi+1 && posYPheromone == posYFourmi-1) ||
-							(posXPheromone == posXFourmi+1 && posYPheromone == posYFourmi+1) ||
-							(posXPheromone == posXFourmi && posYPheromone == posYFourmi+1) || 
-							(posXPheromone == posXFourmi-1 && posYPheromone == posYFourmi+1) ||
-							(posXPheromone == posXFourmi-1 && posYPheromone == posYFourmi-1) ||
-							(posXPheromone == posXFourmi-1 && posYPheromone == posYFourmi) ||
-							(posXPheromone == posXFourmi+1 && posYPheromone == posYFourmi)){
-						nbSourcesPheromone++;
-					}
-					if(nbSourcesPheromone >= 2)
-						break;
-				}
+			if(findPheromone){
+				double distance = 0;
+				directionX = 0; 
+				directionY = 0;
+				Pheromone p = new Pheromone(cx+size/2, cy+size/2);
+				int centerXFourmiliere = fourmiliere.getCx()+fourmiliere.getWidth()/2 - size/2;
+				int centerYFourmiliere = fourmiliere.getCy()+fourmiliere.getHeight()/2 - size/2;
 				
-				if(nbSourcesPheromone >= 2){
-					for(Pheromone p : pheromones){
-						int posXPheromone = p.getCx();
-						int posYPheromone = p.getCy();
-						int posXFourmi = cx;
-						int posYFourmi = cy;
-						
-						if(posXPheromone == posXFourmi && posYPheromone == posYFourmi-1){
-							if(p.getQuantity() < minQuantity){
-								directionX = 0;
-								directionY = -1;
-								minQuantity = p.getQuantity();
-							}
-						}else if(posXPheromone == posXFourmi+1 && posYPheromone == posYFourmi-1){
-							if(p.getQuantity() < minQuantity){
-								directionX = 1;
-								directionY = -1;
-								minQuantity = p.getQuantity();
-							}
-						}else if(posXPheromone == posXFourmi+1 && posYPheromone == posYFourmi+1){
-							if(p.getQuantity() < minQuantity){
-								directionX = 1;
-								directionY = 1;
-								minQuantity = p.getQuantity();
-							}
-						}else if(posXPheromone == posXFourmi && posYPheromone == posYFourmi+1){
-							if(p.getQuantity() < minQuantity){
-								directionX = 0;
-								directionY = 1;
-								minQuantity = p.getQuantity();
-							}
-						}else if(posXPheromone == posXFourmi-1 && posYPheromone == posYFourmi+1){
-							if(p.getQuantity() < minQuantity){
-								directionX = -1;
-								directionY = 1;
-								minQuantity = p.getQuantity();
-							}
-						}else if(posXPheromone == posXFourmi-1 && posYPheromone == posYFourmi-1){
-							if(p.getQuantity() < minQuantity){
-								directionX = -1;
-								directionY = -1;
-								minQuantity = p.getQuantity();
-							}
-						}else if(posXPheromone == posXFourmi-1 && posYPheromone == posYFourmi){
-							if(p.getQuantity() < minQuantity){
-								directionX = -1;
-								directionY = 0;
-								minQuantity = p.getQuantity();
-							}
-						}else if(posXPheromone == posXFourmi+1 && posYPheromone == posYFourmi){
-							if(p.getQuantity() < minQuantity){
-								directionX = 1;
-								directionY = 0;
-								minQuantity = p.getQuantity();
-							}
-						}
-					}
+				if(pheromones.contains(p) && distance(p.getCx(), p.getCy()-1, centerXFourmiliere, centerYFourmiliere) > distance){
+					distance = distance(p.getCx(), p.getCy()-1, centerXFourmiliere, centerYFourmiliere);
+					directionX = 0;
+					directionY = -1;
+				}
+				if(pheromones.contains(p) && distance(p.getCx()+1, p.getCy()-1, centerXFourmiliere, centerYFourmiliere) > distance){
+					distance = distance(p.getCx()+1, p.getCy()-1, centerXFourmiliere, centerYFourmiliere);
+					directionX = 1;
+					directionY = -1;
+				}
+				if(pheromones.contains(p) && distance(p.getCx()+1, p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
+					distance = distance(p.getCx()+1, p.getCy(), centerXFourmiliere, centerYFourmiliere);
+					directionX = 1;
+					directionY = 0;
+				}
+				if(pheromones.contains(p) && distance(p.getCx()+1, p.getCy()+1, centerXFourmiliere, centerYFourmiliere) > distance){
+					distance = distance(p.getCx()+1, p.getCy()+1, centerXFourmiliere, centerYFourmiliere);
+					directionX = 1;
+					directionY = 1;
+				}
+				if(pheromones.contains(p) && distance(p.getCx(), p.getCy()+1, centerXFourmiliere, centerYFourmiliere) > distance){
+					distance = distance(p.getCx(), p.getCy()+1, centerXFourmiliere, centerYFourmiliere);
+					directionX = 0;
+					directionY = 1;
+				}
+				if(pheromones.contains(p) && distance(p.getCx()-1, p.getCy()+1, centerXFourmiliere, centerYFourmiliere) > distance){
+					distance = distance(p.getCx()-1, p.getCy()+1, centerXFourmiliere, centerYFourmiliere);
+					directionX = -1;
+					directionY = 1;
+				}
+				if(pheromones.contains(p) && distance(p.getCx()-1, p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
+					distance = distance(p.getCx()-1, p.getCy(), centerXFourmiliere, centerYFourmiliere);
+					directionX = 1;
+					directionY = 0;
+				}
+				if(pheromones.contains(p) && distance(p.getCx()-1, p.getCy()-1, centerXFourmiliere, centerYFourmiliere) > distance){
+					distance = distance(p.getCx()-1, p.getCy()-1, centerXFourmiliere, centerYFourmiliere);
+					directionX =-1;
+					directionY = -1;
 				}
 				
 				if(directionX >= 0)
@@ -346,6 +309,40 @@ public class Fourmi extends JPanel{
 		return Math.sqrt(sqr(y2 - y1) + sqr(x2 - x1));
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + cx;
+		result = prime * result + cy;
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Fourmi)) {
+			return false;
+		}
+		Fourmi other = (Fourmi) obj;
+		if (cx != other.cx) {
+			return false;
+		}
+		if (cy != other.cy) {
+			return false;
+		}
+		if (id != other.id) {
+			return false;
+		}
+		return true;
+	}
+
 	public int getCx() {
 		return cx;
 	}
@@ -376,6 +373,14 @@ public class Fourmi extends JPanel{
 
 	public void setDrawBody(boolean drawBody) {
 		this.drawBody = drawBody;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 }

@@ -36,6 +36,36 @@ public class Pheromone extends JPanel{
 		g.setColor(this.getColor());
 		g.fillRect(this.getCx(), this.getCy(), PHEROMONE_SIZE, PHEROMONE_SIZE);
 	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + cx;
+		result = prime * result + cy;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Pheromone)) {
+			return false;
+		}
+		Pheromone other = (Pheromone) obj;
+		if (cx != other.cx) {
+			return false;
+		}
+		if (cy != other.cy) {
+			return false;
+		}
+		return true;
+	}
 
 	public int getCx() {
 		return cx;
@@ -60,4 +90,5 @@ public class Pheromone extends JPanel{
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	
 }

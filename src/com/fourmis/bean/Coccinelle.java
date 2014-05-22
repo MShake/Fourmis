@@ -9,15 +9,15 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 public class Coccinelle extends JPanel implements Predator{
-	private double cx; 					// coordonn�e en x
-	private double cy; 					// coordonn�e en y
-	private boolean haveFood = false;	// poss�de de la nourriture
+	private int cx; 					// coordonnée en x
+	private int cy; 					// coordonnée en y
+	private boolean haveFood = false;	// possède de la nourriture
 	private int size = 8;				// taille de la fourmi
-	private int sens = 0;				// direction (en hexagone)
-	private int maxX;					// valeur maximal de la fen�tre en x
-	private int maxY;					// valeur maximal de la fen�tre en y
+	private int sens = 0;				// direction
+	private int maxX;					// valeur maximal de la fenêtre en x
+	private int maxY;					// valeur maximal de la fenêtre en y
 	
-	public Coccinelle(double cx, double cy, int maxX, int maxY){
+	public Coccinelle(int cx, int cy, int maxX, int maxY){
 		
 		this.cx = cx;
 		this.cy = cy;
@@ -71,8 +71,8 @@ public class Coccinelle extends JPanel implements Predator{
 		
 		//Regarde si la coccinelle est sur une source de nourriture
 		for(Nourriture n : nourritures){
-			int centerXCocci = (int)cx+(size/2);
-			int centerYCocci = (int)cy+(size/2);
+			int centerXCocci = cx+(size/2);
+			int centerYCocci = cy+(size/2);
 			if(centerXCocci >= n.getCx() && centerXCocci <= n.getCx()+n.getWidth() && centerYCocci >= n.getCy() && centerYCocci <= n.getCy()+n.getHeight()){
 				if(n.getCx()%2==0 && n.getCy()%2==0)
 					n.setQuantity(n.getQuantity()-1);
@@ -83,38 +83,38 @@ public class Coccinelle extends JPanel implements Predator{
 	
 	public void draw(Graphics g){
 		g.setColor(Color.black);
-		g.fillOval((int)cx, (int)cy, 20, 20);
+		g.fillOval(cx, cy, 20, 20);
 	
 		g.setColor(Color.red);
-		g.fillOval((int)cx+2,  (int)cy+2, 15, 15);
+		g.fillOval(cx+2,  cy+2, 15, 15);
 		
 		g.setColor(Color.black);
-		g.fillOval((int)cx+5,  (int)cy+2, 4, 4);
+		g.fillOval(cx+5,  cy+2, 4, 4);
 		g.setColor(Color.black);
-		g.fillOval((int)cx+10,  (int)cy+2, 4, 4);
+		g.fillOval(cx+10,  cy+2, 4, 4);
 		g.setColor(Color.black);
-		g.fillOval((int)cx+3,  (int)cy+7, 4, 4);
+		g.fillOval(cx+3,  cy+7, 4, 4);
 		g.setColor(Color.black);
-		g.fillOval((int)cx+5,  (int)cy+12, 4, 4);
+		g.fillOval(cx+5,  cy+12, 4, 4);
 		g.setColor(Color.black);
-		g.fillOval((int)cx+10,  (int)cy+12, 4, 4);
+		g.fillOval(cx+10,  cy+12, 4, 4);
 		g.setColor(Color.black);
-		g.fillOval((int)cx+12,  (int)cy+7, 4, 4);
+		g.fillOval(cx+12,  cy+7, 4, 4);
 	}
 
-	public double getCx() {
+	public int getCx() {
 		return cx;
 	}
 
-	public void setCx(double cx) {
+	public void setCx(int cx) {
 		this.cx = cx;
 	}
 
-	public double getCy() {
+	public int getCy() {
 		return cy;
 	}
 
-	public void setCy(double cy) {
+	public void setCy(int cy) {
 		this.cy = cy;
 	}
 
@@ -125,7 +125,6 @@ public class Coccinelle extends JPanel implements Predator{
 	public void setHaveFood(boolean haveFood) {
 		this.haveFood = haveFood;
 	}
-	
 	
 }
 
