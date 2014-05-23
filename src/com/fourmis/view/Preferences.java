@@ -80,7 +80,7 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		options = new Options();
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setTitle("Fourmis Simulator 2014 Phéromones & Predators Edition �");
+		this.setTitle("Fourmis Simulator 2014 Phéromones & Predators Edition ®");
 		this.setSize(500, 417);
 		this.setLocation(100, 100);
 		this.setResizable(false);

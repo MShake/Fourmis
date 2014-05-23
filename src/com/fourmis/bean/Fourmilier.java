@@ -78,9 +78,15 @@ public class Fourmilier extends JPanel implements Predator{
 	}
 	
 	public void draw(Graphics g){
-		Color colorFourmilier = new Color(33,72,113);
+		Color colorFourmilier = new Color(13,22,90);
 		g.setColor(colorFourmilier);
 		g.fillOval(cx, cy, 20, 20);
+		colorFourmilier = new Color(33,72,113);
+		g.setColor(colorFourmilier);
+		g.fillOval(cx+2, cy+2, 15, 15);
+		colorFourmilier = new Color(53,92,133);
+		g.setColor(colorFourmilier);
+		g.fillOval(cx+4, cy+4, 10, 10);
 	}
 
 	public int getCx() {

@@ -73,8 +73,9 @@ public class Simulation {
 				if(pheromones.contains(new Pheromone(centerXFourmi, centerYFourmi))){
 					getPheromoneByCoord(centerXFourmi, centerYFourmi).setQuantity(getPheromoneByCoord(centerXFourmi, centerYFourmi).getQuantity()+100);
 				}
-				else
+				else{
 					pheromones.add(new Pheromone(centerXFourmi, centerYFourmi));
+				}
 			}
 			f.move(fourmiliere, nourritures, pheromones);
 		}
@@ -107,7 +108,7 @@ public class Simulation {
 				itp.remove();
 			}
 		}
-		
+		this.getMonde().getNbPheromones().setText("Phéromones : "+this.getPheromones().size());
 		this.getMonde().getQgFood().setText("QG Food : "+fourmiliere.getQuantity());
 	}
 	

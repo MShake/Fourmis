@@ -28,6 +28,7 @@ public class Monde extends JFrame implements ChangeListener{
 	private JLabel qgFood;
 	private JLabel wildFood = new JLabel("Wild Food : ");
 	private JLabel nbFourmis = new JLabel("Fourmis : ");
+	private JLabel nbPheromones = new JLabel("Phéromones : 0");
 	
 	
 	public Monde(Simulation sim){
@@ -35,6 +36,7 @@ public class Monde extends JFrame implements ChangeListener{
 		this.sim = sim;
 		this.speed = new JSlider(1, 100, 1+100-sim.getOptions().getTime());
 		this.qgFood = new JLabel("QG Food : 0");
+		
 		this.setTitle("Fourmis : Simulation");
 		this.setSize(sim.getOptions().getSizeScreen(), sim.getOptions().getSizeScreen());
 		this.setLocation(700, 100);
@@ -47,6 +49,7 @@ public class Monde extends JFrame implements ChangeListener{
 		stat.add(qgFood);
 		stat.add(wildFood);
 		stat.add(nbFourmis);
+		stat.add(nbPheromones);
 		speed.addChangeListener(this);
 		
 		this.pan.add(stat, BorderLayout.NORTH);
@@ -93,6 +96,14 @@ public class Monde extends JFrame implements ChangeListener{
 
 	public void setNbFourmis(JLabel nbFourmis) {
 		this.nbFourmis = nbFourmis;
+	}
+
+	public JLabel getNbPheromones() {
+		return nbPheromones;
+	}
+
+	public void setNbPheromones(JLabel nbPheromones) {
+		this.nbPheromones = nbPheromones;
 	}
 	
 	

@@ -83,23 +83,23 @@ public class Coccinelle extends JPanel implements Predator{
 	
 	public void draw(Graphics g){
 		g.setColor(Color.black);
-		g.fillOval(cx, cy, 20, 20);
+		g.fillOval(cx, cy, 15, 15);
 	
 		g.setColor(Color.red);
-		g.fillOval(cx+2,  cy+2, 15, 15);
+		g.fillOval(cx+2,  cy+2, 11, 11);
 		
 		g.setColor(Color.black);
-		g.fillOval(cx+5,  cy+2, 4, 4);
+		g.fillOval(cx+5,  cy+2, 3, 3);
 		g.setColor(Color.black);
-		g.fillOval(cx+10,  cy+2, 4, 4);
+		g.fillOval(cx+10,  cy+2, 3, 3);
 		g.setColor(Color.black);
-		g.fillOval(cx+3,  cy+7, 4, 4);
+		g.fillOval(cx+3,  cy+7, 3, 3);
 		g.setColor(Color.black);
-		g.fillOval(cx+5,  cy+12, 4, 4);
+		g.fillOval(cx+5,  cy+12, 3, 3);
 		g.setColor(Color.black);
-		g.fillOval(cx+10,  cy+12, 4, 4);
+		g.fillOval(cx+10,  cy+12, 3, 3);
 		g.setColor(Color.black);
-		g.fillOval(cx+12,  cy+7, 4, 4);
+		g.fillOval(cx+12,  cy+7, 3, 3);
 	}
 
 	public int getCx() {
