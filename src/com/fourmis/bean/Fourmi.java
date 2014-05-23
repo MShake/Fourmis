@@ -313,8 +313,6 @@ public class Fourmi extends JPanel{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + cx;
-		result = prime * result + cy;
 		result = prime * result + id;
 		return result;
 	}
@@ -331,12 +329,6 @@ public class Fourmi extends JPanel{
 			return false;
 		}
 		Fourmi other = (Fourmi) obj;
-		if (cx != other.cx) {
-			return false;
-		}
-		if (cy != other.cy) {
-			return false;
-		}
 		if (id != other.id) {
 			return false;
 		}
