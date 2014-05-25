@@ -67,16 +67,6 @@ public class Simulation {
 	
 	public void nextStep(){
 		for (Fourmi f : fourmiliere.getFourmis()) {
-			int centerXFourmi = f.getCx()+f.getWidth()/2-2;
-			int centerYFourmi = f.getCy()+f.getHeight()/2-2;
-			if(f.isHaveFood()){
-				if(pheromones.contains(new Pheromone(centerXFourmi, centerYFourmi))){
-					getPheromoneByCoord(centerXFourmi, centerYFourmi).setQuantity(getPheromoneByCoord(centerXFourmi, centerYFourmi).getQuantity()+100);
-				}
-				else{
-					pheromones.add(new Pheromone(centerXFourmi, centerYFourmi));
-				}
-			}
 			f.move(fourmiliere, nourritures, pheromones);
 		}
 		this.getMonde().getNbFourmis().setText("Fourmis : "+fourmiliere.getFourmis().size());
@@ -110,24 +100,6 @@ public class Simulation {
 		}
 		this.getMonde().getNbPheromones().setText("Phéromones : "+this.getPheromones().size());
 		this.getMonde().getQgFood().setText("QG Food : "+fourmiliere.getQuantity());
-	}
-	
-	public boolean issetPheromone(int cx, int cy){
-		for(Pheromone p : pheromones){
-			if(p.getCx() == cx && p.getCy() == cy)
-				return true;
-		}
-		return false;
-	}
-	
-	public Pheromone getPheromoneByCoord(int cx, int cy){
-		for(Iterator<Pheromone> itp = pheromones.iterator(); itp.hasNext();){
-			Pheromone p = itp.next();
-			if(p.getCx() == cx && p.getCy() == cy){
-				return p;
-			}
-		}
-		return null;
 	}
 
 	public Monde getMonde() {

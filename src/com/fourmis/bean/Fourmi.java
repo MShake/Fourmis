@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Random;
 
 import javax.swing.JPanel;
@@ -40,7 +41,7 @@ public class Fourmi extends JPanel{
 	public void move(Fourmiliere fourmiliere, ArrayList<Nourriture> nourritures, HashSet<Pheromone> pheromones){
 		if(!this.haveFood){
 			boolean findPheromone = false;
-			if(pheromones.contains(new Pheromone(cx+size/2, cy+size/2)) && !(cx == fourmiliere.getCx()+fourmiliere.getWidth()/2-size/2 && cy == fourmiliere.getCy()+fourmiliere.getHeight()/2-size/2)){
+			if(pheromones.contains(new Pheromone(cx+size/2-2, cy+size/2-2)) && !(cx == fourmiliere.getCx()+fourmiliere.getWidth()/2-size/2 && cy == fourmiliere.getCy()+fourmiliere.getHeight()/2-size/2)){
 				findPheromone = true;
 			}
 			
@@ -48,7 +49,7 @@ public class Fourmi extends JPanel{
 				double distance = 0;
 				directionX = 0; 
 				directionY = 0;
-				Pheromone p = new Pheromone(cx+size/2, cy+size/2);
+				Pheromone p = new Pheromone(cx+size/2-2, cy+size/2-2);
 				int centerXFourmiliere = fourmiliere.getCx()+fourmiliere.getWidth()/2 - size/2;
 				int centerYFourmiliere = fourmiliere.getCy()+fourmiliere.getHeight()/2 - size/2;
 				
@@ -181,6 +182,15 @@ public class Fourmi extends JPanel{
 			directionY = 0;
 			int centerXFourmiliere = fourmiliere.getCx()+fourmiliere.getWidth()/2 - size/2;
 			int centerYFourmiliere = fourmiliere.getCy()+fourmiliere.getHeight()/2 - size/2;
+			int centerXFourmi = cx+this.getWidth()/2-2;
+			int centerYFourmi = cy+this.getHeight()/2-2;
+			if(pheromones.contains(new Pheromone(centerXFourmi, centerYFourmi))){
+				Pheromone p = getPheromoneByCoord(centerXFourmi, centerYFourmi, pheromones);
+				p.setQuantity(p.getQuantity()+100);
+			}
+			else{
+				pheromones.add(new Pheromone(centerXFourmi, centerYFourmi));
+			}
 			if(cx != centerXFourmiliere || cy != centerYFourmiliere){
 				double minDistance = Double.MAX_VALUE;
 				if(distance(cx, cy-1, centerXFourmiliere, centerYFourmiliere) < minDistance && cy > 0){
@@ -307,6 +317,16 @@ public class Fourmi extends JPanel{
 	 
 	public double distance(double x1, double y1, double x2, double y2) {
 		return Math.sqrt(sqr(y2 - y1) + sqr(x2 - x1));
+	}
+	
+	public Pheromone getPheromoneByCoord(int cx, int cy, HashSet<Pheromone> pheromones){
+		for(Iterator<Pheromone> itp = pheromones.iterator(); itp.hasNext();){
+			Pheromone p = itp.next();
+			if(p.getCx() == cx && p.getCy() == cy){
+				return p;
+			}
+		}
+		return null;
 	}
 
 	@Override
