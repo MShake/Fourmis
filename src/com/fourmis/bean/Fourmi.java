@@ -168,8 +168,8 @@ public class Fourmi extends JPanel{
 			
 			//Regarde si la fourmi est sur une source de nourriture
 			for(Nourriture n : nourritures){
-				int centerXFourmi = cx+(size/2);
-				int centerYFourmi = cy+(size/2);
+				int centerXFourmi = cx+(size/2)-2;
+				int centerYFourmi = cy+(size/2)-2;
 				if(centerXFourmi >= n.getCx() && centerXFourmi <= n.getCx()+n.getWidth() && centerYFourmi >= n.getCy() && centerYFourmi <= n.getCy()+n.getHeight() && n.getQuantity() > 0){
 					this.haveFood = true;
 					n.setQuantity(n.getQuantity()-1);
