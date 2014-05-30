@@ -2,9 +2,14 @@ package com.fourmis.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,23 +18,27 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import com.fourmis.bean.Simulation;
+import com.fourmis.controller.Controleur;
 
 /**
- * Repr�sente la JFrame principale de la simulation
+ * Représente la JFrame principale de la simulation
  *
  */
-public class Monde extends JFrame implements ChangeListener{
+public class Monde extends JFrame implements ChangeListener, ActionListener{
 	
 	private Simulation sim;
 	private Terrain terrain;
 	private JPanel pan = new JPanel(new BorderLayout());
 	private JPanel stat = new JPanel();
+	private JPanel footer = new JPanel();
 	private JSlider speed;
 	private JLabel qgFood;
 	private JLabel wildFood = new JLabel("Wild Food : ");
 	private JLabel nbFourmis = new JLabel("Fourmis : ");
 	private JLabel nbPheromones = new JLabel("Phéromones : 0");
-	
+	private ImageIcon play = new ImageIcon("res/img/play.png");
+	private ImageIcon pause = new ImageIcon("res/img/pause.png");
+	private JButton running = new JButton(pause);
 	
 	public Monde(Simulation sim){
 		this.terrain = new Terrain(sim);
@@ -52,9 +61,16 @@ public class Monde extends JFrame implements ChangeListener{
 		stat.add(nbPheromones);
 		speed.addChangeListener(this);
 		
+		this.running.setPreferredSize(new Dimension(30, 30));
+		this.running.addActionListener(this);
+		
+		this.footer.setLayout(new BorderLayout());
+		this.footer.add(speed, BorderLayout.CENTER);
+		this.footer.add(running, BorderLayout.EAST);
+		
 		this.pan.add(stat, BorderLayout.NORTH);
 		this.pan.add(terrain, BorderLayout.CENTER);
-		this.pan.add(speed, BorderLayout.SOUTH);
+		this.pan.add(footer, BorderLayout.SOUTH);
 		this.setContentPane(pan);
 		this.setVisible(true);
 	}
@@ -104,6 +120,20 @@ public class Monde extends JFrame implements ChangeListener{
 
 	public void setNbPheromones(JLabel nbPheromones) {
 		this.nbPheromones = nbPheromones;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(Controleur.getTimer() != null && e.getSource() == running){
+			if(Controleur.getTimer().isRunning()){
+				Controleur.getTimer().stop();
+				running.setIcon(play);
+			}else{
+				Controleur.getTimer().start();
+				running.setIcon(pause);
+			}
+		}
+		
 	}
 	
 	

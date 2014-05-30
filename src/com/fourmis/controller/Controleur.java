@@ -13,7 +13,7 @@ public class Controleur {
 	
 	private Simulation sim;
 	private Rendu rendu;
-	private Timer timer;
+	private static Timer timer;
 	
 	public Controleur(Options options){
 		this.sim = new Simulation(options);
@@ -21,15 +21,23 @@ public class Controleur {
 	}
 	
 	public void run(){
-		timer = new Timer(this.sim.getOptions().getTime(), new ActionListener() {
+		setTimer(new Timer(this.sim.getOptions().getTime(), new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-		    	timer.setDelay(sim.getOptions().getTime());
+		    	getTimer().setDelay(sim.getOptions().getTime());
 		    	sim.nextStep();
 				rendu.paint(sim);
 		    }
-		});
-		timer.setRepeats(true);
-		timer.start();
+		}));
+		getTimer().setRepeats(true);
+		getTimer().start();
+	}
+
+	public static Timer getTimer() {
+		return timer;
+	}
+
+	public static void setTimer(Timer timer) {
+		Controleur.timer = timer;
 	}
 }
