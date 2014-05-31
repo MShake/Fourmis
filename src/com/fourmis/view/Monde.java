@@ -3,6 +3,7 @@ package com.fourmis.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -36,8 +37,8 @@ public class Monde extends JFrame implements ChangeListener, ActionListener{
 	private JLabel wildFood = new JLabel("Wild Food : ");
 	private JLabel nbFourmis = new JLabel("Fourmis : ");
 	private JLabel nbPheromones = new JLabel("Phéromones : 0");
-	private ImageIcon play = new ImageIcon("res/img/play.png");
-	private ImageIcon pause = new ImageIcon("res/img/pause.png");
+	private ImageIcon play = new ImageIcon(Frame.class.getResource("/com/fourmis/ressources/img/play.png"));
+	private ImageIcon pause = new ImageIcon(Frame.class.getResource("/com/fourmis/ressources/img/pause.png"));
 	private JButton running = new JButton(pause);
 	
 	public Monde(Simulation sim){
@@ -50,7 +51,7 @@ public class Monde extends JFrame implements ChangeListener, ActionListener{
 		this.setSize(sim.getOptions().getSizeScreen(), sim.getOptions().getSizeScreen());
 		this.setLocation(700, 100);
 		Toolkit kit = Toolkit.getDefaultToolkit();
-		Image favicon = kit.getImage("res/img/favicon.png");
+		Image favicon = kit.getImage(Frame.class.getResource("/com/fourmis/ressources/img/favicon.png"));
 		this.setIconImage(favicon);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);

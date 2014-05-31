@@ -3,6 +3,7 @@ package com.fourmis.view;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.FontFormatException;
+import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -85,7 +86,7 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		this.setLocation(100, 100);
 		this.setResizable(false);
 		Toolkit kit = Toolkit.getDefaultToolkit();
-		Image favicon = kit.getImage("res/img/favicon.png");
+		Image favicon = kit.getImage(Frame.class.getResource("/com/fourmis/ressources/img/favicon.png"));
 		this.setIconImage(favicon);
 		
 		this.parametre.add(load);
@@ -93,7 +94,7 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		this.menu.add(parametre);
 		this.setJMenuBar(menu);
 		
-		Font font = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/buglife.ttf"));   
+		Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/com/fourmis/ressources/font/buglife.ttf"));
 		GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		genv.registerFont(font);
 		font = font.deriveFont(40f);

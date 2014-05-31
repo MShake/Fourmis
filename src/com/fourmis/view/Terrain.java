@@ -1,9 +1,7 @@
 package com.fourmis.view;
 
-import java.awt.Color;
+import java.awt.Frame;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.util.Iterator;
 
 import javax.swing.ImageIcon;
@@ -16,13 +14,13 @@ import com.fourmis.bean.Predator;
 import com.fourmis.bean.Simulation;
 
 /**
- * Repr�sente le JPanel ou seront affich� les �l�ments (fourmili�re, fourmis, nourriture ...)
+ * Représente le JPanel ou seront affiché les éléments (fourmilière, fourmis, nourriture ...)
  *
  */
 public class Terrain extends JPanel{
 
 	private Simulation sim;
-	private ImageIcon image = new ImageIcon("res/img/herbe.jpg");
+	private ImageIcon image = new ImageIcon(Frame.class.getResource("/com/fourmis/ressources/img/herbe.jpg"));
 	
 	public Terrain(Simulation sim){
 		this.sim = sim;

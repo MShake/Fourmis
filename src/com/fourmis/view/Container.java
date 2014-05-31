@@ -1,5 +1,6 @@
 package com.fourmis.view;
 
+import java.awt.Frame;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -9,7 +10,7 @@ import javax.swing.JPanel;
 
 public class Container extends JPanel {
 	
-	private ImageIcon image = new ImageIcon("res/img/herbe.jpg");
+	private ImageIcon image = new ImageIcon(Frame.class.getResource("/com/fourmis/ressources/img/herbe.jpg"));
 	
 	public Container() {
 		super();
