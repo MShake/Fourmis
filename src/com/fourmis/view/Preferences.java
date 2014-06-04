@@ -49,6 +49,7 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 	private JPanel oFourmis = new JPanel(new GridLayout(2, 2));
 	private JPanel oPheromones = new JPanel(new GridLayout(1, 2));
 	private JPanel oPredators = new JPanel(new GridLayout(2, 2));
+	private JPanel oObstacles = new JPanel(new GridLayout(3, 2));
 	private JTabbedPane onglets = new JTabbedPane(SwingConstants.TOP);
 	
 	private JMenuBar menu = new JMenuBar();
@@ -128,6 +129,7 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		onglets.addTab("Fourmis", oFourmis);
 		onglets.addTab("Phéromones", oPheromones);
 		onglets.addTab("Prédators", oPredators);
+		onglets.addTab("Obstacles", oObstacles);
 		onglets.setOpaque(true);
 		
 		this.oTerrain.add(sizeScreen);
