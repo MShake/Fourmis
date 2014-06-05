@@ -14,6 +14,7 @@ public class Fourmi extends JPanel{
 	
 	private int id;
 	private final double CHANGE_DIR = 0.005;
+	private final double CHANGE_DIR_RETURN = 0.03;
 	private int cx; 					// coordonnée en x
 	private int cy; 					// coordonnée en y
 	private boolean haveFood = false;	// possède de la nourriture
@@ -41,7 +42,7 @@ public class Fourmi extends JPanel{
 	public void move(Fourmiliere fourmiliere, ArrayList<Nourriture> nourritures, HashSet<Pheromone> pheromones){
 		if(!this.haveFood){
 			boolean findPheromone = false;
-			if(pheromones.contains(new Pheromone(cx+size/2-2, cy+size/2-2)) && !(cx == fourmiliere.getCx()+fourmiliere.getWidth()/2-size/2 && cy == fourmiliere.getCy()+fourmiliere.getHeight()/2-size/2)){
+			if(pheromones.contains(new Pheromone(cx+size/2, cy+size/2)) && !(cx == fourmiliere.getCx()+fourmiliere.getWidth()/2-size/2 && cy == fourmiliere.getCy()+fourmiliere.getHeight()/2-size/2)){
 				findPheromone = true;
 			}
 			
@@ -49,9 +50,9 @@ public class Fourmi extends JPanel{
 				double distance = 0;
 				directionX = 0; 
 				directionY = 0;
-				Pheromone p = new Pheromone(cx+size/2-2, cy+size/2-2);
-				int centerXFourmiliere = fourmiliere.getCx()+fourmiliere.getWidth()/2 - size/2;
-				int centerYFourmiliere = fourmiliere.getCy()+fourmiliere.getHeight()/2 - size/2;
+				Pheromone p = new Pheromone(cx+size/2, cy+size/2);
+				int centerXFourmiliere = fourmiliere.getCx()+fourmiliere.getWidth()/2-size/2;
+				int centerYFourmiliere = fourmiliere.getCy()+fourmiliere.getHeight()/2-size/2;
 				
 				if(pheromones.contains(p) && distance(p.getCx(), p.getCy()-1, centerXFourmiliere, centerYFourmiliere) > distance){
 					distance = distance(p.getCx(), p.getCy()-1, centerXFourmiliere, centerYFourmiliere);
@@ -168,9 +169,9 @@ public class Fourmi extends JPanel{
 			
 			//Regarde si la fourmi est sur une source de nourriture
 			for(Nourriture n : nourritures){
-				int centerXFourmi = cx+(size/2)-2;
-				int centerYFourmi = cy+(size/2)-2;
-				if(centerXFourmi >= n.getCx() && centerXFourmi <= n.getCx()+n.getWidth() && centerYFourmi >= n.getCy() && centerYFourmi <= n.getCy()+n.getHeight() && n.getQuantity() > 0){
+				int centerXFourmi = cx+(size/2);
+				int centerYFourmi = cy+(size/2);
+				if(centerXFourmi == n.getCx()+n.getWidth()/2 && centerYFourmi == n.getCy()+n.getHeight()/2){
 					this.haveFood = true;
 					n.setQuantity(n.getQuantity()-1);
 					break;
@@ -180,10 +181,10 @@ public class Fourmi extends JPanel{
 			//Gestion du mouvement de la fourmi dans le cas où elle a de la nourriture
 			directionX = 0;
 			directionY = 0;
-			int centerXFourmiliere = fourmiliere.getCx()+fourmiliere.getWidth()/2 - size/2;
-			int centerYFourmiliere = fourmiliere.getCy()+fourmiliere.getHeight()/2 - size/2;
-			int centerXFourmi = cx+this.getWidth()/2-2;
-			int centerYFourmi = cy+this.getHeight()/2-2;
+			int centerXFourmiliere = fourmiliere.getCx()+fourmiliere.getWidth()/2-size/2;
+			int centerYFourmiliere = fourmiliere.getCy()+fourmiliere.getHeight()/2-size/2;
+			int centerXFourmi = cx+size/2;
+			int centerYFourmi = cy+size/2;
 			if(pheromones.contains(new Pheromone(centerXFourmi, centerYFourmi))){
 				Pheromone p = getPheromoneByCoord(centerXFourmi, centerYFourmi, pheromones);
 				p.setQuantity(p.getQuantity()+100);
@@ -191,43 +192,54 @@ public class Fourmi extends JPanel{
 			else{
 				pheromones.add(new Pheromone(centerXFourmi, centerYFourmi));
 			}
+			
+			boolean changeSens = false;
+			if(Math.random() < CHANGE_DIR_RETURN || sens == 0){
+				changeSens = true;
+			}
+			
+			if(changeSens){
+				Random rand = new Random();
+				this.sens = rand.nextInt(8 - 1+1) + 1;
+			}
+			
 			if(cx != centerXFourmiliere || cy != centerYFourmiliere){
 				double minDistance = Double.MAX_VALUE;
-				if(distance(cx, cy-1, centerXFourmiliere, centerYFourmiliere) < minDistance && cy > 0){
+				if((distance(cx, cy-1, centerXFourmiliere, centerYFourmiliere) < minDistance && cy > 0) || (changeSens && sens == 1)){
 					directionX = 0;
 					directionY = -1;
 				}
-				if(distance(cx+1, cy-1, centerXFourmiliere, centerYFourmiliere) < minDistance && cx < maxX && cy > 0){
+				if((distance(cx+1, cy-1, centerXFourmiliere, centerYFourmiliere) < minDistance && cx < maxX && cy > 0) || (changeSens && sens == 2)){
 					minDistance = distance(cx+1, cy-1, centerXFourmiliere, centerYFourmiliere);
 					directionX = 1;
 					directionY = -1;
 				}
-				if(distance(cx+1, cy, centerXFourmiliere, centerYFourmiliere) < minDistance && cx < maxX){
+				if((distance(cx+1, cy, centerXFourmiliere, centerYFourmiliere) < minDistance && cx < maxX) || (changeSens && sens == 3)){
 					minDistance = distance(cx+1, cy, centerXFourmiliere, centerYFourmiliere);
 					directionX = 1;
 					directionY = 0;
 				}
-				if(distance(cx+1, cy+1, centerXFourmiliere, centerYFourmiliere) < minDistance && cx < maxX && cy < maxY){
+				if((distance(cx+1, cy+1, centerXFourmiliere, centerYFourmiliere) < minDistance && cx < maxX && cy < maxY) || (changeSens && sens == 4)){
 					minDistance = distance(cx+1, cy+1, centerXFourmiliere, centerYFourmiliere);
 					directionX = 1;
 					directionY = 1;
 				}
-				if(distance(cx, cy+1, centerXFourmiliere, centerYFourmiliere) < minDistance && cy < maxY){
+				if((distance(cx, cy+1, centerXFourmiliere, centerYFourmiliere) < minDistance && cy < maxY) || (changeSens && sens == 5)){
 					minDistance = distance(cx, cy+1, centerXFourmiliere, centerYFourmiliere);
 					directionX = 0;
 					directionY = 1;
 				}
-				if(distance(cx-1, cy+1, centerXFourmiliere, centerYFourmiliere) < minDistance && cx > 0 && cy < maxY){
+				if((distance(cx-1, cy+1, centerXFourmiliere, centerYFourmiliere) < minDistance && cx > 0 && cy < maxY) || (changeSens && sens == 6)){
 					minDistance = distance(cx-1, cy+1, centerXFourmiliere, centerYFourmiliere);
 					directionX = -1;
 					directionY = 1;
 				}
-				if(distance(cx-1, cy, centerXFourmiliere, centerYFourmiliere) < minDistance && cx > 0){
+				if((distance(cx-1, cy, centerXFourmiliere, centerYFourmiliere) < minDistance && cx > 0) || (changeSens && sens == 7)){
 					minDistance = distance(cx-1, cy, centerXFourmiliere, centerYFourmiliere);
 					directionX = -1;
 					directionY = 0;
 				}
-				if(distance(cx-1, cy-1, centerXFourmiliere, centerYFourmiliere) < minDistance && cx > 0 && cy > 0){
+				if((distance(cx-1, cy-1, centerXFourmiliere, centerYFourmiliere) < minDistance && cx > 0 && cy > 0) || (changeSens && sens == 8)){
 					minDistance = distance(cx-1, cy-1, centerXFourmiliere, centerYFourmiliere);
 					directionX = -1;
 					directionY = -1;

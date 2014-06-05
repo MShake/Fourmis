@@ -32,13 +32,13 @@ public class Terrain extends JPanel{
 		
 		sim.getFourmiliere().draw(g);
 		
+		for(Nourriture n : sim.getNourritures()){
+			n.draw(g);
+		}
+		
 		for(Iterator<Pheromone> itp = sim.getPheromones().iterator(); itp.hasNext();){
 			Pheromone p = itp.next();
 			p.draw(g);
-		}
-		
-		for(Nourriture n : sim.getNourritures()){
-			n.draw(g);
 		}
 		
 		for(Iterator<Fourmi> itf = sim.getFourmiliere().getFourmis().iterator(); itf.hasNext();){

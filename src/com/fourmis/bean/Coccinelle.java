@@ -73,7 +73,7 @@ public class Coccinelle extends JPanel implements Predator{
 		for(Nourriture n : nourritures){
 			int centerXCocci = cx+(size/2);
 			int centerYCocci = cy+(size/2);
-			if(centerXCocci >= n.getCx() && centerXCocci <= n.getCx()+n.getWidth() && centerYCocci >= n.getCy() && centerYCocci <= n.getCy()+n.getHeight()){
+			if(centerXCocci == n.getCx()+n.getWidth()/2 && centerYCocci == n.getCy()+n.getHeight()/2){
 				if(n.getCx()%2==0 && n.getCy()%2==0)
 					n.setQuantity(n.getQuantity()-1);
 				break;
