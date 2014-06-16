@@ -1,5 +1,6 @@
 package com.fourmis.bean;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -45,7 +46,7 @@ public class Simulation {
 			do{
 				positionX = rand.nextInt(this.getMonde().getTerrain().getWidth()-quantity - 1);
 				positionY = rand.nextInt(this.getMonde().getTerrain().getHeight()-quantity - 1);
-			}while(fourmiliere.collidepoint(positionX, positionY, quantity, quantity));
+			}while(fourmiliere.collisionRect(new Rectangle(positionX, positionY, quantity, quantity)));
 			Nourriture n = new Nourriture(positionX, positionY, quantity);
 			wildFood += n.getQuantity();
 			this.nourritures.add(n);

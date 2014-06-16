@@ -2,6 +2,7 @@ package com.fourmis.bean;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -34,17 +35,10 @@ public class Fourmiliere extends JPanel{
 		g.fillOval(this.getCx()+14, this.getCy()+14, this.getWidth()-28, this.getHeight()-28);
 	}
 	
-	public boolean collidepoint(int posX, int posY, int width, int height){
-		boolean collide = false;
+	public boolean collisionRect(Rectangle r2){
+		Rectangle r1 = new Rectangle(cx, cy, this.getWidth(), this.getHeight());
 		
-		if((posX>=cx && posX<=cx+this.getWidth() && posY>=cy && posY<=cy+this.getHeight()) ||
-				(posX+width>=cx && posX+width<=cx+this.getWidth() && posY>=cy && posY<=cy+this.getHeight()) ||
-				(posX+width>=cx && posX+width<=cx+this.getWidth() && posY+height>=cy && posY+height<=cy+this.getHeight()) ||
-				(posX>=cx && posX<=cx+this.getWidth() && posY+height>=cy && posY+height<=cy+this.getHeight())){
-			collide = true;
-		}
-		
-		return collide;
+		return r1.intersects(r2);
 	}
 
 	public int getCx() {

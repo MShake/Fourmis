@@ -3,6 +3,7 @@ package com.fourmis.bean;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
@@ -48,7 +49,7 @@ public class Fourmilier extends JPanel implements Predator{
 		
 		for (Iterator<Fourmi> itf = fourmis.iterator(); itf.hasNext(); ) {
 			Fourmi f = itf.next();
-			if(f.collidepoint(cx, cy, size, size)){
+			if(f.collisionRect(new Rectangle(cx, cy, size, size))){
 				itf.remove();
 			}
 		}
