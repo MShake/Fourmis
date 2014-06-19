@@ -26,6 +26,14 @@ public class Fourmi extends JPanel{
 	private int directionX = 0;
 	private int directionY = 0;
 	private boolean drawBody;
+	private final int N = 1;
+	private final int NE = 2;
+	private final int E = 3;
+	private final int SE = 4;
+	private final int S = 5;
+	private final int SO = 6;
+	private final int O = 7;
+	private final int NO = 8;
 	
 	public Fourmi(int cx, int cy, int maxX, int maxY){
 		
@@ -57,54 +65,39 @@ public class Fourmi extends JPanel{
 				
 				if(pheromones.contains(p) && distance(p.getCx(), p.getCy()-1, centerXFourmiliere, centerYFourmiliere) > distance){
 					distance = distance(p.getCx(), p.getCy()-1, centerXFourmiliere, centerYFourmiliere);
-					directionX = 0;
-					directionY = -1;
+					this.sens = N;
 				}
 				if(pheromones.contains(p) && distance(p.getCx()+1, p.getCy()-1, centerXFourmiliere, centerYFourmiliere) > distance){
 					distance = distance(p.getCx()+1, p.getCy()-1, centerXFourmiliere, centerYFourmiliere);
-					directionX = 1;
-					directionY = -1;
+					this.sens = NE;
 				}
 				if(pheromones.contains(p) && distance(p.getCx()+1, p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
 					distance = distance(p.getCx()+1, p.getCy(), centerXFourmiliere, centerYFourmiliere);
-					directionX = 1;
-					directionY = 0;
+					this.sens = E;
 				}
 				if(pheromones.contains(p) && distance(p.getCx()+1, p.getCy()+1, centerXFourmiliere, centerYFourmiliere) > distance){
 					distance = distance(p.getCx()+1, p.getCy()+1, centerXFourmiliere, centerYFourmiliere);
-					directionX = 1;
-					directionY = 1;
+					this.sens = SE;
 				}
 				if(pheromones.contains(p) && distance(p.getCx(), p.getCy()+1, centerXFourmiliere, centerYFourmiliere) > distance){
 					distance = distance(p.getCx(), p.getCy()+1, centerXFourmiliere, centerYFourmiliere);
-					directionX = 0;
-					directionY = 1;
+					this.sens = S;
 				}
 				if(pheromones.contains(p) && distance(p.getCx()-1, p.getCy()+1, centerXFourmiliere, centerYFourmiliere) > distance){
 					distance = distance(p.getCx()-1, p.getCy()+1, centerXFourmiliere, centerYFourmiliere);
-					directionX = -1;
-					directionY = 1;
+					this.sens = SO;
 				}
 				if(pheromones.contains(p) && distance(p.getCx()-1, p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
 					distance = distance(p.getCx()-1, p.getCy(), centerXFourmiliere, centerYFourmiliere);
-					directionX = 1;
-					directionY = 0;
+					this.sens = O;
 				}
 				if(pheromones.contains(p) && distance(p.getCx()-1, p.getCy()-1, centerXFourmiliere, centerYFourmiliere) > distance){
 					distance = distance(p.getCx()-1, p.getCy()-1, centerXFourmiliere, centerYFourmiliere);
-					directionX =-1;
-					directionY = -1;
+					this.sens = NO;
 				}
 				
-				if(directionX >= 0)
-					cx += directionX;
-				else
-					cx -= Math.abs(directionX);
+				updateDirection();
 				
-				if(directionY >= 0)
-					cy += directionY;
-				else
-					cy -= Math.abs(directionY);
 			}else{
 				//Changement de sens aléatoire ou si elle touche le bord de la fenêtre
 				boolean changeSens = false;
@@ -123,49 +116,7 @@ public class Fourmi extends JPanel{
 					this.sens = newSens;
 				}
 				
-				//Gestion du sens de la fourmi
-				if(this.sens == 1 && cy > 0){
-					directionX = 0;
-					directionY = -1;
-				}
-				else if(this.sens == 2 && cx < maxX && cy > 0){
-					directionX = 1;
-					directionY = -1;
-				}
-				else if(this.sens == 3 && cx < maxX && cy < maxY){
-					directionX = 1;
-					directionY = 1;
-				}
-				else if(this.sens == 4 && cx < maxX){
-					directionX = 1;
-					directionY = 0;
-				}
-				else if(this.sens == 5 && cy < maxY){
-					directionX = 0;
-					directionY = 1;
-				}
-				else if(this.sens == 6 && cx > 0 && cy < maxY){
-					directionX = -1;
-					directionY = 1;
-				}
-				else if(this.sens == 7 && cx > 0){
-					directionX = -1;
-					directionY = 0;
-				}
-				else if(this.sens == 8 && cx > 0 && cy > 0){
-					directionX = -1;
-					directionY = -1;
-				}
-				
-				if(directionX >= 0)
-					cx += directionX;
-				else
-					cx -= Math.abs(directionX);
-				
-				if(directionY >= 0)
-					cy += directionY;
-				else
-					cy -= Math.abs(directionY);
+				updateDirection();
 			}
 			
 			//Regarde si la fourmi est sur une source de nourriture
@@ -206,61 +157,92 @@ public class Fourmi extends JPanel{
 			
 			if(cx != centerXFourmiliere || cy != centerYFourmiliere){
 				double minDistance = Double.MAX_VALUE;
-				if((distance(cx, cy-1, centerXFourmiliere, centerYFourmiliere) < minDistance && cy > 0) || (changeSens && sens == 1)){
-					directionX = 0;
-					directionY = -1;
+				if((distance(cx, cy-1, centerXFourmiliere, centerYFourmiliere) < minDistance && cy > 0 && !changeSens) || (changeSens && sens == N)){
+					minDistance = distance(cx, cy-1, centerXFourmiliere, centerYFourmiliere);
+					this.sens = N;
 				}
-				if((distance(cx+1, cy-1, centerXFourmiliere, centerYFourmiliere) < minDistance && cx < maxX && cy > 0) || (changeSens && sens == 2)){
+				if((distance(cx+1, cy-1, centerXFourmiliere, centerYFourmiliere) < minDistance && cx < maxX && cy > 0 && !changeSens) || (changeSens && sens == NE)){
 					minDistance = distance(cx+1, cy-1, centerXFourmiliere, centerYFourmiliere);
-					directionX = 1;
-					directionY = -1;
+					this.sens = NE;
 				}
-				if((distance(cx+1, cy, centerXFourmiliere, centerYFourmiliere) < minDistance && cx < maxX) || (changeSens && sens == 3)){
+				if((distance(cx+1, cy, centerXFourmiliere, centerYFourmiliere) < minDistance && cx < maxX && !changeSens) || (changeSens && sens == E)){
 					minDistance = distance(cx+1, cy, centerXFourmiliere, centerYFourmiliere);
-					directionX = 1;
-					directionY = 0;
+					this.sens = E;
 				}
-				if((distance(cx+1, cy+1, centerXFourmiliere, centerYFourmiliere) < minDistance && cx < maxX && cy < maxY) || (changeSens && sens == 4)){
+				if((distance(cx+1, cy+1, centerXFourmiliere, centerYFourmiliere) < minDistance && cx < maxX && cy < maxY && !changeSens) || (changeSens && sens == SE)){
 					minDistance = distance(cx+1, cy+1, centerXFourmiliere, centerYFourmiliere);
-					directionX = 1;
-					directionY = 1;
+					this.sens = SE;
 				}
-				if((distance(cx, cy+1, centerXFourmiliere, centerYFourmiliere) < minDistance && cy < maxY) || (changeSens && sens == 5)){
+				if((distance(cx, cy+1, centerXFourmiliere, centerYFourmiliere) < minDistance && cy < maxY && !changeSens) || (changeSens && sens == S)){
 					minDistance = distance(cx, cy+1, centerXFourmiliere, centerYFourmiliere);
-					directionX = 0;
-					directionY = 1;
+					this.sens = S;
 				}
-				if((distance(cx-1, cy+1, centerXFourmiliere, centerYFourmiliere) < minDistance && cx > 0 && cy < maxY) || (changeSens && sens == 6)){
+				if((distance(cx-1, cy+1, centerXFourmiliere, centerYFourmiliere) < minDistance && cx > 0 && cy < maxY && !changeSens) || (changeSens && sens == SO)){
 					minDistance = distance(cx-1, cy+1, centerXFourmiliere, centerYFourmiliere);
-					directionX = -1;
-					directionY = 1;
+					this.sens = SO;
 				}
-				if((distance(cx-1, cy, centerXFourmiliere, centerYFourmiliere) < minDistance && cx > 0) || (changeSens && sens == 7)){
+				if((distance(cx-1, cy, centerXFourmiliere, centerYFourmiliere) < minDistance && cx > 0 && !changeSens) || (changeSens && sens == O)){
 					minDistance = distance(cx-1, cy, centerXFourmiliere, centerYFourmiliere);
-					directionX = -1;
-					directionY = 0;
+					this.sens = O;
 				}
-				if((distance(cx-1, cy-1, centerXFourmiliere, centerYFourmiliere) < minDistance && cx > 0 && cy > 0) || (changeSens && sens == 8)){
+				if((distance(cx-1, cy-1, centerXFourmiliere, centerYFourmiliere) < minDistance && cx > 0 && cy > 0 && !changeSens) || (changeSens && sens == NO)){
 					minDistance = distance(cx-1, cy-1, centerXFourmiliere, centerYFourmiliere);
-					directionX = -1;
-					directionY = -1;
+					this.sens = NO;
 				}
 				
-				if(directionX >= 0)
-					cx += directionX;
-				else
-					cx -= Math.abs(directionX);
-				
-				if(directionY >= 0)
-					cy += directionY;
-				else
-					cy -= Math.abs(directionY);
+				updateDirection();
 				
 			}else{
 				fourmiliere.setQuantity(fourmiliere.getQuantity()+1);
 				haveFood = false;
 			}
 		}
+	}
+	
+	public void updateDirection(){
+		//Gestion du sens de la fourmi
+		if(this.sens == N && cy > 0){
+			directionX = 0;
+			directionY = -1;
+		}
+		else if(this.sens == NE && cx < maxX && cy > 0){
+			directionX = 1;
+			directionY = -1;
+		}
+		else if(this.sens == SE && cx < maxX && cy < maxY){
+			directionX = 1;
+			directionY = 1;
+		}
+		else if(this.sens == E && cx < maxX){
+			directionX = 1;
+			directionY = 0;
+		}
+		else if(this.sens == S && cy < maxY){
+			directionX = 0;
+			directionY = 1;
+		}
+		else if(this.sens == SO && cx > 0 && cy < maxY){
+			directionX = -1;
+			directionY = 1;
+		}
+		else if(this.sens == O && cx > 0){
+			directionX = -1;
+			directionY = 0;
+		}
+		else if(this.sens == NO && cx > 0 && cy > 0){
+			directionX = -1;
+			directionY = -1;
+		}
+		
+		if(directionX >= 0)
+			cx += directionX;
+		else
+			cx -= Math.abs(directionX);
+		
+		if(directionY >= 0)
+			cy += directionY;
+		else
+			cy -= Math.abs(directionY);
 	}
 	
 	public void draw(Graphics g){		
