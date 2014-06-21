@@ -51,7 +51,10 @@ public class Fourmi extends JPanel{
 	public void move(Fourmiliere fourmiliere, ArrayList<Nourriture> nourritures, HashSet<Pheromone> pheromones){
 		if(!this.haveFood){
 			boolean findPheromone = false;
-			if(pheromones.contains(new Pheromone(cx+size/2, cy+size/2)) && !(cx == fourmiliere.getCx()+fourmiliere.getWidth()/2-size/2 && cy == fourmiliere.getCy()+fourmiliere.getHeight()/2-size/2)){
+			Pheromone p = new Pheromone(cx+size/2, cy+size/2);
+			int centerXFourmiliere = fourmiliere.getCx()+fourmiliere.getWidth()/2-size/2;
+			int centerYFourmiliere = fourmiliere.getCy()+fourmiliere.getHeight()/2-size/2;
+			if(pheromones.contains(p) && !(cx == centerXFourmiliere && cy == centerYFourmiliere)){
 				findPheromone = true;
 			}
 			
@@ -59,43 +62,61 @@ public class Fourmi extends JPanel{
 				double distance = 0;
 				directionX = 0; 
 				directionY = 0;
-				Pheromone p = new Pheromone(cx+size/2, cy+size/2);
-				int centerXFourmiliere = fourmiliere.getCx()+fourmiliere.getWidth()/2-size/2;
-				int centerYFourmiliere = fourmiliere.getCy()+fourmiliere.getHeight()/2-size/2;
+				int x = p.getCx();
+				int y = p.getCy();
 				
+				p.setCy(y-1);
 				if(pheromones.contains(p) && distance(p.getCx(), p.getCy()-1, centerXFourmiliere, centerYFourmiliere) > distance){
 					distance = distance(p.getCx(), p.getCy()-1, centerXFourmiliere, centerYFourmiliere);
 					this.sens = N;
 				}
+				
+				p.setCx(x+1);
+				p.setCy(y-1);
 				if(pheromones.contains(p) && distance(p.getCx()+1, p.getCy()-1, centerXFourmiliere, centerYFourmiliere) > distance){
 					distance = distance(p.getCx()+1, p.getCy()-1, centerXFourmiliere, centerYFourmiliere);
 					this.sens = NE;
 				}
+				
+				p.setCx(x+1);
 				if(pheromones.contains(p) && distance(p.getCx()+1, p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
 					distance = distance(p.getCx()+1, p.getCy(), centerXFourmiliere, centerYFourmiliere);
 					this.sens = E;
 				}
+				
+				p.setCx(x+1);
+				p.setCy(y+1);
 				if(pheromones.contains(p) && distance(p.getCx()+1, p.getCy()+1, centerXFourmiliere, centerYFourmiliere) > distance){
 					distance = distance(p.getCx()+1, p.getCy()+1, centerXFourmiliere, centerYFourmiliere);
 					this.sens = SE;
 				}
+				
+				p.setCy(y+1);
 				if(pheromones.contains(p) && distance(p.getCx(), p.getCy()+1, centerXFourmiliere, centerYFourmiliere) > distance){
 					distance = distance(p.getCx(), p.getCy()+1, centerXFourmiliere, centerYFourmiliere);
 					this.sens = S;
 				}
+				
+				p.setCx(x-1);
+				p.setCy(y+1);
 				if(pheromones.contains(p) && distance(p.getCx()-1, p.getCy()+1, centerXFourmiliere, centerYFourmiliere) > distance){
 					distance = distance(p.getCx()-1, p.getCy()+1, centerXFourmiliere, centerYFourmiliere);
 					this.sens = SO;
 				}
+				
+				p.setCx(x-1);
 				if(pheromones.contains(p) && distance(p.getCx()-1, p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
 					distance = distance(p.getCx()-1, p.getCy(), centerXFourmiliere, centerYFourmiliere);
 					this.sens = O;
 				}
+				
+				p.setCx(x-1);
+				p.setCy(y-1);
 				if(pheromones.contains(p) && distance(p.getCx()-1, p.getCy()-1, centerXFourmiliere, centerYFourmiliere) > distance){
 					distance = distance(p.getCx()-1, p.getCy()-1, centerXFourmiliere, centerYFourmiliere);
 					this.sens = NO;
 				}
-				
+								
 				updateDirection();
 				
 			}else{
@@ -123,7 +144,7 @@ public class Fourmi extends JPanel{
 			for(Nourriture n : nourritures){
 				int centerXFourmi = cx+(size/2);
 				int centerYFourmi = cy+(size/2);
-				if(centerXFourmi == n.getCx()+n.getWidth()/2 && centerYFourmi == n.getCy()+n.getHeight()/2){
+				if(centerXFourmi >= (n.getCx()+(n.getWidth()/2)-2) && centerXFourmi <= (n.getCx()+(n.getWidth()/2)+2) && centerYFourmi >= (n.getCy()+(n.getHeight()/2)-2) && centerYFourmi <= (n.getCy()+(n.getHeight()/2)+2)){
 					this.haveFood = true;
 					n.setQuantity(n.getQuantity()-1);
 					break;
