@@ -66,57 +66,57 @@ public class Fourmi extends JPanel{
 				int y = p.getCy();
 				
 				p.setCy(y-1);
-				if(pheromones.contains(p) && distance(p.getCx(), p.getCy()-1, centerXFourmiliere, centerYFourmiliere) > distance){
-					distance = distance(p.getCx(), p.getCy()-1, centerXFourmiliere, centerYFourmiliere);
+				if(pheromones.contains(p) && distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
+					distance = distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere);
 					this.sens = N;
 				}
 				
 				p.setCx(x+1);
 				p.setCy(y-1);
-				if(pheromones.contains(p) && distance(p.getCx()+1, p.getCy()-1, centerXFourmiliere, centerYFourmiliere) > distance){
-					distance = distance(p.getCx()+1, p.getCy()-1, centerXFourmiliere, centerYFourmiliere);
+				if(pheromones.contains(p) && distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
+					distance = distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere);
 					this.sens = NE;
 				}
 				
 				p.setCx(x+1);
-				if(pheromones.contains(p) && distance(p.getCx()+1, p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
-					distance = distance(p.getCx()+1, p.getCy(), centerXFourmiliere, centerYFourmiliere);
+				if(pheromones.contains(p) && distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
+					distance = distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere);
 					this.sens = E;
 				}
 				
 				p.setCx(x+1);
 				p.setCy(y+1);
-				if(pheromones.contains(p) && distance(p.getCx()+1, p.getCy()+1, centerXFourmiliere, centerYFourmiliere) > distance){
-					distance = distance(p.getCx()+1, p.getCy()+1, centerXFourmiliere, centerYFourmiliere);
+				if(pheromones.contains(p) && distance(p.getCx(), p.getCy()+1, centerXFourmiliere, centerYFourmiliere) > distance){
+					distance = distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere);
 					this.sens = SE;
 				}
 				
 				p.setCy(y+1);
-				if(pheromones.contains(p) && distance(p.getCx(), p.getCy()+1, centerXFourmiliere, centerYFourmiliere) > distance){
-					distance = distance(p.getCx(), p.getCy()+1, centerXFourmiliere, centerYFourmiliere);
+				if(pheromones.contains(p) && distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
+					distance = distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere);
 					this.sens = S;
 				}
 				
 				p.setCx(x-1);
 				p.setCy(y+1);
-				if(pheromones.contains(p) && distance(p.getCx()-1, p.getCy()+1, centerXFourmiliere, centerYFourmiliere) > distance){
-					distance = distance(p.getCx()-1, p.getCy()+1, centerXFourmiliere, centerYFourmiliere);
+				if(pheromones.contains(p) && distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
+					distance = distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere);
 					this.sens = SO;
 				}
 				
 				p.setCx(x-1);
-				if(pheromones.contains(p) && distance(p.getCx()-1, p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
-					distance = distance(p.getCx()-1, p.getCy(), centerXFourmiliere, centerYFourmiliere);
+				if(pheromones.contains(p) && distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
+					distance = distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere);
 					this.sens = O;
 				}
 				
 				p.setCx(x-1);
 				p.setCy(y-1);
-				if(pheromones.contains(p) && distance(p.getCx()-1, p.getCy()-1, centerXFourmiliere, centerYFourmiliere) > distance){
-					distance = distance(p.getCx()-1, p.getCy()-1, centerXFourmiliere, centerYFourmiliere);
+				if(pheromones.contains(p) && distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
+					distance = distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere);
 					this.sens = NO;
 				}
-								
+				
 				updateDirection();
 				
 			}else{
