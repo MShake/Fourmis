@@ -15,7 +15,7 @@ public class Fourmi extends JPanel{
 	
 	private int id;
 	private final double CHANGE_DIR = 0.005;
-	private final double CHANGE_DIR_RETURN = 0.03;
+	private final double CHANGE_DIR_RETURN = 0.00;
 	private int cx; 					// coordonnée en x
 	private int cy; 					// coordonnée en y
 	private boolean haveFood = false;	// possède de la nourriture
@@ -60,8 +60,6 @@ public class Fourmi extends JPanel{
 			
 			if(findPheromone){
 				double distance = 0;
-				directionX = 0; 
-				directionY = 0;
 				int x = p.getCx();
 				int y = p.getCy();
 				
@@ -144,7 +142,7 @@ public class Fourmi extends JPanel{
 			for(Nourriture n : nourritures){
 				int centerXFourmi = cx+(size/2);
 				int centerYFourmi = cy+(size/2);
-				if(centerXFourmi >= (n.getCx()+(n.getWidth()/2)-2) && centerXFourmi <= (n.getCx()+(n.getWidth()/2)+2) && centerYFourmi >= (n.getCy()+(n.getHeight()/2)-2) && centerYFourmi <= (n.getCy()+(n.getHeight()/2)+2)){
+				if(centerXFourmi == n.getCx()+(n.getWidth()/2) && centerYFourmi == n.getCy()+(n.getHeight()/2)){
 					this.haveFood = true;
 					n.setQuantity(n.getQuantity()-1);
 					break;
@@ -158,12 +156,13 @@ public class Fourmi extends JPanel{
 			int centerYFourmiliere = fourmiliere.getCy()+fourmiliere.getHeight()/2-size/2;
 			int centerXFourmi = cx+size/2;
 			int centerYFourmi = cy+size/2;
-			if(pheromones.contains(new Pheromone(centerXFourmi, centerYFourmi))){
-				Pheromone p = getPheromoneByCoord(centerXFourmi, centerYFourmi, pheromones);
+			Pheromone p = new Pheromone(centerXFourmi, centerYFourmi);
+			if(pheromones.contains(p)){
+				p = getPheromoneByCoord(centerXFourmi, centerYFourmi, pheromones);
 				p.setQuantity(p.getQuantity()+100);
 			}
 			else{
-				pheromones.add(new Pheromone(centerXFourmi, centerYFourmi));
+				pheromones.add(p);
 			}
 			
 			boolean changeSens = false;
