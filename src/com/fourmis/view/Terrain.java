@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import com.fourmis.bean.Fourmi;
 import com.fourmis.bean.Nourriture;
+import com.fourmis.bean.Obstacle;
 import com.fourmis.bean.Pheromone;
 import com.fourmis.bean.Predator;
 import com.fourmis.bean.Simulation;
@@ -34,6 +35,10 @@ public class Terrain extends JPanel{
 		
 		for(Nourriture n : sim.getNourritures()){
 			n.draw(g);
+		}
+		
+		for(Obstacle o : sim.getObstacles()){
+			o.draw(g);
 		}
 		
 		for(Iterator<Pheromone> itp = sim.getPheromones().iterator(); itp.hasNext();){

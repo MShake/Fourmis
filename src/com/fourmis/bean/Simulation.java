@@ -18,6 +18,7 @@ public class Simulation {
 	private ArrayList<Nourriture> nourritures;
 	private HashSet<Pheromone> pheromones;
 	private ArrayList<Predator> predators;
+	private ArrayList<Obstacle> obstacles;
 	private Fourmiliere fourmiliere;
 	private Options options;
 	private int wildFood = 0;
@@ -64,11 +65,43 @@ public class Simulation {
 			Fourmilier f = new Fourmilier(0, 0, this.getMonde().getTerrain().getWidth()-16, this.getMonde().getTerrain().getHeight()-16);
 			predators.add(f);
 		}
+		
+		this.obstacles = new ArrayList<Obstacle>();
+		for(int i=0; i<0; i++){
+			int size = 30;
+			boolean isCollision;
+			do{
+				isCollision = false;
+				positionX = rand.nextInt(this.getMonde().getTerrain().getWidth()-size-20 - 20+1)+20;
+				positionY = rand.nextInt(this.getMonde().getTerrain().getHeight()-size-20 - 20+1)+20;
+				for(Nourriture n : nourritures){
+					if(n.collisionRect(new Rectangle(positionX, positionY, size, size))){
+						isCollision = true;
+					}
+					if(isCollision){
+						break;
+					}
+				}
+				for(Obstacle o : obstacles){
+					if(o instanceof Cercle){
+						Cercle c = (Cercle) o;
+						if(c.collision(new Cercle(positionX, positionY, size+20))){
+							isCollision = true;
+						}
+					}
+					if(isCollision){
+						break;
+					}
+				}
+			}while(fourmiliere.collisionRect(new Rectangle(positionX, positionY, size, size)) || isCollision);
+			Cercle c = new Cercle(positionX, positionY, size);
+			this.obstacles.add(c);
+		}
 	}
 	
 	public void nextStep(){
 		for (Fourmi f : fourmiliere.getFourmis()) {
-			f.move(fourmiliere, nourritures, pheromones);
+			f.move(fourmiliere, nourritures, pheromones, obstacles);
 		}
 		this.getMonde().getNbFourmis().setText("Fourmis : "+fourmiliere.getFourmis().size());
 		
@@ -145,6 +178,14 @@ public class Simulation {
 
 	public void setPredators(ArrayList<Predator> predators) {
 		this.predators = predators;
+	}
+
+	public ArrayList<Obstacle> getObstacles() {
+		return obstacles;
+	}
+
+	public void setObstacles(ArrayList<Obstacle> obstacles) {
+		this.obstacles = obstacles;
 	}
 	
 	

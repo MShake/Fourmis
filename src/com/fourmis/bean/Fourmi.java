@@ -48,7 +48,7 @@ public class Fourmi extends JPanel{
 	    this.setOpaque(false);
 	}
 	
-	public void move(Fourmiliere fourmiliere, ArrayList<Nourriture> nourritures, HashSet<Pheromone> pheromones){
+	public void move(Fourmiliere fourmiliere, ArrayList<Nourriture> nourritures, HashSet<Pheromone> pheromones, ArrayList<Obstacle> obstacles){
 		if(!this.haveFood){
 			boolean findPheromone = false;
 			Pheromone p = new Pheromone(cx+size/2, cy+size/2);
@@ -115,7 +115,7 @@ public class Fourmi extends JPanel{
 					this.sens = NO;
 				}
 				
-				updateDirection();
+				updateDirection(fourmiliere, obstacles, true);
 				
 			}else{
 				//Changement de sens aléatoire ou si elle touche le bord de la fenêtre
@@ -135,7 +135,7 @@ public class Fourmi extends JPanel{
 					this.sens = newSens;
 				}
 				
-				updateDirection();
+				updateDirection(fourmiliere, obstacles, false);
 			}
 			
 			//Regarde si la fourmi est sur une source de nourriture
@@ -210,7 +210,7 @@ public class Fourmi extends JPanel{
 					this.sens = NO;
 				}
 				
-				updateDirection();
+				updateDirection(fourmiliere, obstacles, false);
 				
 			}else{
 				fourmiliere.setQuantity(fourmiliere.getQuantity()+1);
@@ -219,7 +219,7 @@ public class Fourmi extends JPanel{
 		}
 	}
 	
-	public void updateDirection(){
+	public void updateDirection(Fourmiliere fourmiliere, ArrayList<Obstacle> obstacles, boolean findPheromone){
 		//Gestion du sens de la fourmi
 		if(this.sens == N && cy > 0){
 			directionX = 0;
@@ -254,15 +254,194 @@ public class Fourmi extends JPanel{
 			directionY = -1;
 		}
 		
+		int newCx = cx;
+		int newCy = cy;
+		
 		if(directionX >= 0)
-			cx += directionX;
+			newCx += directionX;
 		else
-			cx -= Math.abs(directionX);
+			newCx -= Math.abs(directionX);
 		
 		if(directionY >= 0)
-			cy += directionY;
+			newCy += directionY;
 		else
-			cy -= Math.abs(directionY);
+			newCy -= Math.abs(directionY);
+		
+		boolean isCollision = false;
+		for(Obstacle o : obstacles){
+			if(o instanceof Cercle){
+				Cercle c = (Cercle) o;
+				if(c.collision(new Cercle(newCx, newCy, this.size))){
+					isCollision = true;
+				}
+			}
+			if(isCollision){
+				break;
+			}
+		}
+		
+		if(isCollision && !findPheromone){
+			if(this.sens == N){
+				isCollision = false;
+				for(Obstacle o : obstacles){
+					if(o instanceof Cercle){
+						Cercle c = (Cercle) o;
+						if(c.collision(new Cercle(cx+1, cy-1, size))){
+							this.sens = NO;
+							isCollision = true;
+						}else if(c.collision(new Cercle(cx-1, cy-1, size))){
+							this.sens = NE;
+							isCollision = true;
+						}else{
+							this.sens = NO;
+						}
+					}
+					if(isCollision){
+						break;
+					}
+				}
+			}else if(this.sens == S){
+				isCollision = false;
+				for(Obstacle o : obstacles){
+					if(o instanceof Cercle){
+						Cercle c = (Cercle) o;
+						if(c.collision(new Cercle(cx+1, cy+1, size))){
+							this.sens = SO;
+							isCollision = true;
+						}else if(c.collision(new Cercle(cx-1, cy+1, size))){
+							this.sens = SE;
+							isCollision = true;
+						}else{
+							this.sens = SO;
+						}
+					}
+					if(isCollision){
+						break;
+					}
+				}
+			}else if(this.sens == E){
+				isCollision = false;
+				for(Obstacle o : obstacles){
+					if(o instanceof Cercle){
+						Cercle c = (Cercle) o;
+						if(c.collision(new Cercle(cx+1, cy-1, size))){
+							this.sens = SE;
+							isCollision = true;
+						}else if(c.collision(new Cercle(cx+1, cy+1, size))){
+							this.sens = NE;
+							isCollision = true;
+						}else{
+							this.sens = SE;
+						}
+					}
+					if(isCollision){
+						break;
+					}
+				}
+			}else if(this.sens == O){
+				isCollision = false;
+				for(Obstacle o : obstacles){
+					if(o instanceof Cercle){
+						Cercle c = (Cercle) o;
+						if(c.collision(new Cercle(cx-1, cy-1, size))){
+							this.sens = SO;
+							isCollision = true;
+						}else if(c.collision(new Cercle(cx-1, cy+1, size))){
+							this.sens = NO;
+							isCollision = true;
+						}else{
+							this.sens = NO;
+						}
+					}
+					if(isCollision){
+						break;
+					}
+				}
+			}else if(this.sens == NE){
+				isCollision = false;
+				for(Obstacle o : obstacles){
+					if(o instanceof Cercle){
+						Cercle c = (Cercle) o;
+						if(c.collision(new Cercle(cx-1, cy-1, size))){
+							this.sens = SE;
+							isCollision = true;
+						}else if(c.collision(new Cercle(cx+1, cy+1, size))){
+							this.sens = NO;
+							isCollision = true;
+						}else{
+							this.sens = SE;
+						}
+					}
+					if(isCollision){
+						break;
+					}
+				}
+			}else if(this.sens == SE){
+				isCollision = false;
+				for(Obstacle o : obstacles){
+					if(o instanceof Cercle){
+						Cercle c = (Cercle) o;
+						if(c.collision(new Cercle(cx+1, cy-1, size))){
+							this.sens = SO;
+							isCollision = true;
+						}else if(c.collision(new Cercle(cx-1, cy+1, size))){
+							this.sens = NE;
+							isCollision = true;
+						}else{
+							this.sens = SO;
+						}
+					}
+					if(isCollision){
+						break;
+					}
+				}
+			}else if(this.sens == SO){
+				isCollision = false;
+				for(Obstacle o : obstacles){
+					if(o instanceof Cercle){
+						Cercle c = (Cercle) o;
+						if(c.collision(new Cercle(cx-1, cy-1, size))){
+							this.sens = SE;
+							isCollision = true;
+						}else if(c.collision(new Cercle(cx+1, cy+1, size))){
+							this.sens = NO;
+							isCollision = true;
+						}else{
+							this.sens = NO;
+						}
+					}
+					if(isCollision){
+						break;
+					}
+				}
+			}else if(this.sens == NO){
+				isCollision = false;
+				for(Obstacle o : obstacles){
+					if(o instanceof Cercle){
+						Cercle c = (Cercle) o;
+						if(c.collision(new Cercle(cx+1, cy-1, size))){
+							this.sens = SO;
+							isCollision = true;
+						}else if(c.collision(new Cercle(cx-1, cy+1, size))){
+							this.sens = NE;
+							isCollision = true;
+						}else{
+							this.sens = NE;
+						}
+					}
+					if(isCollision){
+						break;
+					}
+				}
+			}
+			
+			updateDirection(fourmiliere, obstacles, findPheromone);
+		}else{
+			cx = newCx;
+			cy = newCy;
+		}
+		
+		
 	}
 	
 	public void draw(Graphics g){		
