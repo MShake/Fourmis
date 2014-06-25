@@ -12,7 +12,7 @@ import com.fourmis.view.Preferences;
 public class Run {
 
 	public static void main(String[] args) throws FontFormatException, IOException {
-		Preferences ihm = new Preferences();
+		new Preferences();
 	}
 
 }

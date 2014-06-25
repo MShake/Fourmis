@@ -1,5 +1,4 @@
 package com.fourmis.test;
-import com.fourmis.bean.Coccinelle;
 
 public class Main {
 
@@ -10,7 +9,7 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 	
-		FenetreTest ft = new FenetreTest();
+		new FenetreTest();
 		
 		
 	}

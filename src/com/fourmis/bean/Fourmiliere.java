@@ -3,14 +3,13 @@ package com.fourmis.bean;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import javax.swing.JPanel;
 
 public class Fourmiliere extends JPanel{
-	private int cx; //coordonn�e en x
-	private int cy; //coordonn�e en y
+	private int cx; //coordonnée en x
+	private int cy; //coordonnée en y
 	private int quantity;
 	private HashSet<Fourmi> fourmis;
 	
