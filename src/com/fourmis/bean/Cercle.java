@@ -27,11 +27,16 @@ public class Cercle extends JPanel implements Obstacle {
 	}
 	
 	public boolean collision(Cercle c){
-		int d2 = (this.centerX-c.centerX)*(this.centerX-c.centerX) + (this.centerY-c.centerY)*(this.centerY-c.centerY);
+		/*int d2 = (this.centerX-c.centerX)*(this.centerX-c.centerX) + (this.centerY-c.centerY)*(this.centerY-c.centerY);
 		if(d2 > (this.sizeCircle/2 + c.sizeCircle/2)*(this.sizeCircle/2 + c.sizeCircle/2)){
 			return false;
 		}else{
 			return true;
+		}*/
+		if((c.centerX-this.centerX)*(c.centerX-this.centerX) + (this.centerY-c.centerY)*(this.centerY-c.centerY) <= (this.sizeCircle/2+c.sizeCircle/2)*(this.sizeCircle/2+c.sizeCircle/2)){
+			return true;
+		}else{
+			return false;
 		}
 	}
 

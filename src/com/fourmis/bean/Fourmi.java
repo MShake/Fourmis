@@ -18,6 +18,8 @@ public class Fourmi extends JPanel{
 	private final double CHANGE_DIR_RETURN = 0.00;
 	private int cx; 					// coordonnée en x
 	private int cy; 					// coordonnée en y
+	private int prevCx = 0;
+	private int prevCy = 0;
 	private boolean haveFood = false;	// possède de la nourriture
 	private int size = 8;				// taille de la fourmi
 	private int sens = 0;				// direction
@@ -50,69 +52,58 @@ public class Fourmi extends JPanel{
 	
 	public void move(Fourmiliere fourmiliere, ArrayList<Nourriture> nourritures, HashSet<Pheromone> pheromones, ArrayList<Obstacle> obstacles){
 		if(!this.haveFood){
-			boolean findPheromone = false;
 			Pheromone p = new Pheromone(cx+size/2, cy+size/2);
 			int centerXFourmiliere = fourmiliere.getCx()+fourmiliere.getWidth()/2-size/2;
 			int centerYFourmiliere = fourmiliere.getCy()+fourmiliere.getHeight()/2-size/2;
-			if(pheromones.contains(p) && !(cx == centerXFourmiliere && cy == centerYFourmiliere)){
-				findPheromone = true;
-			}
 			
-			if(findPheromone){
+			// Find phéromone(s)
+			if(pheromones.contains(p) && (cx != centerXFourmiliere || cy != centerYFourmiliere)){
 				double distance = 0;
+				ArrayList<Integer> directions = new ArrayList<>();
+				ArrayList<Double> distances = new ArrayList<>();
 				int x = p.getCx();
 				int y = p.getCy();
 				
-				p.setCy(y-1);
-				if(pheromones.contains(p) && distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
-					distance = distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere);
-					this.sens = N;
+				for(int i=-1; i<=1; i++){
+					for(int j=-1; j<=1; j++){
+						if(!(i == 0 && j == 0)){
+							p.setCx(x+i);
+							p.setCy(y+j);
+							if(pheromones.contains(p)){
+								if(i == 0 && j == -1){
+									directions.add(N);
+								}else if(i == 1 && j == -1){
+									directions.add(NE);
+								}else if(i == 1 && j == 0){
+									directions.add(E);
+								}else if(i == 1 && j == 1){
+									directions.add(SE);
+								}else if(i == 0 && j == 1){
+									directions.add(S);
+								}else if(i == -1 && j == 1){
+									directions.add(SO);
+								}else if(i == -1 && j == 0){
+									directions.add(O);
+								}else if(i == -1 && j == -1){
+									directions.add(NO);
+								}
+								distances.add(distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere));
+							}
+						}
+					}
 				}
 				
-				p.setCx(x+1);
-				p.setCy(y-1);
-				if(pheromones.contains(p) && distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
-					distance = distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere);
-					this.sens = NE;
-				}
+				int saveSens = this.sens;
 				
-				p.setCx(x+1);
-				if(pheromones.contains(p) && distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
-					distance = distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere);
-					this.sens = E;
+				for(int i=0; i<distances.size(); i++){
+					if(distances.get(i) > distance){
+						distance = distances.get(i);
+						this.sens = directions.get(i);
+					}
 				}
-				
-				p.setCx(x+1);
-				p.setCy(y+1);
-				if(pheromones.contains(p) && distance(p.getCx(), p.getCy()+1, centerXFourmiliere, centerYFourmiliere) > distance){
-					distance = distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere);
-					this.sens = SE;
-				}
-				
-				p.setCy(y+1);
-				if(pheromones.contains(p) && distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
-					distance = distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere);
-					this.sens = S;
-				}
-				
-				p.setCx(x-1);
-				p.setCy(y+1);
-				if(pheromones.contains(p) && distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
-					distance = distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere);
-					this.sens = SO;
-				}
-				
-				p.setCx(x-1);
-				if(pheromones.contains(p) && distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
-					distance = distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere);
-					this.sens = O;
-				}
-				
-				p.setCx(x-1);
-				p.setCy(y-1);
-				if(pheromones.contains(p) && distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere) > distance){
-					distance = distance(p.getCx(), p.getCy(), centerXFourmiliere, centerYFourmiliere);
-					this.sens = NO;
+								
+				if(directions.size() <= 1){
+					this.sens = saveSens;
 				}
 				
 				updateDirection(fourmiliere, obstacles, true);
@@ -140,8 +131,8 @@ public class Fourmi extends JPanel{
 			
 			//Regarde si la fourmi est sur une source de nourriture
 			for(Nourriture n : nourritures){
-				int centerXFourmi = cx+(size/2);
-				int centerYFourmi = cy+(size/2);
+				int centerXFourmi = cx+size/2;
+				int centerYFourmi = cy+size/2;
 				if(centerXFourmi == n.getCx()+(n.getWidth()/2) && centerYFourmi == n.getCy()+(n.getHeight()/2)){
 					this.haveFood = true;
 					n.setQuantity(n.getQuantity()-1);
@@ -150,19 +141,19 @@ public class Fourmi extends JPanel{
 			}
 		}else{
 			//Gestion du mouvement de la fourmi dans le cas où elle a de la nourriture
-			directionX = 0;
-			directionY = 0;
 			int centerXFourmiliere = fourmiliere.getCx()+fourmiliere.getWidth()/2-size/2;
 			int centerYFourmiliere = fourmiliere.getCy()+fourmiliere.getHeight()/2-size/2;
 			int centerXFourmi = cx+size/2;
 			int centerYFourmi = cy+size/2;
-			Pheromone p = new Pheromone(centerXFourmi, centerYFourmi);
-			if(pheromones.contains(p)){
-				p = getPheromoneByCoord(centerXFourmi, centerYFourmi, pheromones);
-				p.setQuantity(p.getQuantity()+100);
-			}
-			else{
-				pheromones.add(p);
+			
+			if(cx != centerXFourmiliere || cy != centerYFourmiliere){
+				Pheromone p = new Pheromone(centerXFourmi, centerYFourmi);
+				if(pheromones.contains(p)){
+					p = getPheromoneByCoord(centerXFourmi, centerYFourmi, pheromones);
+					p.setQuantity(p.getQuantity()+100);
+				}else{
+					pheromones.add(p);
+				}
 			}
 			
 			boolean changeSens = false;
@@ -229,13 +220,13 @@ public class Fourmi extends JPanel{
 			directionX = 1;
 			directionY = -1;
 		}
-		else if(this.sens == SE && cx < maxX && cy < maxY){
-			directionX = 1;
-			directionY = 1;
-		}
 		else if(this.sens == E && cx < maxX){
 			directionX = 1;
 			directionY = 0;
+		}
+		else if(this.sens == SE && cx < maxX && cy < maxY){
+			directionX = 1;
+			directionY = 1;
 		}
 		else if(this.sens == S && cy < maxY){
 			directionX = 0;
@@ -257,22 +248,17 @@ public class Fourmi extends JPanel{
 		int newCx = cx;
 		int newCy = cy;
 		
-		if(directionX >= 0)
-			newCx += directionX;
-		else
-			newCx -= Math.abs(directionX);
-		
-		if(directionY >= 0)
-			newCy += directionY;
-		else
-			newCy -= Math.abs(directionY);
+		newCx += directionX;
+		newCy += directionY;
 		
 		boolean isCollision = false;
+		Object sourceCollision = new Object();
 		for(Obstacle o : obstacles){
-			if(o instanceof Cercle){
+			if(o instanceof Cercle && !isCollision){
 				Cercle c = (Cercle) o;
 				if(c.collision(new Cercle(newCx, newCy, this.size))){
 					isCollision = true;
+					sourceCollision = c;
 				}
 			}
 			if(isCollision){
@@ -281,167 +267,317 @@ public class Fourmi extends JPanel{
 		}
 		
 		if(isCollision && !findPheromone){
+			int centerXFourmiliere = fourmiliere.getCx()+fourmiliere.getWidth()/2-size/2;
+			int centerYFourmiliere = fourmiliere.getCy()+fourmiliere.getHeight()/2-size/2;
+			double distance = 0;
+			ArrayList<Integer> directions = new ArrayList<>();
+			ArrayList<Double> distances = new ArrayList<>();
 			if(this.sens == N){
-				isCollision = false;
-				for(Obstacle o : obstacles){
-					if(o instanceof Cercle){
-						Cercle c = (Cercle) o;
-						if(c.collision(new Cercle(cx+1, cy-1, size))){
-							this.sens = NO;
-							isCollision = true;
-						}else if(c.collision(new Cercle(cx-1, cy-1, size))){
-							this.sens = NE;
-							isCollision = true;
-						}else{
-							this.sens = NO;
-						}
+				if(sourceCollision instanceof Cercle){
+					Cercle c = (Cercle) sourceCollision;
+					if(!c.collision(new Cercle(cx+1, cy, size))){
+						directions.add(E);
+						distances.add(distance(cx+1, cy, centerXFourmiliere, centerYFourmiliere));
 					}
-					if(isCollision){
-						break;
+					if(!c.collision(new Cercle(cx-1, cy, size))){
+						directions.add(O);
+						distances.add(distance(cx-1, cy, centerXFourmiliere, centerYFourmiliere));
 					}
+					if(!c.collision(new Cercle(cx-1, cy+1, size))){
+						directions.add(SO);
+						distances.add(distance(cx+1, cy+1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx+1, cy+1, size))){
+						directions.add(SE);
+						distances.add(distance(cx+1, cy+1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx+1, cy-1, size))){
+						directions.add(NE);
+						distances.add(distance(cx+1, cy-1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx-1, cy-1, size))){
+						directions.add(NO);
+						distances.add(distance(cx-1, cy-1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx, cy+1, size)) && !this.haveFood){
+						directions.add(S);
+					}
+					
 				}
 			}else if(this.sens == S){
-				isCollision = false;
-				for(Obstacle o : obstacles){
-					if(o instanceof Cercle){
-						Cercle c = (Cercle) o;
-						if(c.collision(new Cercle(cx+1, cy+1, size))){
-							this.sens = SO;
-							isCollision = true;
-						}else if(c.collision(new Cercle(cx-1, cy+1, size))){
-							this.sens = SE;
-							isCollision = true;
-						}else{
-							this.sens = SO;
-						}
+				if(sourceCollision instanceof Cercle){
+					Cercle c = (Cercle) sourceCollision;
+					if(!c.collision(new Cercle(cx+1, cy, size))){
+						directions.add(E);
+						distances.add(distance(cx+1, cy, centerXFourmiliere, centerYFourmiliere));
 					}
-					if(isCollision){
-						break;
+					if(!c.collision(new Cercle(cx-1, cy, size))){
+						directions.add(O);
+						distances.add(distance(cx-1, cy, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx-1, cy+1, size))){
+						directions.add(SO);
+						distances.add(distance(cx-1, cy+1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx+1, cy+1, size))){
+						directions.add(SE);
+						distances.add(distance(cx+1, cy+1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx+1, cy-1, size))){
+						directions.add(NE);
+						distances.add(distance(cx+1, cy-1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx-1, cy-1, size))){
+						directions.add(NO);
+						distances.add(distance(cx-1, cy-1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx, cy-1, size)) && !this.haveFood){
+						directions.add(N);
 					}
 				}
 			}else if(this.sens == E){
-				isCollision = false;
-				for(Obstacle o : obstacles){
-					if(o instanceof Cercle){
-						Cercle c = (Cercle) o;
-						if(c.collision(new Cercle(cx+1, cy-1, size))){
-							this.sens = SE;
-							isCollision = true;
-						}else if(c.collision(new Cercle(cx+1, cy+1, size))){
-							this.sens = NE;
-							isCollision = true;
-						}else{
-							this.sens = SE;
-						}
+				if(sourceCollision instanceof Cercle){
+					Cercle c = (Cercle) sourceCollision;
+					if(!c.collision(new Cercle(cx, cy+1, size))){
+						directions.add(S);
+						distances.add(distance(cx, cy+1, centerXFourmiliere, centerYFourmiliere));
 					}
-					if(isCollision){
-						break;
+					if(!c.collision(new Cercle(cx, cy-1, size))){
+						directions.add(N);
+						distances.add(distance(cx, cy-1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx-1, cy+1, size))){
+						directions.add(SO);
+						distances.add(distance(cx-1, cy+1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx+1, cy+1, size))){
+						directions.add(SE);
+						distances.add(distance(cx+1, cy+1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx+1, cy-1, size))){
+						directions.add(NE);
+						distances.add(distance(cx+1, cy-1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx-1, cy-1, size))){
+						directions.add(NO);
+						distances.add(distance(cx-1, cy-1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx-1, cy, size)) && !this.haveFood){
+						directions.add(O);
 					}
 				}
 			}else if(this.sens == O){
-				isCollision = false;
-				for(Obstacle o : obstacles){
-					if(o instanceof Cercle){
-						Cercle c = (Cercle) o;
-						if(c.collision(new Cercle(cx-1, cy-1, size))){
-							this.sens = SO;
-							isCollision = true;
-						}else if(c.collision(new Cercle(cx-1, cy+1, size))){
-							this.sens = NO;
-							isCollision = true;
-						}else{
-							this.sens = NO;
-						}
+				if(sourceCollision instanceof Cercle){
+					Cercle c = (Cercle) sourceCollision;
+					if(!c.collision(new Cercle(cx, cy+1, size))){
+						directions.add(S);
+						distances.add(distance(cx, cy+1, centerXFourmiliere, centerYFourmiliere));
 					}
-					if(isCollision){
-						break;
+					if(!c.collision(new Cercle(cx, cy-1, size))){
+						directions.add(N);
+						distances.add(distance(cx, cy-1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx-1, cy+1, size))){
+						directions.add(SO);
+						distances.add(distance(cx-1, cy+1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx+1, cy+1, size))){
+						directions.add(SE);
+						distances.add(distance(cx+1, cy+1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx+1, cy-1, size))){
+						directions.add(NE);
+						distances.add(distance(cx+1, cy-1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx-1, cy-1, size))){
+						directions.add(NO);
+						distances.add(distance(cx-1, cy-1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx+1, cy, size)) && !this.haveFood){
+						directions.add(E);
 					}
 				}
 			}else if(this.sens == NE){
-				isCollision = false;
-				for(Obstacle o : obstacles){
-					if(o instanceof Cercle){
-						Cercle c = (Cercle) o;
-						if(c.collision(new Cercle(cx-1, cy-1, size))){
-							this.sens = SE;
-							isCollision = true;
-						}else if(c.collision(new Cercle(cx+1, cy+1, size))){
-							this.sens = NO;
-							isCollision = true;
-						}else{
-							this.sens = SE;
-						}
+				if(sourceCollision instanceof Cercle){
+					Cercle c = (Cercle) sourceCollision;
+					if(!c.collision(new Cercle(cx, cy+1, size))){
+						directions.add(S);
+						distances.add(distance(cx, cy+1, centerXFourmiliere, centerYFourmiliere));
 					}
-					if(isCollision){
-						break;
+					if(!c.collision(new Cercle(cx, cy-1, size))){
+						directions.add(N);
+						distances.add(distance(cx, cy-1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx+1, cy, size))){
+						directions.add(E);
+						distances.add(distance(cx+1, cy, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx-1, cy, size))){
+						directions.add(O);
+						distances.add(distance(cx-1, cy, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx+1, cy+1, size))){
+						directions.add(SE);
+						distances.add(distance(cx+1, cy+1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx-1, cy-1, size))){
+						directions.add(NO);
+						distances.add(distance(cx-1, cy-1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx-1, cy+1, size)) && !this.haveFood){
+						directions.add(SO);
 					}
 				}
 			}else if(this.sens == SE){
-				isCollision = false;
-				for(Obstacle o : obstacles){
-					if(o instanceof Cercle){
-						Cercle c = (Cercle) o;
-						if(c.collision(new Cercle(cx+1, cy-1, size))){
-							this.sens = SO;
-							isCollision = true;
-						}else if(c.collision(new Cercle(cx-1, cy+1, size))){
-							this.sens = NE;
-							isCollision = true;
-						}else{
-							this.sens = SO;
-						}
+				if(sourceCollision instanceof Cercle){
+					Cercle c = (Cercle) sourceCollision;
+					if(!c.collision(new Cercle(cx, cy+1, size))){
+						directions.add(S);
+						distances.add(distance(cx, cy+1, centerXFourmiliere, centerYFourmiliere));
 					}
-					if(isCollision){
-						break;
+					if(!c.collision(new Cercle(cx, cy-1, size))){
+						directions.add(N);
+						distances.add(distance(cx, cy-1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx+1, cy, size))){
+						directions.add(E);
+						distances.add(distance(cx+1, cy, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx-1, cy, size))){
+						directions.add(O);
+						distances.add(distance(cx-1, cy, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx-1, cy+1, size))){
+						directions.add(SO);
+						distances.add(distance(cx-1, cy+1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx+1, cy-1, size))){
+						directions.add(NE);
+						distances.add(distance(cx+1, cy-1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx-1, cy-1, size)) && !this.haveFood){
+						directions.add(NO);
 					}
 				}
 			}else if(this.sens == SO){
-				isCollision = false;
-				for(Obstacle o : obstacles){
-					if(o instanceof Cercle){
-						Cercle c = (Cercle) o;
-						if(c.collision(new Cercle(cx-1, cy-1, size))){
-							this.sens = SE;
-							isCollision = true;
-						}else if(c.collision(new Cercle(cx+1, cy+1, size))){
-							this.sens = NO;
-							isCollision = true;
-						}else{
-							this.sens = NO;
-						}
+				if(sourceCollision instanceof Cercle){
+					Cercle c = (Cercle) sourceCollision;
+					if(!c.collision(new Cercle(cx, cy+1, size))){
+						directions.add(S);
+						distances.add(distance(cx, cy+1, centerXFourmiliere, centerYFourmiliere));
 					}
-					if(isCollision){
-						break;
+					if(!c.collision(new Cercle(cx, cy-1, size))){
+						directions.add(N);
+						distances.add(distance(cx, cy-1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx+1, cy, size))){
+						directions.add(E);
+						distances.add(distance(cx+1, cy, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx-1, cy, size))){
+						directions.add(O);
+						distances.add(distance(cx-1, cy, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx+1, cy+1, size))){
+						directions.add(SE);
+						distances.add(distance(cx+1, cy+1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx-1, cy-1, size))){
+						directions.add(NO);
+						distances.add(distance(cx-1, cy-1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx+1, cy-1, size)) && !this.haveFood){
+						directions.add(NE);
 					}
 				}
 			}else if(this.sens == NO){
-				isCollision = false;
-				for(Obstacle o : obstacles){
-					if(o instanceof Cercle){
-						Cercle c = (Cercle) o;
-						if(c.collision(new Cercle(cx+1, cy-1, size))){
-							this.sens = SO;
-							isCollision = true;
-						}else if(c.collision(new Cercle(cx-1, cy+1, size))){
-							this.sens = NE;
-							isCollision = true;
-						}else{
-							this.sens = NE;
-						}
+				if(sourceCollision instanceof Cercle){
+					Cercle c = (Cercle) sourceCollision;
+					if(!c.collision(new Cercle(cx, cy+1, size))){
+						directions.add(S);
+						distances.add(distance(cx, cy+1, centerXFourmiliere, centerYFourmiliere));
 					}
-					if(isCollision){
-						break;
+					if(!c.collision(new Cercle(cx, cy-1, size))){
+						directions.add(N);
+						distances.add(distance(cx, cy-1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx+1, cy, size))){
+						directions.add(E);
+						distances.add(distance(cx+1, cy, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx-1, cy, size))){
+						directions.add(O);
+						distances.add(distance(cx-1, cy, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx-1, cy+1, size))){
+						directions.add(SO);
+						distances.add(distance(cx-1, cy+1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx+1, cy-1, size))){
+						directions.add(NE);
+						distances.add(distance(cx+1, cy-1, centerXFourmiliere, centerYFourmiliere));
+					}
+					if(!c.collision(new Cercle(cx+1, cy+1, size)) && !this.haveFood){
+						directions.add(SE);
 					}
 				}
 			}
 			
-			updateDirection(fourmiliere, obstacles, findPheromone);
-		}else{
-			cx = newCx;
-			cy = newCy;
+			Random rand = new Random();
+			if(directions.size() > 0){
+				int direction = 0;
+				if(!this.haveFood){
+					direction = directions.get(rand.nextInt(directions.size()));
+				}else{
+					distance = Double.MAX_VALUE;
+					for(int i=0; i<distances.size(); i++){
+						if(distances.get(i) < distance){
+							distance = distances.get(i);
+							direction = directions.get(i);
+						}
+					}
+				}
+				this.sens = direction;
+			}
+			
 		}
 		
+		if(this.sens == N && cy > 0){
+			directionX = 0;
+			directionY = -1;
+		}
+		else if(this.sens == NE && cx < maxX && cy > 0){
+			directionX = 1;
+			directionY = -1;
+		}
+		else if(this.sens == E && cx < maxX){
+			directionX = 1;
+			directionY = 0;
+		}
+		else if(this.sens == SE && cx < maxX && cy < maxY){
+			directionX = 1;
+			directionY = 1;
+		}
+		else if(this.sens == S && cy < maxY){
+			directionX = 0;
+			directionY = 1;
+		}
+		else if(this.sens == SO && cx > 0 && cy < maxY){
+			directionX = -1;
+			directionY = 1;
+		}
+		else if(this.sens == O && cx > 0){
+			directionX = -1;
+			directionY = 0;
+		}
+		else if(this.sens == NO && cx > 0 && cy > 0){
+			directionX = -1;
+			directionY = -1;
+		}
 		
+		cx += directionX;
+		cy += directionY;
+
 	}
 	
 	public void draw(Graphics g){		
