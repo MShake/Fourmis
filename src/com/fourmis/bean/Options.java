@@ -12,6 +12,7 @@ public class Options {
 	private int time;
 	private int nombreCoccinelles;
 	private int nombreFourmiliers;
+	private int nombreRonds;
 	private boolean paintBody;
 	
 	public Options(){
@@ -61,6 +62,13 @@ public class Options {
 
 	public void setNombreNourritures(int nombreNourritures) {
 		this.nombreNourritures = nombreNourritures;
+	}
+	public int getNombreRonds() {
+		return nombreRonds;
+	}
+
+	public void setNombreRonds(int nombreRonds) {
+		this.nombreRonds = nombreRonds;
 	}
 
 	public boolean isPaintBody() {

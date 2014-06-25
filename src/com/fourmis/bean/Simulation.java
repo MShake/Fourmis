@@ -67,8 +67,7 @@ public class Simulation {
 		}
 		
 		this.obstacles = new ArrayList<Obstacle>();
-		//TODO : Mettre la valeur du nombre d'obstacles ici
-		for(int i=0; i<5; i++){
+		for(int i=0; i<options.getNombreRonds(); i++){
 			int size = 30;
 			boolean isCollision;
 			do{

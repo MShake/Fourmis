@@ -49,7 +49,7 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 	private JPanel oFourmis = new JPanel(new GridLayout(2, 2));
 	private JPanel oPheromones = new JPanel(new GridLayout(1, 2));
 	private JPanel oPredators = new JPanel(new GridLayout(2, 2));
-	private JPanel oObstacles = new JPanel(new GridLayout(3, 2));
+	private JPanel oObstacles = new JPanel(new GridLayout(1, 2));
 	private JTabbedPane onglets = new JTabbedPane(SwingConstants.TOP);
 	
 	private JMenuBar menu = new JMenuBar();
@@ -63,6 +63,7 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 	private JLabel numberFourmis = new JLabel("Nombre de fourmis (50) :", JLabel.CENTER);
 	private JLabel numberCoccinelles = new JLabel("Nombre de coccinelles (0) :", JLabel.CENTER);
 	private JLabel numberFourmiliers = new JLabel("Nombre de fourmiliers (0) :", JLabel.CENTER);
+	private JLabel numberRonds = new JLabel("Nombre de ronds (0) :", JLabel.CENTER);
 	private JLabel time = new JLabel("Temps (50) :", JLabel.CENTER);
 	private JLabel numberFood = new JLabel("Nombre de nourritures (1) :", JLabel.CENTER);
 	private JLabel speedPheromones = new JLabel("Taux d'évaporation (1) :", JLabel.CENTER);
@@ -72,6 +73,7 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 	private JSlider slideNumberFourmis = new JSlider(10, 200, 50);
 	private JSlider slideNumberCoccinelles = new JSlider(0, 10, 0);
 	private JSlider slideNumberFourmiliers = new JSlider(0, 10, 0);
+	private JSlider slideNumberRonds = new JSlider(0, 5, 0);
 	private JSlider slideTime = new JSlider(1, 100, 50);
 	private JSlider slideNumberFood = new JSlider(1, 20, 1);
 	private JSlider slideSpeedPheromones = new JSlider(1, 20, 1);
@@ -115,6 +117,8 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		slideNumberFood.addChangeListener(this);
 		slideSpeedPheromones.setOpaque(false);
 		slideSpeedPheromones.addChangeListener(this);
+		slideNumberRonds.setOpaque(false);
+		slideNumberRonds.addChangeListener(this);
 		
 		this.container.setLayout(new BorderLayout());
 		this.header.setLayout(new GridLayout(0,1));
@@ -148,6 +152,8 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		this.oPredators.add(slideNumberCoccinelles);
 		this.oPredators.add(numberFourmiliers);
 		this.oPredators.add(slideNumberFourmiliers);
+		this.oObstacles.add(numberRonds);
+		this.oObstacles.add(slideNumberRonds);
 		
 		this.body.add(onglets);		
 		
@@ -180,6 +186,7 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 			options.setNombreCoccinelles(slideNumberCoccinelles.getValue());
 			options.setNombreFourmiliers(slideNumberFourmiliers.getValue());
 			options.setNombreNourritures(slideNumberFood.getValue());
+			options.setNombreRonds(slideNumberRonds.getValue());
 			options.setTime(slideTime.getValue());
 			options.setPaintBody(checkPaintBody.isSelected());
 			controleur = new Controleur(options);
@@ -211,6 +218,9 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		}
 		else if(e.getSource() == slideNumberFourmiliers){
 			this.numberFourmiliers.setText("Nombre de fourmiliers ("+slideNumberFourmiliers.getValue()+") :");
+		}
+		else if(e.getSource() == slideNumberRonds){
+			this.numberRonds.setText("Nombre de ronds ("+slideNumberRonds.getValue()+") :");
 		}
 		
 	}
