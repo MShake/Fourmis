@@ -10,8 +10,8 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -30,6 +30,7 @@ import javax.swing.event.ChangeListener;
 
 import com.fourmis.bean.Options;
 import com.fourmis.controller.Controleur;
+import com.fourmis.service.DiskFileExplorer;
 
 /**
  * Repr�sente l'IHM de settings de future simulation
@@ -97,6 +98,11 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		this.menu.add(parametre);
 		this.setJMenuBar(menu);
 		
+        DiskFileExplorer diskFileExplorer = new DiskFileExplorer();
+        ArrayList<String> saveFiles = diskFileExplorer.list();
+        //TODO : gestion de chargement et de sauvegardes de fichiers de config
+        
+        
 		Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/com/fourmis/ressources/font/buglife.ttf"));
 		GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		genv.registerFont(font);

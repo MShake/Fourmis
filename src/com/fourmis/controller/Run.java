@@ -6,7 +6,7 @@ import java.io.IOException;
 import com.fourmis.view.Preferences;
 
 /**
- * Point d'entré de l'application
+ * Point d'entrï¿½ de l'application
  *
  */
 public class Run {
