@@ -13,6 +13,7 @@ public class Options {
 	private int nombreCoccinelles;
 	private int nombreFourmiliers;
 	private int nombreRonds;
+	private int speedPheronomones;
 	private boolean paintBody;
 	
 	public Options(){
@@ -69,6 +70,13 @@ public class Options {
 
 	public void setNombreRonds(int nombreRonds) {
 		this.nombreRonds = nombreRonds;
+	}
+	public int getSpeedPheronomones() {
+		return speedPheronomones;
+	}
+
+	public void setSpeedPheromones(int speedPheronomones) {
+		this.speedPheronomones = speedPheronomones;
 	}
 
 	public boolean isPaintBody() {

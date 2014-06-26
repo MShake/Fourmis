@@ -193,6 +193,7 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 			options.setNombreFourmiliers(slideNumberFourmiliers.getValue());
 			options.setNombreNourritures(slideNumberFood.getValue());
 			options.setNombreRonds(slideNumberRonds.getValue());
+			options.setSpeedPheromones(slideSpeedPheromones.getValue());
 			options.setTime(slideTime.getValue());
 			options.setPaintBody(checkPaintBody.isSelected());
 			controleur = new Controleur(options);

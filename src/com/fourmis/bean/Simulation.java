@@ -127,8 +127,8 @@ public class Simulation {
 		
 		for (Iterator<Pheromone> itp = pheromones.iterator(); itp.hasNext(); ) {
 			Pheromone p = itp.next();
-			p.setQuantity(p.getQuantity()-1);
-			if(p.getQuantity() < 1){
+			p.setQuantity(p.getQuantity()-options.getSpeedPheronomones());
+			if(p.getQuantity() < options.getSpeedPheronomones()){
 				itp.remove();
 			}
 		}
