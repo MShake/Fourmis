@@ -3,7 +3,6 @@ package com.fourmis.bean;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.math.BigDecimal;
-import java.math.MathContext;
 
 import javax.swing.JPanel;
 

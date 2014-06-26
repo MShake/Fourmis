@@ -33,7 +33,7 @@ import com.fourmis.controller.Controleur;
 import com.fourmis.service.DiskFileExplorer;
 
 /**
- * Repr�sente l'IHM de settings de future simulation
+ * Représente l'IHM de settings de future simulation
  *
  */
 public class Preferences extends JFrame implements ActionListener, ChangeListener{

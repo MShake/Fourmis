@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 public class Nourriture extends JPanel {

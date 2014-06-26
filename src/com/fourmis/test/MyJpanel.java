@@ -5,10 +5,7 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import com.fourmis.bean.Coccinelle;
-import com.fourmis.bean.Fourmi;
 import com.fourmis.bean.Fourmilier;
-import com.fourmis.bean.Nourriture;
-import com.fourmis.bean.Pheromone;
 import com.fourmis.bean.Simulation;
 
 public class MyJpanel extends JPanel {
@@ -22,10 +19,6 @@ public class MyJpanel extends JPanel {
 	public void paintComponent(Graphics g){
 			c.draw(g);
 			f.draw(g);
-		
-		
-		
-		
 	}
 
 }
