@@ -55,9 +55,21 @@ public class Fourmi extends JPanel{
 			Pheromone p = new Pheromone(cx+size/2, cy+size/2);
 			int centerXFourmiliere = fourmiliere.getCx()+fourmiliere.getWidth()/2-size/2;
 			int centerYFourmiliere = fourmiliere.getCy()+fourmiliere.getHeight()/2-size/2;
+			boolean findPheromone = false;
+			if(pheromones.contains(p) || pheromones.contains(new Pheromone(p.getCx(), p.getCy()-1))
+					 || pheromones.contains(new Pheromone(p.getCx()+1, p.getCy()-1))
+					 || pheromones.contains(new Pheromone(p.getCx()+1, p.getCy()))
+					 || pheromones.contains(new Pheromone(p.getCx()+1, p.getCy()+1))
+					 || pheromones.contains(new Pheromone(p.getCx(), p.getCy()+1))
+					 || pheromones.contains(new Pheromone(p.getCx()-1, p.getCy()+1))
+					 || pheromones.contains(new Pheromone(p.getCx()-1, p.getCy()))
+					 || pheromones.contains(new Pheromone(p.getCx()-1, p.getCy()-1))){
+				findPheromone = true;
+			}
+			
 			
 			// Find phéromone(s)
-			if(pheromones.contains(p) && (cx != centerXFourmiliere || cy != centerYFourmiliere)){
+			if(findPheromone && (cx != centerXFourmiliere || cy != centerYFourmiliere)){
 				double distance = 0;
 				ArrayList<Integer> directions = new ArrayList<>();
 				ArrayList<Double> distances = new ArrayList<>();
