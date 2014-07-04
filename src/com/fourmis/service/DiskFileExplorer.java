@@ -25,8 +25,8 @@ public class DiskFileExplorer {
     	File[] filesList = curDir.listFiles();
     	ArrayList<String> saveFiles = new ArrayList<String>();
 		for(File f : filesList){
-			if(f.isFile()){
-				saveFiles.add(f.getName());
+			if(f.isFile() && f.getName().endsWith(".properties")){
+				saveFiles.add(f.getName().substring(0, f.getName().lastIndexOf('.')));
 			}
 		}
 		return saveFiles;

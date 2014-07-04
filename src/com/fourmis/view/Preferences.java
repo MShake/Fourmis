@@ -10,6 +10,9 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -21,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
@@ -31,6 +35,7 @@ import javax.swing.event.ChangeListener;
 import com.fourmis.bean.Options;
 import com.fourmis.controller.Controleur;
 import com.fourmis.service.DiskFileExplorer;
+import com.fourmis.service.RecoveryData;
 
 /**
  * Représente l'IHM de settings de future simulation
@@ -80,6 +85,8 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 	private JSlider slideSpeedPheromones = new JSlider(1, 20, 1);
 	
 	private JCheckBox checkPaintBody = new JCheckBox();
+	
+	private ArrayList<String> saveFiles;
 
 	public Preferences() throws FontFormatException, IOException{
 		options = new Options();
@@ -93,15 +100,93 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		Image favicon = kit.getImage(Frame.class.getResource("/com/fourmis/ressources/img/favicon.png"));
 		this.setIconImage(favicon);
 		
+		DiskFileExplorer diskFileExplorer = new DiskFileExplorer();
+        saveFiles = diskFileExplorer.list();
+
+        for(String file : saveFiles){
+        	JMenuItem fileItem = new JMenuItem(file);
+        	fileItem.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					JMenuItem fileItem = (JMenuItem) e.getSource();
+					RecoveryData datas = new RecoveryData(fileItem.getText()+".properties");
+					if(datas.getAllData().containsKey("sizeScreen")){
+						slideSizeScreen.setValue(datas.getAllData().get("sizeScreen"));
+					}else{
+						slideSizeScreen.setValue(300);
+					}
+					sizeScreen.setText("Taille du terrain ("+slideSizeScreen.getValue()+") :");
+					
+					if(datas.getAllData().containsKey("numberFourmis")){
+						slideNumberFourmis.setValue(datas.getAllData().get("numberFourmis"));
+					}else{
+						slideNumberFourmis.setValue(10);
+					}
+					numberFourmis.setText("Nombre de fourmis ("+slideNumberFourmis.getValue()+") :");
+					
+					if(datas.getAllData().containsKey("time")){
+						slideTime.setValue(datas.getAllData().get("time"));
+					}else{
+						slideTime.setValue(1);
+					}
+					time.setText("Temps ("+slideTime.getValue()+") :");
+					
+					if(datas.getAllData().containsKey("numberFood")){
+						slideNumberFood.setValue(datas.getAllData().get("numberFood"));
+					}else{
+						slideNumberFood.setValue(1);
+					}
+					numberFood.setText("Nombre de nourritures ("+slideNumberFood.getValue()+") :");
+					
+					if(datas.getAllData().containsKey("speedPheromones")){
+						slideSpeedPheromones.setValue(datas.getAllData().get("speedPheromones"));
+					}else{
+						slideSpeedPheromones.setValue(1);
+					}
+					speedPheromones.setText("Taux d'évaporation ("+slideSpeedPheromones.getValue()+") :");
+					
+					if(datas.getAllData().containsKey("numberCoccinelles")){
+						slideNumberCoccinelles.setValue(datas.getAllData().get("numberCoccinelles"));
+					}else{
+						slideNumberCoccinelles.setValue(0);
+					}
+					numberCoccinelles.setText("Nombre de coccinelles ("+slideNumberCoccinelles.getValue()+") :");
+					
+					if(datas.getAllData().containsKey("numberFourmiliers")){
+						slideNumberFourmiliers.setValue(datas.getAllData().get("numberFourmiliers"));
+					}else{
+						slideNumberFourmiliers.setValue(0);
+					}
+					numberFourmiliers.setText("Nombre de fourmiliers ("+slideNumberFourmiliers.getValue()+") :");
+					
+					if(datas.getAllData().containsKey("numberRonds")){
+						slideNumberRonds.setValue(datas.getAllData().get("numberRonds"));
+					}else{
+						slideNumberRonds.setValue(0);
+					}
+					numberRonds.setText("Nombre de ronds ("+slideNumberRonds.getValue()+") :");
+					
+					if(datas.getAllData().containsKey("paintBody")){
+						if(datas.getAllData().get("paintBody") == 1){
+							checkPaintBody.setSelected(true);
+						}else{
+							checkPaintBody.setSelected(false);
+						}
+					}else{
+						checkPaintBody.setSelected(false);
+					}
+				}
+			});
+        	this.load.add(fileItem);
+        }
+		
+        this.save.addActionListener(this);
+        
 		this.parametre.add(load);
 		this.parametre.add(save);
 		this.menu.add(parametre);
 		this.setJMenuBar(menu);
-		
-        DiskFileExplorer diskFileExplorer = new DiskFileExplorer();
-        ArrayList<String> saveFiles = diskFileExplorer.list();
-        //TODO : gestion de chargement et de sauvegardes de fichiers de config
-        
         
 		Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/com/fourmis/ressources/font/buglife.ttf"));
 		GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -204,6 +289,54 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 			controleur.run();
 		}
 		
+		if(e.getSource() == save){
+		    String nom = JOptionPane.showInputDialog(null, "Saisissez un nom pour sauvegarder votre fichier", "Sauvegarde des paramètres !", JOptionPane.QUESTION_MESSAGE);
+		    boolean replaceFile = false;
+		    if(this.saveFiles.contains(nom)){
+		    	int option = JOptionPane.showConfirmDialog(null, "Ce fichier existe déjà, souhaitez-vous le remplacer ?", "Fichier Existant", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+		    	if(option == JOptionPane.OK_OPTION){
+		    		replaceFile = true;
+		    	}
+		    }
+		    if(!this.saveFiles.contains(nom) || (this.saveFiles.contains(nom) && replaceFile)){
+		    	File file = new File("./src/"+nom+".properties");
+		    	if(replaceFile){
+		    		file.delete();
+		    	}
+		    	
+		    	FileOutputStream fos = null;
+		    	
+		    	try {
+					file.createNewFile();
+					fos = new FileOutputStream(file);
+					
+					String values = "sizeScreen = "+slideSizeScreen.getValue();
+					values += "\nnumberFourmis = "+slideNumberFourmis.getValue();
+					values += "\ntime = "+slideTime.getValue();
+					values += "\nnumberFood = "+slideNumberFood.getValue();
+					values += "\nspeedPheromones = "+slideSpeedPheromones.getValue();
+					values += "\nnumberCoccinelles = "+slideNumberCoccinelles.getValue();
+					values += "\nnumberFourmiliers = "+slideNumberFourmiliers.getValue();
+					values += "\nnumberRonds = "+slideNumberRonds.getValue();
+					if(checkPaintBody.isSelected()){
+						values += "\npaintBody = 1";
+					}else{
+						values += "\npaintBody = 0";
+					}
+					
+					byte[] contentInBytes = values.getBytes();
+					fos.write(contentInBytes);
+					fos.flush();
+					fos.close();
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				} catch (IOException e2) {
+					e2.printStackTrace();
+				}
+		    }
+		    
+		}
+		
 	}
 
 	@Override
@@ -218,8 +351,8 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 			this.numberFood.setText("Nombre de nourritures ("+slideNumberFood.getValue()+") :");
 		}
 		else if(e.getSource() == slideSpeedPheromones){
-		this.speedPheromones.setText("Taux d'évaporation ("+slideSpeedPheromones.getValue()+") :");
-	}
+			this.speedPheromones.setText("Taux d'évaporation ("+slideSpeedPheromones.getValue()+") :");
+		}
 		else if(e.getSource() == slideNumberCoccinelles){
 			this.numberCoccinelles.setText("Nombre de coccinelles ("+slideNumberCoccinelles.getValue()+") :");
 		}
