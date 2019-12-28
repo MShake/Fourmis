@@ -1,9 +1,9 @@
-# Ant Simulator: *Pheromones & Predators Edition* :ant:
+# Ant Simulator: *Pheromones & Predators Edition*
 
-This student project is an ants simulator developped in JAVA.
+This student project is an ants simulator developped in JAVA. :ant:
 
 ## Mates: 
-- Florian LAFOREST
-- Mustapha KHEDHIRI
-- Maxime GRIMLER
-- Me, Antoine FIDALGO 
+- :ant: Florian LAFOREST
+- :ant: Mustapha KHEDHIRI
+- :ant: Maxime GRIMLER
+- :ant: Me, Antoine FIDALGO 
