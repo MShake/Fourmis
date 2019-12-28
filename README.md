@@ -1,6 +1,6 @@
 # Ant Simulator: *Pheromones & Predators Edition*
 
-This student project is an ants simulator developped in JAVA. :ant:
+This student project is an ants simulator developped in JAVA. :ant: :tomato:
 
 ## Mates: 
 - :ant: Florian LAFOREST
