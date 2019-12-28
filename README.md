@@ -1,5 +1,9 @@
-fourmis
-=======
-Projet réalisé dans le cadre de la 3ème année de développement Web à l'ESGI en cours de Java avancé.
+# Ant Simulator: Pheromones & Predators Edition :ant:
 
-Collaborateurs : Antoine FIDALGO, Florian LAFOREST, Mustapha KHEDHIRI, Maxime GRIMLER
+This student project is an ants simulator developped in JAVA.
+
+## Mates: 
+- Florian LAFOREST
+- Mustapha KHEDHIRI
+- Maxime GRIMLER
+- Me, Antoine FIDALGO 
