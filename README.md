@@ -1,4 +1,4 @@
-# Ant Simulator: Pheromones & Predators Edition :ant:
+# Ant Simulator: *Pheromones & Predators Edition* :ant:
 
 This student project is an ants simulator developped in JAVA.
 
