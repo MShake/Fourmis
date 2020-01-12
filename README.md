@@ -1,4 +1,4 @@
-# Ant Simulator: *Pheromones & Predators Edition*
+# Ant Simulator 2014: *Pheromones & Predators Edition*
 
 This student project is a visual ants simulator developped in JAVA. :ant: :tomato:
 
