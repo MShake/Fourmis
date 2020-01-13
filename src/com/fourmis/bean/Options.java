@@ -82,5 +82,7 @@ public class Options {
 	public void setPaintBody(boolean paintBody) {
 		this.paintBody = paintBody;
 	}
-	
+
+	public void setNombreFourmiliers(int value) {
+	}
 }
