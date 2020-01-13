@@ -28,9 +28,6 @@ public class Monde extends JFrame implements ChangeListener, ActionListener{
 	
 	private Simulation sim;
 	private Terrain terrain;
-	private JPanel pan = new JPanel(new BorderLayout());
-	private JPanel stat = new JPanel();
-	private JPanel footer = new JPanel();
 	private JSlider speed;
 	private JLabel qgFood;
 	private JLabel wildFood = new JLabel("Wild Food : ");
@@ -54,7 +51,8 @@ public class Monde extends JFrame implements ChangeListener, ActionListener{
 		this.setIconImage(favicon);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
-		
+
+		JPanel stat = new JPanel();
 		stat.add(qgFood);
 		stat.add(wildFood);
 		stat.add(nbFourmis);
@@ -63,24 +61,22 @@ public class Monde extends JFrame implements ChangeListener, ActionListener{
 		
 		this.running.setPreferredSize(new Dimension(30, 30));
 		this.running.addActionListener(this);
-		
-		this.footer.setLayout(new BorderLayout());
-		this.footer.add(speed, BorderLayout.CENTER);
-		this.footer.add(running, BorderLayout.EAST);
-		
-		this.pan.add(stat, BorderLayout.NORTH);
-		this.pan.add(terrain, BorderLayout.CENTER);
-		this.pan.add(footer, BorderLayout.SOUTH);
+
+		JPanel footer = new JPanel();
+		footer.setLayout(new BorderLayout());
+		footer.add(speed, BorderLayout.CENTER);
+		footer.add(running, BorderLayout.EAST);
+
+		JPanel pan = new JPanel(new BorderLayout());
+		pan.add(stat, BorderLayout.NORTH);
+		pan.add(terrain, BorderLayout.CENTER);
+		pan.add(footer, BorderLayout.SOUTH);
 		this.setContentPane(pan);
 		this.setVisible(true);
 	}
 
 	public Terrain getTerrain() {
 		return terrain;
-	}
-
-	public void setTerrain(Terrain terrain) {
-		this.terrain = terrain;
 	}
 
 	@Override
@@ -94,32 +90,16 @@ public class Monde extends JFrame implements ChangeListener, ActionListener{
 		return qgFood;
 	}
 
-	public void setQgFood(JLabel qgFood) {
-		this.qgFood = qgFood;
-	}
-
 	public JLabel getWildFood() {
 		return wildFood;
-	}
-
-	public void setWildFood(JLabel wildFood) {
-		this.wildFood = wildFood;
 	}
 
 	public JLabel getNbFourmis() {
 		return nbFourmis;
 	}
 
-	public void setNbFourmis(JLabel nbFourmis) {
-		this.nbFourmis = nbFourmis;
-	}
-
 	public JLabel getNbPheromones() {
 		return nbPheromones;
-	}
-
-	public void setNbPheromones(JLabel nbPheromones) {
-		this.nbPheromones = nbPheromones;
 	}
 
 	@Override

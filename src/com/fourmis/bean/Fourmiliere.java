@@ -13,11 +13,11 @@ public class Fourmiliere extends JPanel{
 	private int quantity;
 	private HashSet<Fourmi> fourmis;
 	
-	public Fourmiliere(int cx, int cy, int width, int height){
+	Fourmiliere(int cx, int cy, int width, int height){
 		this.cx = cx;
 		this.cy = cy;
 		this.quantity = 0;
-		this.fourmis = new HashSet<Fourmi>();
+		this.fourmis = new HashSet<>();
 		this.setSize(width, height);
 	}
 
@@ -34,25 +34,25 @@ public class Fourmiliere extends JPanel{
 		g.fillOval(this.getCx()+14, this.getCy()+14, this.getWidth()-28, this.getHeight()-28);
 	}
 	
-	public boolean collisionRect(Rectangle r2){
+	boolean collisionRect(Rectangle r2){
 		Rectangle r1 = new Rectangle(cx, cy, this.getWidth(), this.getHeight());
 		
 		return r1.intersects(r2);
 	}
 
-	public int getCx() {
+	int getCx() {
 		return cx;
 	}
 
-	public void setCx(int cx) {
+	void setCx(int cx) {
 		this.cx = cx;
 	}
 
-	public int getCy() {
+	int getCy() {
 		return cy;
 	}
 
-	public void setCy(int cy) {
+	void setCy(int cy) {
 		this.cy = cy;
 	}
 
@@ -64,11 +64,11 @@ public class Fourmiliere extends JPanel{
 		this.fourmis = fourmis;
 	}
 
-	public int getQuantity() {
+	int getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 	

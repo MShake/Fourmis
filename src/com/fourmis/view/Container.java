@@ -10,7 +10,7 @@ public class Container extends JPanel {
 	
 	private ImageIcon image = new ImageIcon(Frame.class.getResource("/com/fourmis/ressources/img/herbe.jpg"));
 	
-	public Container() {
+	Container() {
 		super();
 	}
 	

@@ -11,7 +11,6 @@ public class Options {
 	private int nombreNourritures;
 	private int time;
 	private int nombreCoccinelles;
-	private int nombreFourmiliers;
 	private int nombreRonds;
 	private int speedPheronomones;
 	private boolean paintBody;
@@ -20,27 +19,22 @@ public class Options {
 		
 	}
 
-	public int getNombreFourmis() {
+	int getNombreFourmis() {
 		return nombreFourmis;
 	}
 
 	public void setNombreFourmis(int nombreFourmis) {
 		this.nombreFourmis = nombreFourmis;
 	}
-	public int getNombreCoccinelles() {
+
+	int getNombreCoccinelles() {
 		return nombreCoccinelles;
 	}
 
 	public void setNombreCoccinelles(int nombreCoccinelles) {
 		this.nombreCoccinelles = nombreCoccinelles;
 	}
-	public int getNombreFourmiliers() {
-		return nombreFourmiliers;
-	}
 
-	public void setNombreFourmiliers(int nombreFourmiliers) {
-		this.nombreFourmiliers = nombreFourmiliers;
-	}
 	public int getSizeScreen() {
 		return sizeScreen;
 	}
@@ -57,21 +51,23 @@ public class Options {
 		this.time = time;
 	}
 
-	public int getNombreNourritures() {
+	int getNombreNourritures() {
 		return nombreNourritures;
 	}
 
 	public void setNombreNourritures(int nombreNourritures) {
 		this.nombreNourritures = nombreNourritures;
 	}
-	public int getNombreRonds() {
+
+	int getNombreRonds() {
 		return nombreRonds;
 	}
 
 	public void setNombreRonds(int nombreRonds) {
 		this.nombreRonds = nombreRonds;
 	}
-	public int getSpeedPheronomones() {
+
+	int getSpeedPheronomones() {
 		return speedPheronomones;
 	}
 
@@ -79,7 +75,7 @@ public class Options {
 		this.speedPheronomones = speedPheronomones;
 	}
 
-	public boolean isPaintBody() {
+	boolean isPaintBody() {
 		return paintBody;
 	}
 

@@ -2,6 +2,7 @@ package com.fourmis.service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DiskFileExplorer {
 
@@ -15,8 +16,7 @@ public class DiskFileExplorer {
     }
 
     public ArrayList<String> list() {
-        ArrayList<String> saveFiles = this.listDirectory();
-        return saveFiles;
+        return this.listDirectory();
     }
 
     private ArrayList<String> listDirectory() {
@@ -24,10 +24,9 @@ public class DiskFileExplorer {
     	File curDir = new File("./src");
     	File[] filesList = curDir.listFiles();
     	ArrayList<String> saveFiles = new ArrayList<String>();
-		for(File f : filesList){
-			if(f.isFile() && f.getName().endsWith(".properties")){
+		for(File f : Objects.requireNonNull(filesList)){
+			if(f.isFile() && f.getName().endsWith(".properties"))
 				saveFiles.add(f.getName().substring(0, f.getName().lastIndexOf('.')));
-			}
 		}
 		return saveFiles;
     }

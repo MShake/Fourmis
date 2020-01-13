@@ -41,7 +41,7 @@ public class Simulation {
 		}
 		this.getMonde().getNbFourmis().setText("Fourmis : "+fourmiliere.getFourmis().size());
 		
-		this.nourritures = new ArrayList<Nourriture>();
+		this.nourritures = new ArrayList<>();
 		for(int i = 0; i < options.getNombreNourritures(); i++){
 			int quantity = rand.nextInt(50 - 10+1) + 10;
 			do{
@@ -66,7 +66,7 @@ public class Simulation {
 			predators.add(f);
 		}
 		
-		this.obstacles = new ArrayList<Obstacle>();
+		this.obstacles = new ArrayList<>();
 		for(int i=0; i<options.getNombreRonds(); i++){
 			int size = 30;
 			boolean isCollision;
@@ -140,10 +140,6 @@ public class Simulation {
 		return monde;
 	}
 
-	public void setMonde(Monde monde) {
-		this.monde = monde;
-	}
-
 	public Options getOptions() {
 		return options;
 	}
@@ -152,42 +148,19 @@ public class Simulation {
 		return fourmiliere;
 	}
 
-	public void setFourmiliere(Fourmiliere fourmiliere) {
-		this.fourmiliere = fourmiliere;
-	}
-
 	public ArrayList<Nourriture> getNourritures() {
 		return nourritures;
-	}
-
-	public void setNourritures(ArrayList<Nourriture> nourritures) {
-		this.nourritures = nourritures;
 	}
 
 	public HashSet<Pheromone> getPheromones() {
 		return pheromones;
 	}
 
-	public void setPheromones(HashSet<Pheromone> pheromones) {
-		this.pheromones = pheromones;
-	}
-
 	public ArrayList<Predator> getPredators() {
 		return predators;
-	}
-
-	public void setPredators(ArrayList<Predator> predators) {
-		this.predators = predators;
 	}
 
 	public ArrayList<Obstacle> getObstacles() {
 		return obstacles;
 	}
-
-	public void setObstacles(ArrayList<Obstacle> obstacles) {
-		this.obstacles = obstacles;
-	}
-	
-	
-	
 }

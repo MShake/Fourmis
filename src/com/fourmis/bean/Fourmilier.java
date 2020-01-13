@@ -19,7 +19,7 @@ public class Fourmilier extends JPanel implements Predator{
 	private int maxX;					// valeur maximal de la fenêtre en x
 	private int maxY;					// valeur maximal de la fenêtre en y
 	
-	public Fourmilier(int cx, int cy, int maxX, int maxY){
+	Fourmilier(int cx, int cy, int maxX, int maxY){
 		
 		this.cx = cx;
 		this.cy = cy;
@@ -31,7 +31,7 @@ public class Fourmilier extends JPanel implements Predator{
 	    this.setOpaque(false);
 	}
 	
-	public void move(HashSet<Fourmi> fourmis){
+	void move(HashSet<Fourmi> fourmis){
 		//Changement de sens aléatoire ou si elle touche le bord de la fenêtre
 		boolean changeSens = false;
 		if(Math.random() < 0.02 || cx == 0 || cy == 0 || cx == maxX || cy == maxY || sens == 0){
@@ -40,19 +40,14 @@ public class Fourmilier extends JPanel implements Predator{
 		
 		if(changeSens){
 			Random rand = new Random();
-			int newSens = this.sens;
+			int newSens;
 			do{
 				newSens = rand.nextInt(8 - 1+1) + 1;
 			}while(newSens == this.sens);
 			this.sens = newSens;
 		}
-		
-		for (Iterator<Fourmi> itf = fourmis.iterator(); itf.hasNext(); ) {
-			Fourmi f = itf.next();
-			if(f.collisionRect(new Rectangle(cx, cy, size, size))){
-				itf.remove();
-			}
-		}
+
+		fourmis.removeIf(f -> f.collisionRect(new Rectangle(cx, cy, size, size)));
 		
 		//Gestion du sens du fourmilier
 		if(this.sens == 1 && cy > 0){
@@ -89,31 +84,5 @@ public class Fourmilier extends JPanel implements Predator{
 		g.setColor(colorFourmilier);
 		g.fillOval(cx+4, cy+4, 10, 10);
 	}
-
-	public int getCx() {
-		return cx;
-	}
-
-	public void setCx(int cx) {
-		this.cx = cx;
-	}
-
-	public int getCy() {
-		return cy;
-	}
-
-	public void setCy(int cy) {
-		this.cy = cy;
-	}
-
-	public boolean isHaveFood() {
-		return haveFood;
-	}
-
-	public void setHaveFood(boolean haveFood) {
-		this.haveFood = haveFood;
-	}
-	
-	
 }
 

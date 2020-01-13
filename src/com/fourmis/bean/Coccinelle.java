@@ -17,7 +17,7 @@ public class Coccinelle extends JPanel implements Predator{
 	private int maxX;					// valeur maximal de la fenêtre en x
 	private int maxY;					// valeur maximal de la fenêtre en y
 	
-	public Coccinelle(int cx, int cy, int maxX, int maxY){
+	Coccinelle(int cx, int cy, int maxX, int maxY){
 		
 		this.cx = cx;
 		this.cy = cy;
@@ -29,7 +29,7 @@ public class Coccinelle extends JPanel implements Predator{
 	    this.setOpaque(false);
 	}
 	
-	public void move(ArrayList<Nourriture> nourritures){	
+	void move(ArrayList<Nourriture> nourritures){
 		//Changement de sens aléatoire ou si elle touche le bord de la fenêtre
 		boolean changeSens = false;
 		if(Math.random() < 0.02 || cx == 0 || cy == 0 || cx == maxX || cy == maxY || sens == 0){
@@ -38,7 +38,7 @@ public class Coccinelle extends JPanel implements Predator{
 		
 		if(changeSens){
 			Random rand = new Random();
-			int newSens = this.sens;
+			int newSens;
 			do{
 				newSens = rand.nextInt(6 - 1+1) + 1;
 			}while(newSens == this.sens);
@@ -100,30 +100,6 @@ public class Coccinelle extends JPanel implements Predator{
 		g.fillOval(cx+9,  cy+5, 3, 3);
 
 
-	}
-
-	public int getCx() {
-		return cx;
-	}
-
-	public void setCx(int cx) {
-		this.cx = cx;
-	}
-
-	public int getCy() {
-		return cy;
-	}
-
-	public void setCy(int cy) {
-		this.cy = cy;
-	}
-
-	public boolean isHaveFood() {
-		return haveFood;
-	}
-
-	public void setHaveFood(boolean haveFood) {
-		this.haveFood = haveFood;
 	}
 	
 }

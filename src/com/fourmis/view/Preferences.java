@@ -11,7 +11,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,24 +46,9 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 	private Options options;
 	private JButton generate;
 	private JButton start;
-	private Container container = new Container();
-	private JPanel header = new JPanel();
-	private JPanel body = new JPanel();
-	private JPanel footer = new JPanel();
-	private JPanel oTerrain = new JPanel(new GridLayout(3, 2));
-	private JPanel oFourmis = new JPanel(new GridLayout(2, 2));
-	private JPanel oPheromones = new JPanel(new GridLayout(1, 2));
-	private JPanel oPredators = new JPanel(new GridLayout(2, 2));
-	private JPanel oObstacles = new JPanel(new GridLayout(1, 2));
-	private JTabbedPane onglets = new JTabbedPane(SwingConstants.TOP);
-	
-	private JMenuBar menu = new JMenuBar();
-	private JMenu parametre = new JMenu("Paramètres");
-	private JMenu load = new JMenu("Charger");
+
 	private JMenuItem save = new JMenuItem("Sauvegarder");
-	
-	private JLabel title = new JLabel("Fourmis Simulator", JLabel.CENTER);
-	private JLabel sousTitle = new JLabel("Pheromones & Predators Edition �", JLabel.CENTER);
+
 	private JLabel sizeScreen = new JLabel("Taille du terrain (500) :", JLabel.CENTER);
 	private JLabel numberFourmis = new JLabel("Nombre de fourmis (50) :", JLabel.CENTER);
 	private JLabel numberCoccinelles = new JLabel("Nombre de coccinelles (0) :", JLabel.CENTER);
@@ -73,8 +57,7 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 	private JLabel time = new JLabel("Temps (50) :", JLabel.CENTER);
 	private JLabel numberFood = new JLabel("Nombre de nourritures (1) :", JLabel.CENTER);
 	private JLabel speedPheromones = new JLabel("Taux d'évaporation (1) :", JLabel.CENTER);
-	private JLabel paintBody = new JLabel("Peindre le corps ? ", JLabel.CENTER);
-	
+
 	private JSlider slideSizeScreen = new JSlider(300, 900, 500);
 	private JSlider slideNumberFourmis = new JSlider(10, 200, 50);
 	private JSlider slideNumberCoccinelles = new JSlider(0, 10, 0);
@@ -103,96 +86,64 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		DiskFileExplorer diskFileExplorer = new DiskFileExplorer();
         saveFiles = diskFileExplorer.list();
 
-        for(String file : saveFiles){
+		JMenu load = new JMenu("Charger");
+		for(String file : saveFiles) {
         	JMenuItem fileItem = new JMenuItem(file);
-        	fileItem.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					JMenuItem fileItem = (JMenuItem) e.getSource();
-					RecoveryData datas = new RecoveryData(fileItem.getText()+".properties");
-					if(datas.getAllData().containsKey("sizeScreen")){
-						slideSizeScreen.setValue(datas.getAllData().get("sizeScreen"));
-					}else{
-						slideSizeScreen.setValue(300);
-					}
-					sizeScreen.setText("Taille du terrain ("+slideSizeScreen.getValue()+") :");
-					
-					if(datas.getAllData().containsKey("numberFourmis")){
-						slideNumberFourmis.setValue(datas.getAllData().get("numberFourmis"));
-					}else{
-						slideNumberFourmis.setValue(10);
-					}
-					numberFourmis.setText("Nombre de fourmis ("+slideNumberFourmis.getValue()+") :");
-					
-					if(datas.getAllData().containsKey("time")){
-						slideTime.setValue(datas.getAllData().get("time"));
-					}else{
-						slideTime.setValue(1);
-					}
-					time.setText("Temps ("+slideTime.getValue()+") :");
-					
-					if(datas.getAllData().containsKey("numberFood")){
-						slideNumberFood.setValue(datas.getAllData().get("numberFood"));
-					}else{
-						slideNumberFood.setValue(1);
-					}
-					numberFood.setText("Nombre de nourritures ("+slideNumberFood.getValue()+") :");
-					
-					if(datas.getAllData().containsKey("speedPheromones")){
-						slideSpeedPheromones.setValue(datas.getAllData().get("speedPheromones"));
-					}else{
-						slideSpeedPheromones.setValue(1);
-					}
-					speedPheromones.setText("Taux d'évaporation ("+slideSpeedPheromones.getValue()+") :");
-					
-					if(datas.getAllData().containsKey("numberCoccinelles")){
-						slideNumberCoccinelles.setValue(datas.getAllData().get("numberCoccinelles"));
-					}else{
-						slideNumberCoccinelles.setValue(0);
-					}
-					numberCoccinelles.setText("Nombre de coccinelles ("+slideNumberCoccinelles.getValue()+") :");
-					
-					if(datas.getAllData().containsKey("numberFourmiliers")){
-						slideNumberFourmiliers.setValue(datas.getAllData().get("numberFourmiliers"));
-					}else{
-						slideNumberFourmiliers.setValue(0);
-					}
-					numberFourmiliers.setText("Nombre de fourmiliers ("+slideNumberFourmiliers.getValue()+") :");
-					
-					if(datas.getAllData().containsKey("numberRonds")){
-						slideNumberRonds.setValue(datas.getAllData().get("numberRonds"));
-					}else{
-						slideNumberRonds.setValue(0);
-					}
-					numberRonds.setText("Nombre de ronds ("+slideNumberRonds.getValue()+") :");
-					
-					if(datas.getAllData().containsKey("paintBody")){
-						if(datas.getAllData().get("paintBody") == 1){
-							checkPaintBody.setSelected(true);
-						}else{
-							checkPaintBody.setSelected(false);
-						}
+        	fileItem.addActionListener(e -> {
+				JMenuItem fileItem1 = (JMenuItem) e.getSource();
+				RecoveryData datas = new RecoveryData(fileItem1.getText()+".properties");
+				slideSizeScreen.setValue(datas.getAllData().getOrDefault("sizeScreen", 300));
+				sizeScreen.setText("Taille du terrain ("+slideSizeScreen.getValue()+") :");
+
+				slideNumberFourmis.setValue(datas.getAllData().getOrDefault("numberFourmis", 10));
+				numberFourmis.setText("Nombre de fourmis ("+slideNumberFourmis.getValue()+") :");
+
+				slideTime.setValue(datas.getAllData().getOrDefault("time", 1));
+				time.setText("Temps ("+slideTime.getValue()+") :");
+
+				slideNumberFood.setValue(datas.getAllData().getOrDefault("numberFood", 1));
+				numberFood.setText("Nombre de nourritures ("+slideNumberFood.getValue()+") :");
+
+				slideSpeedPheromones.setValue(datas.getAllData().getOrDefault("speedPheromones", 1));
+				speedPheromones.setText("Taux d'évaporation ("+slideSpeedPheromones.getValue()+") :");
+
+				slideNumberCoccinelles.setValue(datas.getAllData().getOrDefault("numberCoccinelles", 0));
+				numberCoccinelles.setText("Nombre de coccinelles ("+slideNumberCoccinelles.getValue()+") :");
+
+				slideNumberFourmiliers.setValue(datas.getAllData().getOrDefault("numberFourmiliers", 0));
+				numberFourmiliers.setText("Nombre de fourmiliers ("+slideNumberFourmiliers.getValue()+") :");
+
+				slideNumberRonds.setValue(datas.getAllData().getOrDefault("numberRonds", 0));
+				numberRonds.setText("Nombre de ronds ("+slideNumberRonds.getValue()+") :");
+
+				if(datas.getAllData().containsKey("paintBody")){
+					if(datas.getAllData().get("paintBody") == 1){
+						checkPaintBody.setSelected(true);
 					}else{
 						checkPaintBody.setSelected(false);
 					}
+				}else{
+					checkPaintBody.setSelected(false);
 				}
 			});
-        	this.load.add(fileItem);
+        	load.add(fileItem);
         }
 		
         this.save.addActionListener(this);
-        
-		this.parametre.add(load);
-		this.parametre.add(save);
-		this.menu.add(parametre);
+
+		JMenu parametre = new JMenu("Paramètres");
+		parametre.add(load);
+		parametre.add(save);
+		JMenuBar menu = new JMenuBar();
+		menu.add(parametre);
 		this.setJMenuBar(menu);
         
 		Font font = Font.createFont(Font.TRUETYPE_FONT, getClass().getResourceAsStream("/com/fourmis/ressources/font/buglife.ttf"));
 		GraphicsEnvironment genv = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		genv.registerFont(font);
 		font = font.deriveFont(40f);
-		Font italic = new Font(sousTitle.getFont().getName(),Font.BOLD,sousTitle.getFont().getSize()); 
+		JLabel sousTitle = new JLabel("Pheromones & Predators Edition �", JLabel.CENTER);
+		Font italic = new Font(sousTitle.getFont().getName(),Font.BOLD, sousTitle.getFont().getSize());
 		
 		slideSizeScreen.setOpaque(false);
 		slideSizeScreen.addChangeListener(this);
@@ -210,46 +161,58 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		slideSpeedPheromones.addChangeListener(this);
 		slideNumberRonds.setOpaque(false);
 		slideNumberRonds.addChangeListener(this);
-		
-		this.container.setLayout(new BorderLayout());
-		this.header.setLayout(new GridLayout(0,1));
-		
-		this.title.setFont(font);
-		this.sousTitle.setFont(italic);
-		this.sousTitle.setVerticalAlignment(1);
-		this.header.add(title);
-		this.header.add(sousTitle);
-		
+
+		Container container = new Container();
+		container.setLayout(new BorderLayout());
+		JPanel header = new JPanel();
+		header.setLayout(new GridLayout(0,1));
+
+		JLabel title = new JLabel("Fourmis Simulator", JLabel.CENTER);
+		title.setFont(font);
+		sousTitle.setFont(italic);
+		sousTitle.setVerticalAlignment(SwingConstants.TOP);
+		header.add(title);
+		header.add(sousTitle);
+
+		JPanel oTerrain = new JPanel(new GridLayout(3, 2));
+		JTabbedPane onglets = new JTabbedPane(SwingConstants.TOP);
 		onglets.addTab("Terrain", oTerrain);
+		JPanel oFourmis = new JPanel(new GridLayout(2, 2));
 		onglets.addTab("Fourmis", oFourmis);
+		JPanel oPheromones = new JPanel(new GridLayout(1, 2));
 		onglets.addTab("Phéromones", oPheromones);
+		JPanel oPredators = new JPanel(new GridLayout(2, 2));
 		onglets.addTab("Prédators", oPredators);
+		JPanel oObstacles = new JPanel(new GridLayout(1, 2));
 		onglets.addTab("Obstacles", oObstacles);
 		onglets.setOpaque(true);
 		
-		this.oTerrain.add(sizeScreen);
-		this.oTerrain.add(slideSizeScreen);
-		this.oTerrain.add(time);
-		this.oTerrain.add(slideTime);
-		this.oTerrain.add(numberFood);
-		this.oTerrain.add(slideNumberFood);
-		this.oFourmis.add(numberFourmis);
-		this.oFourmis.add(slideNumberFourmis);
-		this.oFourmis.add(paintBody);
-		this.oFourmis.add(checkPaintBody);
-		this.oPheromones.add(speedPheromones);
-		this.oPheromones.add(slideSpeedPheromones);
-		this.oPredators.add(numberCoccinelles);
-		this.oPredators.add(slideNumberCoccinelles);
-		this.oPredators.add(numberFourmiliers);
-		this.oPredators.add(slideNumberFourmiliers);
-		this.oObstacles.add(numberRonds);
-		this.oObstacles.add(slideNumberRonds);
-		
-		this.body.add(onglets);		
+		oTerrain.add(sizeScreen);
+		oTerrain.add(slideSizeScreen);
+		oTerrain.add(time);
+		oTerrain.add(slideTime);
+		oTerrain.add(numberFood);
+		oTerrain.add(slideNumberFood);
+		oFourmis.add(numberFourmis);
+		oFourmis.add(slideNumberFourmis);
+		JLabel paintBody = new JLabel("Peindre le corps ? ", JLabel.CENTER);
+		oFourmis.add(paintBody);
+		oFourmis.add(checkPaintBody);
+		oPheromones.add(speedPheromones);
+		oPheromones.add(slideSpeedPheromones);
+		oPredators.add(numberCoccinelles);
+		oPredators.add(slideNumberCoccinelles);
+		oPredators.add(numberFourmiliers);
+		oPredators.add(slideNumberFourmiliers);
+		oObstacles.add(numberRonds);
+		oObstacles.add(slideNumberRonds);
+
+		JPanel body = new JPanel();
+		body.add(onglets);
 		
 		generate = new JButton("Generate");
 		generate.addActionListener(this);
+		JPanel footer = new JPanel();
 		footer.add(generate);
 		
 		start = new JButton("Start", new ImageIcon(favicon));
@@ -257,14 +220,14 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		start.addActionListener(this);
 		footer.add(start);
 		
-		this.container.add(header, BorderLayout.NORTH);
-		this.container.add(body, BorderLayout.CENTER);
-		this.container.add(footer, BorderLayout.SOUTH);
+		container.add(header, BorderLayout.NORTH);
+		container.add(body, BorderLayout.CENTER);
+		container.add(footer, BorderLayout.SOUTH);
 		this.setContentPane(container);
 		
-		this.header.setOpaque(false);
-		this.body.setOpaque(true);
-		this.footer.setOpaque(false);
+		header.setOpaque(false);
+		body.setOpaque(true);
+		footer.setOpaque(false);
 		this.setVisible(true); 
 		
 	}
@@ -300,11 +263,11 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 		    }
 		    if(!this.saveFiles.contains(nom) || (this.saveFiles.contains(nom) && replaceFile)){
 		    	File file = new File("./src/"+nom+".properties");
-		    	if(replaceFile){
+		    	if(replaceFile)
 		    		file.delete();
-		    	}
+
 		    	
-		    	FileOutputStream fos = null;
+		    	FileOutputStream fos;
 		    	
 		    	try {
 					file.createNewFile();
@@ -318,22 +281,19 @@ public class Preferences extends JFrame implements ActionListener, ChangeListene
 					values += "\nnumberCoccinelles = "+slideNumberCoccinelles.getValue();
 					values += "\nnumberFourmiliers = "+slideNumberFourmiliers.getValue();
 					values += "\nnumberRonds = "+slideNumberRonds.getValue();
-					if(checkPaintBody.isSelected()){
+					if (checkPaintBody.isSelected())
 						values += "\npaintBody = 1";
-					}else{
+					else
 						values += "\npaintBody = 0";
-					}
 					
 					byte[] contentInBytes = values.getBytes();
 					fos.write(contentInBytes);
 					fos.flush();
 					fos.close();
-				} catch (FileNotFoundException e1) {
+				} catch (IOException e1) {
 					e1.printStackTrace();
-				} catch (IOException e2) {
-					e2.printStackTrace();
 				}
-		    }
+			}
 		    
 		}
 		

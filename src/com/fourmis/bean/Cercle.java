@@ -12,7 +12,7 @@ public class Cercle extends JPanel implements Obstacle {
 	private int centerX;
 	private int centerY;
 	
-	public Cercle(int cx, int cy, int size) {
+	Cercle(int cx, int cy, int size) {
 		this.cx = cx;
 		this.cy = cy;
 		this.sizeCircle = size;
@@ -26,58 +26,7 @@ public class Cercle extends JPanel implements Obstacle {
 		g.fillOval(cx, cy, sizeCircle, sizeCircle);
 	}
 	
-	public boolean collision(Cercle c){
-		/*int d2 = (this.centerX-c.centerX)*(this.centerX-c.centerX) + (this.centerY-c.centerY)*(this.centerY-c.centerY);
-		if(d2 > (this.sizeCircle/2 + c.sizeCircle/2)*(this.sizeCircle/2 + c.sizeCircle/2)){
-			return false;
-		}else{
-			return true;
-		}*/
-		if((c.centerX-this.centerX)*(c.centerX-this.centerX) + (this.centerY-c.centerY)*(this.centerY-c.centerY) <= (this.sizeCircle/2+c.sizeCircle/2)*(this.sizeCircle/2+c.sizeCircle/2)){
-			return true;
-		}else{
-			return false;
-		}
+	boolean collision(Cercle c) {
+		return (c.centerX - this.centerX) * (c.centerX - this.centerX) + (this.centerY - c.centerY) * (this.centerY - c.centerY) <= (this.sizeCircle / 2 + c.sizeCircle / 2) * (this.sizeCircle / 2 + c.sizeCircle / 2);
 	}
-
-	public int getCx() {
-		return cx;
-	}
-
-	public void setCx(int cx) {
-		this.cx = cx;
-	}
-
-	public int getCy() {
-		return cy;
-	}
-
-	public void setCy(int cy) {
-		this.cy = cy;
-	}
-
-	public int getSizeCircle() {
-		return sizeCircle;
-	}
-
-	public void setSizeCircle(int sizeCircle) {
-		this.sizeCircle = sizeCircle;
-	}
-
-	public int getCenterX() {
-		return centerX;
-	}
-
-	public void setCenterX(int centerX) {
-		this.centerX = centerX;
-	}
-
-	public int getCenterY() {
-		return centerY;
-	}
-
-	public void setCenterY(int centerY) {
-		this.centerY = centerY;
-	}
-	
 }

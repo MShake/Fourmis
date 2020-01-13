@@ -23,7 +23,7 @@ public class Terrain extends JPanel{
 	private Simulation sim;
 	private ImageIcon image = new ImageIcon(Frame.class.getResource("/com/fourmis/ressources/img/herbe.jpg"));
 	
-	public Terrain(Simulation sim){
+	Terrain(Simulation sim){
 		this.sim = sim;
 	}
 
@@ -33,21 +33,19 @@ public class Terrain extends JPanel{
 		
 		sim.getFourmiliere().draw(g);
 		
-		for(Nourriture n : sim.getNourritures()){
+		for (Nourriture n : sim.getNourritures()){
 			n.draw(g);
 		}
 		
-		for(Obstacle o : sim.getObstacles()){
+		for (Obstacle o : sim.getObstacles()){
 			o.draw(g);
 		}
-		
-		for(Iterator<Pheromone> itp = sim.getPheromones().iterator(); itp.hasNext();){
-			Pheromone p = itp.next();
+
+		for (Pheromone p : sim.getPheromones()) {
 			p.draw(g);
 		}
-		
-		for(Iterator<Fourmi> itf = sim.getFourmiliere().getFourmis().iterator(); itf.hasNext();){
-			Fourmi f = itf.next();
+
+		for (Fourmi f : sim.getFourmiliere().getFourmis()) {
 			f.draw(g);
 		}
 		
